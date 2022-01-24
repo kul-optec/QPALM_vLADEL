@@ -2,6 +2,9 @@ set(COMMON_WARNINGS
     -Wall
     -Wextra
     -Wpedantic
+    -Wno-error=unused-parameter
+    -Wno-error=unused-variable
+    -Wno-error=unused-but-set-variable
     # TODO: this isn't enough
 )
 

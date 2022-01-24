@@ -3,4 +3,6 @@ project(QPALM-dev)
 
 set(QPALM_WARNINGS_AS_ERRORS ON)
 
-add_subdirectory(src)
+add_subdirectory(QPALM)
+add_subdirectory(examples)
+add_subdirectory(test)

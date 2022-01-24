@@ -5,6 +5,8 @@ option(QPALM_WARNINGS_AS_ERRORS "Treat warnings as errors" Off)
 
 include(cmake/GlobalCompileOptions.cmake)
 
+add_subdirectory(../LADEL LADEL EXCLUDE_FROM_ALL)
+
 add_library(qpalm 
     "src/iteration.c"
     "src/lin_alg.c"
@@ -23,3 +25,5 @@ target_include_directories(qpalm
            $<INSTALL_INTERFACE:include>
 )
 target_link_libraries(qpalm PRIVATE qpalm_warnings)
+target_link_libraries(qpalm PUBLIC ladel)
+target_link_libraries(qpalm PRIVATE m)
