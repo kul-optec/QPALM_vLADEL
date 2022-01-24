@@ -1,0 +1,82 @@
+name: Python Wheel
+
+on:
+  push:
+  release:
+    types: ['released', 'prereleased']
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    container: tttapa/qpalm-build-python-gcc:${{ matrix.python-version }}-11
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10']
+    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: Cache Virtual Environment
+      id: cache-venv
+      uses: actions/cache@v2
+      with:
+        path: "/tmp/py-venv"
+        key: ${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('scripts/ci/install-patchelf.sh', 'scripts/install-eigen.sh') }}
+    - name: Install Python Virtual Environment 
+      if: steps.cache-venv.outputs.cache-hit != 'true'
+      run: |
+        python3 -m venv /tmp/py-venv
+        . /tmp/py-venv/bin/activate
+        bash scripts/ci/install-patchelf.sh
+        bash scripts/install-eigen.sh
+        python -m pip install build auditwheel cmake
+      env:
+        CXXFLAGS: "-march=skylake -static-libstdc++ -static-libgcc"
+        LDFLAGS: "-static-libstdc++ -static-libgcc"
+        CFLAGS: "-march=skylake -static-libgcc"
+        FC: gfortran
+    - name: Build
+      run: |
+        . /tmp/py-venv/bin/activate
+        python -m build .
+        LD_LIBRARY_PATH=$VIRTUAL_ENV/lib \
+          auditwheel repair --plat manylinux_2_27_x86_64 \
+          dist/qpalm-*.whl
+      env:
+        CXXFLAGS: "-march=skylake -static-libstdc++ -static-libgcc"
+        LDFLAGS: "-static-libstdc++ -static-libgcc"
+        CFLAGS: "-march=skylake -static-libgcc"
+        FC: gfortran
+    - name: Upload Wheel
+      uses: actions/upload-artifact@v2
+      with:
+        name: qpalm-whl-${{ matrix.python-version }}
+        path: wheelhouse/qpalm-*manylinux*.whl
+    - name: Upload source
+      uses: actions/upload-artifact@v2
+      with:
+        name: qpalm-src-${{ matrix.python-version }}
+        path: dist/qpalm-*.tar.gz
+
+  test-linux:
+    needs: [build-linux]
+    runs-on: ubuntu-latest
+    container: python:${{ matrix.python-version }}-bullseye
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10']
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - uses: actions/download-artifact@v2
+      with:
+        name: qpalm-whl-${{ matrix.python-version }}
+        path: wheelhouse
+    - name: Install
+      run: python -m pip install --find-links=wheelhouse qpalm
+    - name: Test
+      run: |
+        python -m pip install pytest
+        pytest
