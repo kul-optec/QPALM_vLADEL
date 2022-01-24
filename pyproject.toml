@@ -1,0 +1,65 @@
+[build-system]
+requires = ["pybind11", "pybind11-stubgen", "mypy"]
+build-backend = "py_build_cmake.build"
+
+[project]
+name = "qpalm"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { "file" = "LICENSE" }
+authors = [{ "name" = "Ben Hermans" }]
+maintainers = [{ "name" = "Pieter Pas" }]
+keywords = [
+    "optimization",
+    "augmented-lagrangian",
+    "qp",
+    "quadratic-programming",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+]
+dependencies = ["numpy", "scipy"]
+dynamic = ["version", "description"]
+
+[project.urls]
+Source = "https://github.com/kul-optec/QPALM"
+Documentation = "https://kul-optec.github.io/QPALM"
+Tracker = "https://github.com/kul-optec/QPALM/issues"
+
+[tool.py-build-cmake.sdist]
+include = ["CMakeLists.txt", "LADEL", "QPALM"]
+exclude = ["*.cache"]
+
+[tool.py-build-cmake.cmake]
+build_type = "Release"
+# config = "Release"
+# generator = "Ninja Multi-Config"
+source_path = "QPALM"
+# build_path = ".build"
+args = ["-Wdev"]
+build_args = ["-j"]
+# build_tool_args = ["VERBOSE=1"]
+install_args = []
+install_components = ["python_modules"]
+# install_extra_components = ["python_modules"]
+# env = { "SOME_VAR" = "$HOME/somefile" }
+[tool.py-build-cmake.cmake.options]
+"WITH_PY_STUBS:BOOL" = "On"
+"CMAKE_C_FLAGS" = "-fPIC"
+
+[tool.py-build-cmake.stubgen]
+# packages = [""]
+# modules = [""]
+# files = [""]
+args = ["-v"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["QPALM/python/test"]

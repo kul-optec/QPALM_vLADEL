@@ -1,2 +1,6 @@
 build
 .*cache
+py-venv
+dist
+__pycache__
+*.pyc
