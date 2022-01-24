@@ -4,6 +4,7 @@
 
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 namespace py = pybind11;
 using py::operator""_a;
 
@@ -15,8 +16,10 @@ using py::operator""_a;
 #include <string>
 #include <string_view>
 
-void check_dim(const qpalm::sparse_mat_t &M, std::string_view name, qpalm::index_t r,
-               qpalm::index_t c) {
+/// Throw an exception if the dimensions of the matrix don't match the expected
+/// dimensions @p r and @p c.
+static void check_dim(const qpalm::sparse_mat_t &M, std::string_view name, qpalm::index_t r,
+                      qpalm::index_t c) {
     if (M.rows() != r)
         throw std::invalid_argument("Invalid number of rows for '" + std::string(name) + "' (got " +
                                     std::to_string(M.rows()) + ", should be " + std::to_string(r) +
@@ -27,7 +30,9 @@ void check_dim(const qpalm::sparse_mat_t &M, std::string_view name, qpalm::index
                                     std::to_string(c) + ")");
 }
 
-void check_dim(const qpalm::vec_t &v, std::string_view name, qpalm::index_t r) {
+/// Throw an exception if the size of the vector doesn't match the expected
+/// size @p r.
+static void check_dim(const qpalm::vec_t &v, std::string_view name, qpalm::index_t r) {
     if (v.rows() != r)
         throw std::invalid_argument("Invalid number of rows for '" + std::string(name) + "' (got " +
                                     std::to_string(v.rows()) + ", should be " + std::to_string(r) +
@@ -35,7 +40,7 @@ void check_dim(const qpalm::vec_t &v, std::string_view name, qpalm::index_t r) {
 }
 
 PYBIND11_MODULE(MODULE_NAME, m) {
-    m.doc()               = "C++ implementation of QPALM";
+    m.doc()               = "C and C++ implementation of QPALM";
     m.attr("__version__") = VERSION_INFO;
 
     py::class_<qpalm::QPALMData>(m, "QPALMData")
@@ -147,7 +152,55 @@ PYBIND11_MODULE(MODULE_NAME, m) {
     py::class_<qpalm::QPALMSolver>(m, "QPALMSolver")
         .def(py::init<const qpalm::QPALMData &, const qpalm::QPALMSettings &>(), "data"_a,
              "settings"_a)
+        .def(
+            "update_settings",
+            [](qpalm::QPALMSolver &self, const qpalm::QPALMSettings &settings) {
+                self.update_settings(settings);
+            },
+            "settings"_a)
+        .def(
+            "update_bounds",
+            [](qpalm::QPALMSolver &self, std::optional<qpalm::const_ref_vec_t> bmin,
+               std::optional<qpalm::vec_t> bmax) {
+                if (bmin)
+                    check_dim(*bmin, "bmin", self.get_m());
+                if (bmax)
+                    check_dim(*bmax, "bmax", self.get_m());
+                self.update_bounds(bmin, bmax);
+            },
+            "bmin"_a = py::none(), "bmax"_a = py::none())
+        .def(
+            "update_q",
+            [](qpalm::QPALMSolver &self, qpalm::const_ref_vec_t q) {
+                check_dim(q, "q", self.get_n());
+                self.update_q(q);
+            },
+            "q"_a)
+        .def(
+            "update_Q_A",
+            [](qpalm::QPALMSolver &self, qpalm::const_ref_vec_t Q_vals,
+               qpalm::const_ref_vec_t A_vals) {
+                check_dim(Q_vals, "Q_vals", self.get_c_work()->data->Q->nzmax);
+                check_dim(A_vals, "A_vals", self.get_c_work()->data->A->nzmax);
+                self.update_Q_A(Q_vals, A_vals);
+            },
+            "Q_vals"_a, "A_vals"_a)
+        .def(
+            "warm_start",
+            [](qpalm::QPALMSolver &self, std::optional<qpalm::const_ref_vec_t> x,
+               std::optional<qpalm::const_ref_vec_t> y) {
+                if (x)
+                    check_dim(*x, "x", self.get_n());
+                if (y)
+                    check_dim(*y, "y", self.get_m());
+                self.warm_start(x, y);
+            },
+            "x"_a = py::none(), "y"_a = py::none())
         .def("solve", &qpalm::QPALMSolver::solve)
         .def_property_readonly("solution", &qpalm::QPALMSolver::get_solution)
-        .def_property_readonly("info", &qpalm::QPALMSolver::get_info);
+        .def_property_readonly("info", &qpalm::QPALMSolver::get_info)
+        .def(
+            "_get_c_work_ptr",
+            [](qpalm::QPALMSolver &self) -> const void * { return self.get_c_work(); },
+            "Return a pointer to the C workspace struct (of type ::QPALMWorkspace).");
 }

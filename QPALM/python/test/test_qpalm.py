@@ -26,7 +26,12 @@ def test_simple_3x4():
     solver = qp.QPALMSolver(data, settings)
     solver.solve()
     sol_x = solver.solution.x
+    print(sol_x, solver.info.iter)
     tol = 1e-3
     assert abs(sol_x[0] - 5.5) < tol
     assert abs(sol_x[1] - 5.0) < tol
     assert abs(sol_x[2] - (-10)) < tol
+
+    solver.warm_start(solver.solution.x, solver.solution.y)
+    solver.solve()
+    print(sol_x, solver.info.iter)

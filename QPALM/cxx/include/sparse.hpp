@@ -24,6 +24,10 @@ using vec_t = Eigen::Matrix<c_float, Eigen::Dynamic, 1>;
 using borrowed_vec_t = Eigen::Map<vec_t>;
 /// Read-only borrowed dense vector type (vector view).
 using const_borrowed_vec_t = Eigen::Map<const vec_t>;
+/// Reference to a dense vector (vector view).
+using ref_vec_t = Eigen::Ref<vec_t>;
+/// Read-only reference to a dense vector (vector view).
+using const_ref_vec_t = Eigen::Ref<const vec_t>;
 
 namespace alloc {
 struct ladel_sparse_matrix_deleter {

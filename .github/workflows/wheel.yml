@@ -39,6 +39,7 @@ jobs:
     - name: Build
       run: |
         . /tmp/py-venv/bin/activate
+        export CMAKE_PREFIX_PATH="$VIRTUAL_ENV:$CMAKE_PREFIX_PATH"
         python -m build .
         LD_LIBRARY_PATH=$VIRTUAL_ENV/lib \
           auditwheel repair --plat manylinux_2_27_x86_64 \
@@ -115,6 +116,7 @@ jobs:
       shell: powershell
       run: |
         ./py-venv/Scripts/Activate.ps1
+        $env:CMAKE_PREFIX_PATH = $env:VIRTUAL_ENV + ";" + $env:CMAKE_PREFIX_PATH
         python -m build . --wheel
       env:
         CXXFLAGS: "/bigobj"

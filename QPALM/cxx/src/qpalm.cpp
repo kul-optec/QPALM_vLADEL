@@ -25,6 +25,31 @@ using QPALMInfo = ::QPALMInfo;
 QPALMSolver::QPALMSolver(const QPALMData &data, const QPALMSettings &settings)
     : work{::qpalm_setup(&data.get_c_data(), &settings)} {}
 
+void QPALMSolver::update_settings(const QPALMSettings &settings) {
+    ::qpalm_update_settings(work.get(), &settings);
+}
+
+void QPALMSolver::update_bounds(std::optional<const_ref_vec_t> bmin,
+                                std::optional<const_ref_vec_t> bmax) {
+    ::qpalm_update_bounds(work.get(), bmin ? bmin->data() : nullptr,
+                          bmax ? bmax->data() : nullptr);
+}
+
+void QPALMSolver::update_q(const_ref_vec_t q) {
+    ::qpalm_update_q(work.get(), q.data());
+}
+
+void QPALMSolver::update_Q_A(const_ref_vec_t Q_vals,
+                             const_ref_vec_t A_vals) {
+    ::qpalm_update_Q_A(work.get(), Q_vals.data(), A_vals.data());
+}
+
+void QPALMSolver::warm_start(std::optional<const_ref_vec_t> x,
+                             std::optional<const_ref_vec_t> y) {
+    ::qpalm_warm_start(work.get(), x ? x->data() : nullptr,
+                       y ? y->data() : nullptr);
+}
+
 void QPALMSolver::solve() { ::qpalm_solve(work.get()); }
 
 QPALMSolutionView QPALMSolver::get_solution() const {
