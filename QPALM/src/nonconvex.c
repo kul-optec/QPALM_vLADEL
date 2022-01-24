@@ -34,14 +34,18 @@ static c_float min_root_third_order(c_float a, c_float b, c_float c, c_float d)
     if (a == 0)
     {
         // Not a cubic polynomial, should not happen 
+        # ifdef PRINTING
         c_eprint("Not a cubic polynomial.");
+        # endif /* ifdef PRINTING */
     }
     else if (d == 0)
     {
         di = b*b - 4*a*c;
         if (di < 0)
         {
+            # ifdef PRINTING
             c_eprint("Imaginary roots. This should not happen.");
+            # endif /* ifdef PRINTING */
         }
         di_sqrt = c_sqrt(di);
         r[0] = (-b-di_sqrt)/(2*a);
@@ -60,7 +64,9 @@ static c_float min_root_third_order(c_float a, c_float b, c_float c, c_float d)
         re = b/3.0;
         if (di > 0)
         {
-             c_eprint("Imaginary roots. This should not happen.");
+            # ifdef PRINTING
+            c_eprint("Imaginary roots. This should not happen.");
+            # endif /* ifdef PRINTING */
         }   
         else 
         {
