@@ -1,5 +1,5 @@
 [build-system]
-requires = ["pybind11", "pybind11-stubgen", "mypy"]
+requires = ["py-build-cmake", "pybind11", "pybind11-stubgen", "mypy"]
 build-backend = "py_build_cmake.build"
 
 [project]
@@ -51,8 +51,8 @@ install_components = ["python_modules"]
 # install_extra_components = ["python_modules"]
 # env = { "SOME_VAR" = "$HOME/somefile" }
 [tool.py-build-cmake.cmake.options]
-"WITH_PY_STUBS:BOOL" = "On"
-"CMAKE_C_FLAGS" = "-fPIC"
+"QPALM_PYTHON:BOOL" = "On"
+"QPALM_WITH_PY_STUBS:BOOL" = "On"
 
 [tool.py-build-cmake.stubgen]
 # packages = [""]

@@ -32,9 +32,9 @@ install(TARGETS _qpalm
         DESTINATION qpalm)
 
 # Generate stubs for the Python module
-option(WITH_PY_STUBS
+option(QPALM_WITH_PY_STUBS
     "Generate Python stub files (.pyi) for the Python module." On)
-if (WITH_PY_STUBS)
+if (QPALM_WITH_PY_STUBS)
     include(cmake/Pybind11Stubgen.cmake)
     pybind11_stubgen(_qpalm)
     pybind11_stubgen_install(_qpalm qpalm)

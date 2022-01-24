@@ -1,4 +1,4 @@
-#include <cxx/sparse.hpp>
+#include <sparse.hpp>
 
 #include <ladel_global.h> // ladel_sparse_free etc.
 

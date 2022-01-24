@@ -1,4 +1,4 @@
-#include <cxx/qpalm.hpp>
+#include <qpalm.hpp>
 
 #include <qpalm.h> // qpalm_setup, qpalm_solve, etc.
 

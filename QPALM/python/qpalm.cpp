@@ -7,8 +7,8 @@
 namespace py = pybind11;
 using py::operator""_a;
 
-#include <cxx/qpalm.hpp>
-#include <cxx/sparse.hpp>
+#include <qpalm.hpp>
+#include <sparse.hpp>
 
 #include <algorithm>
 #include <stdexcept>

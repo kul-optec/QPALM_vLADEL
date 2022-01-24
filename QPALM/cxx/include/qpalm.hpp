@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cxx/sparse.hpp>
+#include <sparse.hpp>
 
 #include <types.h> // ::QPALMData, ::QPALMSettings, ::QPALMSolution, ::QPALMInfo
 

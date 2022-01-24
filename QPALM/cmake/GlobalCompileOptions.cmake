@@ -9,6 +9,7 @@ set(COMMON_LAX_WARNINGS
     -Wno-error=unused-parameter
     -Wno-error=unused-variable
     -Wno-error=unused-but-set-variable
+    -Wno-error=format
 )
 set(CLANG_WARNINGS
     -Wno-newline-eof
