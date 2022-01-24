@@ -11,7 +11,9 @@ set(COMMON_LAX_WARNINGS
     -Wno-error=format
 )
 set(CLANG_WARNINGS
+    -Wno-error=unknown-warning-option
     -Wno-newline-eof
+    -Wno-error=unused-but-set-variable
 )
 set(MSVC_WARNINGS
     /W4
@@ -26,6 +28,7 @@ if (QPALM_WARNINGS_AS_ERRORS)
         list(APPEND MSVC_WARNINGS /WX)
     else()
         list(APPEND COMMON_WARNINGS -Werror)
+        list(APPEND COMMON_LAX_WARNINGS -Werror)
     endif()
 endif()
 
@@ -42,10 +45,6 @@ elseif (CMAKE_C_COMPILER_ID MATCHES ".*Clang")
         ${COMMON_WARNINGS} ${CLANG_WARNINGS})
     target_compile_options(qpalm_lax_warnings INTERFACE
         ${COMMON_WARNINGS} ${COMMON_LAX_WARNINGS} ${CLANG_WARNINGS})
-    if (CLANG_VERSION_MAJOR GREATER 12)
-        target_compile_options(qpalm_lax_warnings INTERFACE
-            -Wno-error=unused-but-set-variable)
-    endif()
 elseif (CMAKE_C_COMPILER_ID MATCHES "MSVC")
     target_compile_options(qpalm_warnings INTERFACE
         ${MSVC_WARNINGS})
