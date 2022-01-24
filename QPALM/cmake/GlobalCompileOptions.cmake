@@ -8,15 +8,25 @@ set(COMMON_WARNINGS
 set(COMMON_LAX_WARNINGS
     -Wno-error=unused-parameter
     -Wno-error=unused-variable
-    -Wno-error=unused-but-set-variable
     -Wno-error=format
 )
 set(CLANG_WARNINGS
     -Wno-newline-eof
 )
+set(MSVC_WARNINGS
+    /W4
+    /wd4127 # conditional expression is constant
+    /wd4458 # declaration of 'x' hides class member
+    /permissive-
+)
+set(MSVC_LAX_WARNINGS ${MSVC_WARNINGS})
 
 if (QPALM_WARNINGS_AS_ERRORS)
-    list(APPEND COMMON_WARNINGS -Werror)
+    if (CMAKE_C_COMPILER_ID MATCHES "MSVC")
+        list(APPEND MSVC_WARNINGS /WX)
+    else()
+        list(APPEND COMMON_WARNINGS -Werror)
+    endif()
 endif()
 
 add_library(qpalm_warnings INTERFACE)
@@ -32,6 +42,15 @@ elseif (CMAKE_C_COMPILER_ID MATCHES ".*Clang")
         ${COMMON_WARNINGS} ${CLANG_WARNINGS})
     target_compile_options(qpalm_lax_warnings INTERFACE
         ${COMMON_WARNINGS} ${COMMON_LAX_WARNINGS} ${CLANG_WARNINGS})
-else() # TODO: Clang, MSVC
+    if (CLANG_VERSION_MAJOR GREATER 12)
+        target_compile_options(qpalm_lax_warnings INTERFACE
+            -Wno-error=unused-but-set-variable)
+    endif()
+elseif (CMAKE_C_COMPILER_ID MATCHES "MSVC")
+    target_compile_options(qpalm_warnings INTERFACE
+        ${MSVC_WARNINGS})
+    target_compile_options(qpalm_lax_warnings INTERFACE
+        ${MSVC_LAX_WARNINGS})
+else()
     message(FATAL_ERROR "No known warnings for this compiler")
 endif()

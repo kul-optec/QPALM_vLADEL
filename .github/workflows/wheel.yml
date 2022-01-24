@@ -80,3 +80,112 @@ jobs:
       run: |
         python -m pip install pytest
         pytest
+
+  build-windows:
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10']
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v2
+      name: Install Python
+      with: 
+        python-version: ${{ matrix.python-version }}
+    - name: Cache Virtual Environment
+      id: cache-venv
+      uses: actions/cache@v2
+      with:
+        path: py-venv
+        key: ${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('scripts/install-eigen.ps1') }}
+    - name: Install Python Dependencies 
+      if: steps.cache-venv.outputs.cache-hit != 'true'
+      shell: powershell
+      run: |
+        python -m venv py-venv
+        ./py-venv/Scripts/Activate.ps1
+        ./scripts/install-eigen.ps1
+        python -m pip install build cmake
+      env:
+        CXXFLAGS: "/bigobj"
+        CFLAGS: "/bigobj"
+    - name: Build
+      shell: powershell
+      run: |
+        ./py-venv/Scripts/Activate.ps1
+        python -m build . --wheel
+      env:
+        CXXFLAGS: "/bigobj"
+        CFLAGS: "/bigobj"
+        PYTHONUTF8: 1
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: qpalm-win-whl-${{ matrix.python-version }}
+        path: dist/qpalm-*win*.whl
+
+  test-windows:
+    needs: [build-windows]
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10']
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v2
+      name: Install Python
+      with: 
+        python-version: ${{ matrix.python-version }}
+    - uses: actions/download-artifact@v2
+      with:
+        name: qpalm-win-whl-${{ matrix.python-version }}
+        path: dist
+    - name: Install
+      run: python -m pip install --find-links=dist qpalm
+    - name: Test
+      run: |
+        python -m pip install pytest
+        pytest
+
+  release:
+    if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
+    needs: [test-linux, test-windows]
+    runs-on: ubuntu-latest
+    container: python:${{ matrix.python-version }}-bullseye
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10']
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/download-artifact@v2
+      with:
+        name: qpalm-whl-${{ matrix.python-version }}
+        path: dist
+    - name: Install qpalm
+      run: pip install --find-links=dist qpalm
+    - name: 'Check qpalm version'
+      run: |
+        [ "${{ github.event.release.tag_name }}" == "$(python -c 'from importlib.metadata import version as v; print(v("qpalm"))')" ]
+      shell: bash
+    - name: Install Twine
+      run: pip install twine
+    - name: Upload Wheel to PyPI
+      run: python -m twine upload dist/qpalm-*.whl
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PyPI }}
+    - uses: actions/download-artifact@v2
+      if: ${{ matrix.python-version == '3.10' }}
+      with:
+        name: qpalm-src-${{ matrix.python-version }}
+        path: dist
+    - name: Upload source to PyPI
+      if: ${{ matrix.python-version == '3.10' }}
+      run: python -m twine upload dist/qpalm-*.tar.gz
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PyPI }}

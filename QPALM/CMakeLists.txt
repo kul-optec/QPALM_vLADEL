@@ -39,8 +39,10 @@ target_include_directories(qpalm
 )
 target_link_libraries(qpalm PRIVATE qpalm_lax_warnings)
 target_link_libraries(qpalm PUBLIC ladel)
-target_link_libraries(qpalm PRIVATE m)
 set_target_properties(qpalm PROPERTIES POSITION_INDEPENDENT_CODE On)
+if (NOT WIN32)
+    target_link_libraries(qpalm PRIVATE m)
+endif()
 
 target_compile_definitions(qpalm PUBLIC USE_LADEL=1)
 if (QPALM_NONCONVEX)
