@@ -9,6 +9,10 @@ set(COMMON_LAX_WARNINGS
     -Wno-error=unused-parameter
     -Wno-error=unused-variable
     -Wno-error=format
+    -Wno-error=pedantic
+)
+set(GCC_WARNINGS
+    -Wno-error=unused-but-set-variable
 )
 set(CLANG_WARNINGS
     -Wno-error=unknown-warning-option
@@ -39,7 +43,7 @@ if (CMAKE_C_COMPILER_ID MATCHES "GNU")
     target_compile_options(qpalm_warnings INTERFACE
         ${COMMON_WARNINGS})
     target_compile_options(qpalm_lax_warnings INTERFACE
-        ${COMMON_WARNINGS} ${COMMON_LAX_WARNINGS})
+        ${COMMON_WARNINGS} ${COMMON_LAX_WARNINGS} ${GCC_WARNINGS})
 elseif (CMAKE_C_COMPILER_ID MATCHES ".*Clang")
     target_compile_options(qpalm_warnings INTERFACE
         ${COMMON_WARNINGS} ${CLANG_WARNINGS})
