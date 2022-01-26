@@ -8,19 +8,19 @@ option(QPALM_NONCONVEX "Compile also for nonconvex QPs" On)
 option(QPALM_TIMING "Enable timing" On)
 option(QPALM_PRINTING "Allow printing" ON)
 option(QPALM_CXX "Build the C++ interface" On)
-option(QPALM_PYTHON "Build the Python interface" Off)
+option(QPALM_WITH_PYTHON "Build the Python interface" Off)
 
 include(cmake/GlobalCompileOptions.cmake)
 
 # LADEL linear algebra C library
 function(add_ladel)
     set(CMAKE_POSITION_INDEPENDENT_CODE On) # scoped
-    add_subdirectory(../LADEL LADEL EXCLUDE_FROM_ALL)
+    add_subdirectory(../LADEL/LADEL LADEL EXCLUDE_FROM_ALL)
 endfunction()
 add_ladel()
 
 # QPALM C library
-add_library(qpalm 
+add_library(qpalm
     "src/iteration.c"
     "src/lin_alg.c"
     "src/linesearch.c"
@@ -32,6 +32,7 @@ add_library(qpalm
     "src/termination.c"
     "src/util.c"
     "src/validate.c"
+    "src/global_opts.c"
 )
 target_include_directories(qpalm
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -44,15 +45,19 @@ if (NOT WIN32)
     target_link_libraries(qpalm PRIVATE m)
 endif()
 
-target_compile_definitions(qpalm PUBLIC USE_LADEL=1)
+target_compile_definitions(qpalm PUBLIC USE_LADEL)
 if (QPALM_NONCONVEX)
-    target_compile_definitions(qpalm PUBLIC COMPILE_NONCONVEX=1)
+    target_compile_definitions(qpalm PUBLIC COMPILE_NONCONVEX)
 endif()
 if (QPALM_TIMING)
-    target_compile_definitions(qpalm PUBLIC PROFILING=1)
+    target_compile_definitions(qpalm PUBLIC PROFILING)
 endif()
 if (QPALM_PRINTING)
-    target_compile_definitions(qpalm PUBLIC PRINTING=1)
+    target_compile_definitions(qpalm PUBLIC PRINTING)
+endif()
+if (QPALM_WITH_PYTHON)
+    find_package(Python3 REQUIRED COMPONENTS Development)
+    target_link_libraries(qpalm PUBLIC Python3::Module)
 endif()
 
 # C++ interface
@@ -61,6 +66,6 @@ if (QPALM_CXX)
 endif()
 
 # Python interface
-if (QPALM_PYTHON)
+if (QPALM_WITH_PYTHON)
     add_subdirectory(python)
 endif()

@@ -2,6 +2,7 @@
  * @file    C++ extension for Python interface of QPALM.
  */
 
+#include <Python.h>
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -12,6 +13,7 @@ using py::operator""_a;
 #include <sparse.hpp>
 
 #include <algorithm>
+#include <cstdarg>
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -39,9 +41,18 @@ static void check_dim(const qpalm::vec_t &v, std::string_view name, qpalm::index
                                     ")");
 }
 
+/// `printf`-style wrapper that prints to Python
+static int print_wrap(const char *fmt, ...) LADEL_ATTR_PRINTF_LIKE;
+
 PYBIND11_MODULE(MODULE_NAME, m) {
     m.doc()               = "C and C++ implementation of QPALM";
     m.attr("__version__") = VERSION_INFO;
+
+    ladel_set_alloc_config_calloc(&PyMem_Calloc);
+    ladel_set_alloc_config_malloc(&PyMem_Malloc);
+    ladel_set_alloc_config_realloc(&PyMem_Realloc);
+    ladel_set_alloc_config_free(&PyMem_Free);
+    ladel_set_print_config_printf(&print_wrap);
 
     py::class_<qpalm::QPALMData>(m, "QPALMData")
         .def(py::init<qpalm::index_t, qpalm::index_t>(), "n"_a, "m"_a)
@@ -203,4 +214,28 @@ PYBIND11_MODULE(MODULE_NAME, m) {
             "_get_c_work_ptr",
             [](qpalm::QPALMSolver &self) -> const void * { return self.get_c_work(); },
             "Return a pointer to the C workspace struct (of type ::QPALMWorkspace).");
+}
+
+static int print_wrap(const char *fmt, ...) {
+    static std::vector<char> buffer(1024);
+    py::object write = py::module_::import("sys").attr("stdout").attr("write");
+    std::va_list args, args2;
+    va_start(args, fmt);
+    va_copy(args2, args);
+    int needed = vsnprintf(buffer.data(), buffer.size(), fmt, args);
+    va_end(args);
+    // Error occurred
+    if (needed < 0) {
+        // ignore and return
+    }
+    // Buffer was too small
+    else if (auto buf_needed = static_cast<size_t>(needed) + 1; buf_needed > buffer.size()) {
+        buffer = std::vector<char>(buf_needed);
+        va_start(args2, fmt);
+        needed = vsnprintf(buffer.data(), buffer.size(), fmt, args2);
+        va_end(args2);
+    }
+    if (needed >= 0)
+        write(std::string_view{buffer.data(), static_cast<size_t>(needed)});
+    return needed;
 }

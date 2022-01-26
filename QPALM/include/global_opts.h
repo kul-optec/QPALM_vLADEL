@@ -38,56 +38,11 @@ typedef ladel_int     c_int; /**< type for integer numbers */
  * @name Custom memory allocation (e.g. matlab/python)
  * @{
  */
-#  ifdef MATLAB
-    #   include "mex.h"
-static void* c_calloc(size_t num, size_t size) {
-  void *m = mxCalloc(num, size);
-  mexMakeMemoryPersistent(m);
-  return m;
-}
 
-static void* c_malloc(size_t size) {
-  void *m = mxMalloc(size);
-
-  mexMakeMemoryPersistent(m);
-  return m;
-}
-
-static void* c_realloc(void *ptr, size_t size) {
-  void *m = mxRealloc(ptr, size);
-
-  mexMakeMemoryPersistent(m);
-  return m;
-}
-
-    #   define c_free mxFree
-#  elif defined PYTHON
-
-// Define memory allocation for python. Note that in Python 2 memory manager
-// Calloc is not implemented
-    #   include <Python.h>
-    #   define c_malloc PyMem_Malloc
-    #   if PY_MAJOR_VERSION >= 3
-    #    define c_calloc PyMem_Calloc
-    #   else  /* if PY_MAJOR_VERSION >= 3 */
-static void* c_calloc(size_t num, size_t size) {
-  void *m = PyMem_Malloc(num * size);
-
-  memset(m, 0, num * size);
-  return m;
-}
-
-    #   endif /* if PY_MAJOR_VERSION >= 3 */
-
-    #   define c_free PyMem_Free
-    #   define c_realloc PyMem_Realloc
-#  else  /* if not MATLAB of Python */
-    #   define c_malloc malloc    /**< custom malloc */
-    #   define c_calloc calloc    /**< custom calloc */
-    #   define c_free free        /**< custom free */
-    #   define c_realloc realloc  /**< custom realloc */
-
-#  endif /* ifdef MATLAB */
+void *c_calloc(size_t num, size_t size);
+void *c_malloc(size_t size);
+void* c_realloc(void *ptr, size_t size);
+void c_free(void *ptr);
 
 /**
  * @}
@@ -96,25 +51,9 @@ static void* c_calloc(size_t num, size_t size) {
 
 /* PRINTING */
 # ifdef PRINTING
-#  include <stdio.h>
-#  include <string.h>
 
-#if defined(_WIN32) && defined(_MSC_VER) && _MSC_VER < 1900
-#define snprintf _snprintf
-#endif
-
-#  ifdef MATLAB
-#   define c_print mexPrintf
-
-#  elif defined PYTHON
-#   include <Python.h>
-#   define c_print(...) {PyGILState_STATE gstate; int py_check = PyGILState_Check(); if (!py_check) {gstate = PyGILState_Ensure(); PySys_WriteStdout(__VA_ARGS__); PyGILState_Release(gstate);}}
-#  elif defined R_LANG
-#   include <R_ext/Print.h>
-#   define c_print Rprintf
-#  else  /* ifdef MATLAB */
-#   define c_print printf
-#  endif /* ifdef MATLAB */
+// Print macro
+#  define c_print ladel_print
 
 // Print error macro
 #  define c_eprint(...) c_print("ERROR in %s: ", __FUNCTION__); c_print( \
