@@ -19,6 +19,9 @@ function(add_ladel)
 endfunction()
 add_ladel()
 
+cmake_policy(SET CMP0094 NEW)
+set(Python3_FIND_REGISTRY NEVER)
+
 # QPALM C library
 add_library(qpalm
     "src/iteration.c"
