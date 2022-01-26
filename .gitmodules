@@ -1,4 +1,4 @@
 [submodule "LADEL"]
 	path = LADEL
-	url = https://github.com/Benny44/LADEL.git
-	branch = master
+	url = https://github.com/tttapa/LADEL.git
+	branch = main
