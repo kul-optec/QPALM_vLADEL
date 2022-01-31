@@ -71,4 +71,9 @@ testpaths = ["QPALM/python/test"]
 plugins = ["numpy.typing.mypy_plugin"]
 
 [tool.pyright]
+# Pyright stops looking after the first match, which is usually in the 
+# site-packages folder. When doing an editable install, it should look in both
+# site-packages and the source folder. To get the search order correct, 
+# explicitly point it to the source folder first (it will still look for the C++ 
+# extension module stubs in site-packages).
 extraPaths = ["QPALM/python"]
