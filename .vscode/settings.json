@@ -4,4 +4,7 @@
     "cmake.configureEnvironment": {
         "VIRTUAL_ENV": "${workspaceFolder}/py-venv"
     },
+    "cmake.configureSettings": {
+        "QPALM_WITH_PYTHON": true
+    }
 }

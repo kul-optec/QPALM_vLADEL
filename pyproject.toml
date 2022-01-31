@@ -8,7 +8,7 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = { "file" = "LICENSE" }
 authors = [{ "name" = "Ben Hermans" }]
-maintainers = [{ "name" = "Pieter Pas" }]
+maintainers = [{ "name" = "Pieter Pas", "email" = "pieter.p.dev@outlook.com" }]
 keywords = [
     "optimization",
     "augmented-lagrangian",
@@ -40,6 +40,9 @@ dynamic = ["version", "description"]
 Source = "https://github.com/kul-optec/QPALM"
 Documentation = "https://kul-optec.github.io/QPALM"
 Tracker = "https://github.com/kul-optec/QPALM/issues"
+
+[tool.py-build-cmake.module]
+directory = "QPALM/python"
 
 [tool.py-build-cmake.sdist]
 include = ["CMakeLists.txt", "LADEL", "QPALM"]
