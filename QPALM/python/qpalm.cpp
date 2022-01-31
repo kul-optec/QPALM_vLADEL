@@ -208,8 +208,14 @@ PYBIND11_MODULE(MODULE_NAME, m) {
             },
             "x"_a = py::none(), "y"_a = py::none())
         .def("solve", &qpalm::QPALMSolver::solve)
-        .def_property_readonly("solution", &qpalm::QPALMSolver::get_solution)
-        .def_property_readonly("info", &qpalm::QPALMSolver::get_info)
+        .def_property_readonly("solution",
+                               py::cpp_function( // https://github.com/pybind/pybind11/issues/2618
+                                   &qpalm::QPALMSolver::get_solution,
+                                   py::return_value_policy::reference, py::keep_alive<0, 1>()))
+        .def_property_readonly("info",
+                               py::cpp_function( // https://github.com/pybind/pybind11/issues/2618
+                                   &qpalm::QPALMSolver::get_info,
+                                   py::return_value_policy::reference, py::keep_alive<0, 1>()))
         .def(
             "_get_c_work_ptr",
             [](qpalm::QPALMSolver &self) -> const void * { return self.get_c_work(); },
