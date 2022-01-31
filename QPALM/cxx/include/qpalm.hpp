@@ -78,7 +78,7 @@ class QPALMSolver {
 
     /// @note   Returns a view which is only valid as long as the solver is not
     ///         destroyed.
-    /// @see    @ref ::QPALMWorkspace::solution
+    /// @see    @ref QPALMWorkspace::solution
     QPALMSolutionView get_solution() const;
     /// @note   Returns a reference that is only valid as long as the solver is
     ///         not destroyed.

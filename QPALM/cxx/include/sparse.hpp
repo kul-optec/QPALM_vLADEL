@@ -51,8 +51,8 @@ inline ladel_sparse_matrix eigen_to_ladel(sparse_mat_t &mat,
                                           ladel_int symmetry = UNSYMMETRIC);
 
 /// Similar to @ref eigen_to_ladel, but creates a copy of all data, in such a
-/// way that the returned matrix is completely decoupled from @ref mat, and such
-/// that it can be reallocated and deallocated by the @ref ladel_sparse_free
+/// way that the returned matrix is completely decoupled from @p mat, and such
+/// that it can be reallocated and deallocated by the @c ladel_sparse_free
 /// and similar functions.
 ladel_sparse_matrix_ptr eigen_to_ladel_copy(const sparse_mat_t &mat);
 

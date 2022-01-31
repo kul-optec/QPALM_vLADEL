@@ -213,11 +213,6 @@ void vec_ew_sqrt(const c_float *a, c_float *b, size_t n) {
   }
 }
 
-/**
- * @}
- */
-
-
 /* MATRIX FUNCTIONS ----------------------------------------------------------*/
 
 /* Moved to solver_interface.c*/

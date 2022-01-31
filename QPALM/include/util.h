@@ -78,9 +78,9 @@ void print_final_message(QPALMWorkspace *work);
 * Timer Structs and Functions * *
 *********************************/
 
-/*! \cond PRIVATE */
-
 # ifdef PROFILING
+
+/*! \cond PRIVATE */
 
 // Windows
 #  ifdef _WIN32
