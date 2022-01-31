@@ -9,12 +9,14 @@ option(QPALM_TIMING "Enable timing" On)
 option(QPALM_PRINTING "Allow printing" ON)
 option(QPALM_CXX "Build the C++ interface" On)
 option(QPALM_WITH_PYTHON "Build the Python interface" Off)
+option(QPALM_WITH_MEX "Build the MATLAB interface" Off)
 
 include(cmake/GlobalCompileOptions.cmake)
 
 # LADEL linear algebra C library
 function(add_ladel)
     set(CMAKE_POSITION_INDEPENDENT_CODE On) # scoped
+    set(LADEL_WITH_MEX ${QPALM_WITH_MEX})
     add_subdirectory(../LADEL/LADEL LADEL EXCLUDE_FROM_ALL)
 endfunction()
 add_ladel()
@@ -62,6 +64,7 @@ if (QPALM_WITH_PYTHON)
     find_package(Python3 REQUIRED COMPONENTS Development)
     target_link_libraries(qpalm PUBLIC Python3::Module)
 endif()
+add_library(qpalm::qpalm ALIAS qpalm)
 
 # C++ interface
 if (QPALM_CXX)
@@ -71,4 +74,9 @@ endif()
 # Python interface
 if (QPALM_WITH_PYTHON)
     add_subdirectory(python)
+endif()
+
+# MATLAB interface
+if (QPALM_WITH_MEX)
+    add_subdirectory(mex)
 endif()
