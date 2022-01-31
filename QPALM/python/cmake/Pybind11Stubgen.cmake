@@ -4,6 +4,7 @@ function(pybind11_stubgen target)
     add_custom_command(TARGET ${target} POST_BUILD
         COMMAND ${Python3_EXECUTABLE} -m pybind11_stubgen
                 ${target}
+                --bare-numpy-ndarray
                 --no-setup-py
                 -o ${CMAKE_CURRENT_BINARY_DIR}
         BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/${target}-stubs/__init__.pyi
