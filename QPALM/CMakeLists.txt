@@ -6,8 +6,8 @@ set(PY_VERSION_SUFFIX "a0")
 option(QPALM_WARNINGS_AS_ERRORS "Treat warnings as errors" Off)
 option(QPALM_NONCONVEX "Compile also for nonconvex QPs" On)
 option(QPALM_TIMING "Enable timing" On)
-option(QPALM_PRINTING "Allow printing" ON)
-option(QPALM_CXX "Build the C++ interface" On)
+option(QPALM_PRINTING "Allow printing" On)
+option(QPALM_WITH_CXX "Build the C++ interface" Off)
 option(QPALM_WITH_PYTHON "Build the Python interface" Off)
 option(QPALM_WITH_MEX "Build the MATLAB interface" Off)
 
@@ -67,7 +67,7 @@ endif()
 add_library(qpalm::qpalm ALIAS qpalm)
 
 # C++ interface
-if (QPALM_CXX)
+if (QPALM_WITH_CXX)
     add_subdirectory(cxx)
 endif()
 
