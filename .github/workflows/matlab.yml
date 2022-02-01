@@ -1,0 +1,48 @@
+name: Matlab package
+
+on:
+  push:
+  release:
+    types: ['released', 'prereleased']
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: Set up MATLAB
+      uses: matlab-actions/setup-matlab@v1
+      with:
+        release: R2021a
+    - name: Configure
+      run: |
+        cmake -B build -S QPALM \
+          -D CMAKE_BUILD_TYPE=RelWithDebInfo \
+          -D QPALM_WITH_MEX=On \
+          -D CMAKE_POSITION_INDEPENDENT_CODE=On
+      env:
+        CXXFLAGS: "-march=skylake -static-libstdc++ -static-libgcc"
+        LDFLAGS: "-static-libstdc++ -static-libgcc"
+        CFLAGS: "-march=skylake -static-libgcc"
+        FC: gfortran
+    - name: Build
+      run: |
+        cmake --build build \
+          --config RelWithDebInfo \
+          -j
+    - name: Install
+      run: |
+        cmake --install build \
+          --config RelWithDebInfo \
+          --component mex_interface \
+          --prefix staging
+    - name: Package
+      run: |
+        tar czf qpalm-matlab.tar.gz -C staging .
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: qpalm-matlab
+        path: qpalm-matlab.tar.gz
