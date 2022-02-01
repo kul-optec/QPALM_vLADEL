@@ -30,14 +30,12 @@ function run_doxygen_coverage {
 
     if [ "$1" = "main" ]; then dir="Coverage"; else dir="$1/Coverage"; fi
     pushd ../..
-    rm -rf docs/Coverage /tmp/cov-build
-    mkdir -p docs/Coverage
-    cp -a $(pwd) /tmp/cov-build
-    cmake -B/tmp/cov-build/build -S/tmp/cov-build -DQPALM_WITH_COVERAGE=On
-    cmake --build /tmp/cov-build/build -t coverage -j
+    rm -rf docs/Coverage build
+    cmake -Bbuild -S. -DQPALM_WITH_COVERAGE=On
+    cmake --build build -t coverage -j
     mkdir -p "$2/$dir"
     rm -rf "$2/$dir"
-    mv /tmp/cov-build/docs/Coverage "$2/$dir"
+    mv docs/Coverage "$2/$dir"
     popd
 }
 
