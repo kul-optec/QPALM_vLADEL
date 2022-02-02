@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(QPALM VERSION 0.0.0)
-set(PY_VERSION_SUFFIX "a1")
+set(PY_VERSION_SUFFIX "a2")
 
 # Options
 option(QPALM_WARNINGS_AS_ERRORS "Treat warnings as errors" Off)
