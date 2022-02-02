@@ -8,7 +8,6 @@ on:
 jobs:
   build-linux:
     runs-on: ubuntu-latest
-    container: tttapa/qpalm-build-python-gcc:${{ matrix.python-version }}-11
     strategy:
       matrix:
         python-version: ['3.8', '3.9', '3.10']
@@ -17,38 +16,11 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
-    - name: Cache Virtual Environment
-      id: cache-venv
-      uses: actions/cache@v2
-      with:
-        path: "/tmp/py-venv"
-        key: ${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('scripts/ci/install-patchelf.sh', 'scripts/install-eigen.sh') }}
-    - name: Install Python Virtual Environment 
-      if: steps.cache-venv.outputs.cache-hit != 'true'
-      run: |
-        python3 -m venv /tmp/py-venv
-        . /tmp/py-venv/bin/activate
-        bash scripts/ci/install-patchelf.sh
-        bash scripts/install-eigen.sh
-        python -m pip install build auditwheel cmake
-      env:
-        CXXFLAGS: "-march=skylake -static-libstdc++ -static-libgcc"
-        LDFLAGS: "-static-libstdc++ -static-libgcc"
-        CFLAGS: "-march=skylake -static-libgcc"
-        FC: gfortran
     - name: Build
       run: |
-        . /tmp/py-venv/bin/activate
-        export CMAKE_PREFIX_PATH="$VIRTUAL_ENV:$CMAKE_PREFIX_PATH"
-        python -m build .
-        LD_LIBRARY_PATH=$VIRTUAL_ENV/lib \
-          auditwheel repair --plat manylinux_2_27_x86_64 \
-          dist/qpalm-*.whl
-      env:
-        CXXFLAGS: "-march=skylake -static-libstdc++ -static-libgcc"
-        LDFLAGS: "-static-libstdc++ -static-libgcc"
-        CFLAGS: "-march=skylake -static-libgcc"
-        FC: gfortran
+        docker run --rm -t -v$PWD:$PWD \
+          --entrypoint $PWD/scripts/ci/build-wheel.sh \
+          ghcr.io/tttapa/docker-qpalm-build:gcc11-py${{ matrix.python-version }}
     - name: Upload Wheel
       uses: actions/upload-artifact@v2
       with:
