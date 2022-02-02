@@ -40,14 +40,59 @@ jobs:
           --prefix staging
     - name: Package
       run: |
-        tar czf qpalm-matlab.tar.gz -C staging .
+        tar czf qpalm-matlab-linux.tar.gz -C staging .
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: qpalm-matlab
-        path: qpalm-matlab.tar.gz
+        name: qpalm-matlab-linux
+        path: qpalm-matlab-linux.tar.gz
     - name: Release
       if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
       uses: softprops/action-gh-release@17cd0d34deddf848fc0e7d9be5202c148c270a0a
       with:
-        files: qpalm-matlab.tar.gz
+        files: qpalm-matlab-linux.tar.gz
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: Set up MATLAB
+      uses: matlab-actions/setup-matlab@v1
+      with:
+        release: R2021a
+    - name: Configure
+      shell: pwsh
+      run: |
+        cmake -B build -S QPALM `
+          -D CMAKE_BUILD_TYPE=RelWithDebInfo `
+          -D QPALM_WITH_MEX=On `
+          -D CMAKE_POSITION_INDEPENDENT_CODE=On
+    - name: Build
+      shell: pwsh
+      run: |
+        cmake --build build `
+          --config RelWithDebInfo `
+          -j
+    - name: Install
+      shell: pwsh
+      run: |
+        cmake --install build `
+          --config RelWithDebInfo `
+          --component mex_interface `
+          --prefix staging
+    - name: Package
+      shell: pwsh
+      run: |
+        Compress-Archive -Path staging\* qpalm-matlab-windows.zip
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: qpalm-matlab-windows
+        path: qpalm-matlab-windows.zip
+    - name: Release
+      if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
+      uses: softprops/action-gh-release@17cd0d34deddf848fc0e7d9be5202c148c270a0a
+      with:
+        files: qpalm-matlab-windows.zip
