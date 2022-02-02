@@ -2,11 +2,14 @@
  * @example{lineno} "examples/c/qpalm_demo.c"
  */
 /**
+ * @example{lineno} "examples/cxx/qpalm_demo.cpp"
+ */
+/**
+ * @example{lineno} "examples/python/qpalm_python_demo.py"
+ */
+/**
  * @example{lineno} "examples/matlab/qpalm_mex_demo.m"
  */
 /**
  * @example{lineno} "examples/matlab/qpalm_mex_nonconvex_demo.m"
- */
-/**
- * @example{lineno} "examples/python/qpalm_python_demo.py"
  */
