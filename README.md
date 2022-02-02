@@ -1,29 +1,46 @@
 [![Python Wheels](https://github.com/tttapa/QPALM-minimal/actions/workflows/wheel.yml/badge.svg)](https://github.com/tttapa/QPALM-minimal/actions/workflows/wheel.yml)
+[![Matlab Package](https://github.com/tttapa/QPALM-minimal/actions/workflows/matlab.yml/badge.svg)](https://github.com/tttapa/QPALM-minimal/actions/workflows/matlab.yml)
 [![Test Coverage](https://img.shields.io/endpoint?url=https://tttapa.github.io/QPALM-minimal/Coverage/shield.io.coverage.json)](https://tttapa.github.io/QPALM-minimal/Coverage/index.html)
 
 # Proximal Augmented Lagrangian method for Quadratic Programs
 
 QPALM is a numerical optimization package that finds stationary points of (possibly **nonconvex**) quadratic programs, that is 
 ```
-minimize        0.5 x' Q x + q' x
+minimize        ½ xᵀQx + qᵀx
 
-subject to      l <= A x <= u
+subject to      l ≤ Ax ≤ u
 ```
 
 ## Documentation
 
-You can now find the the documentation [here](https://tttapa.github.io/QPALM-minimal/). This includes all information you need to get started using QPALM.
+The documentation can be found at: <https://tttapa.github.io/QPALM-minimal/Doxygen>  
+Examples are included as well: <https://tttapa.github.io/QPALM-minimal/Doxygen/examples.html>
+
+## Installation
+
+To install the Python interface to QPALM, you can download pre-built binaries
+from [PyPI](https://pypi.org/project/qpalm/):
+```sh
+python3 -m pip install qpalm
+```
+
+To install the Matlab interface, download `qpalm-matlab.tar.gz` from the 
+[releases page](https://github.com/tttapa/QPALM-minimal/releases/latest), and 
+extract it into `~/Documents/MATLAB` folder. As a one-liner:
+```sh
+wget https://github.com/tttapa/QPALM-minimal/releases/download/0.0.0a0/qpalm-matlab.tar.gz -O- | tar xz -C ~/Documents/MATLAB
+```
 
 ## Benchmarks
 
-Check out the paper below for detailed benchmark tests comparing QPALM with state-of-the-art solvers.
+Check out the papers below for detailed benchmark tests comparing QPALM with state-of-the-art solvers.
 
  * [QPALM: A Newton-type Proximal Augmented Lagrangian Method for Quadratic Programs](https://arxiv.org/abs/1911.02934)
  * [QPALM: A Proximal Augmented Lagrangian Method for Nonconvex Quadratic Programs](https://arxiv.org/abs/2010.02653)
 
 ## Citing
 
-If you use QPALM in your research, please cite the following paper
+If you use QPALM in your research, please cite the following paper:
 ```bibtex
 @inproceedings{hermans2019qpalm,
 	author      = {Hermans, B. and Themelis, A. and Patrinos, P.},
