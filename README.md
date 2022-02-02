@@ -1,5 +1,7 @@
-# Proximal Augmented Lagrangian method for Quadratic Programs
+[![Python Wheels](https://github.com/tttapa/QPALM-minimal/actions/workflows/wheel.yml/badge.svg)](https://github.com/tttapa/QPALM-minimal/actions/workflows/wheel.yml)
+[![Test Coverage](https://img.shields.io/endpoint?url=https://tttapa.github.io/QPALM-minimal/Coverage/shield.io.coverage.json)](https://tttapa.github.io/QPALM-minimal/Coverage/index.html)
 
+# Proximal Augmented Lagrangian method for Quadratic Programs
 
 QPALM is a numerical optimization package that finds stationary points of (possibly **nonconvex**) quadratic programs, that is 
 ```
