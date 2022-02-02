@@ -378,12 +378,12 @@ blockquote.doxtable > p:last-child {
         font-size: 11px;
     }
 
-    div.contents p, 
+    div.contents p:not([class]), 
     div.dyncontent, 
     div.textblock, 
     table.memberdecls, 
     div.memitem,
-    div.contents p *, 
+    div.contents p:not([class]) *, 
     div.dyncontent *, 
     table.memberdecls *, 
     div.memitem * {
