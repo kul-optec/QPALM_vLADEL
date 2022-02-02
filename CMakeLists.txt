@@ -1,3 +1,6 @@
+# This is the CMake file for developers. If you are a user or a packager, please
+# see QPALM/CMakeLists.txt instead.
+
 cmake_minimum_required(VERSION 3.20)
 project(QPALM-dev)
 enable_testing()
@@ -15,6 +18,14 @@ if (QPALM_WITH_COVERAGE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -fno-inline")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
     add_dependencies(coverage qpalm::tests)
+endif()
+
+# Add documentation target
+find_program(QPALM_DOXYGEN doxygen)
+if (QPALM_DOXYGEN)
+    add_custom_target(documentation
+        doxygen
+        WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/doxygen)
 endif()
 
 set(QPALM_WARNINGS_AS_ERRORS On)

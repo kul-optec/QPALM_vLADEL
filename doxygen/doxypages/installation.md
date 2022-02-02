@@ -7,14 +7,15 @@ To compile the Matlab interface, you need Matlab and MEX as well.
 
 ## Download
 
-Download QPALM from <https://github.com/tttapa/QPALM.git> ([direct link](https://github.com/tttapa/QPALM/archive/refs/heads/main.zip)):
+Download QPALM from <https://github.com/tttapa/QPALM-minimal>:
 
 ```sh
-git clone https://github.com/tttapa/QPALM.git --single-branch --depth 1
+git clone https://github.com/tttapa/QPALM-minimal.git --single-branch --depth 1 --recursive
+cd QPALM-minimal
 ```
-Alternatively, without git
+If you already cloned it without the `--recursive` argument, use:
 ```sh
-wget https://github.com/tttapa/QPALM/archive/refs/heads/main.tar.gz -O- | tar xzf -
+git submodule update --init --recursive
 ```
 
 ## Matlab installation
@@ -46,6 +47,44 @@ To uninstall QPALM, simply remove the `+qpalm` folder from where you installed i
 ```sh
 rm -r "~/Documents/MATLAB/+qpalm"
 ```
+
+
+## Python installation
+
+QPALM is available on [PyPI](https://pypi.org/project/qpalm/), with binaries
+for Windows and Linux (x86_64 and arm64). To install it use:
+```sh
+python3 -m pip install qpalm
+```
+
+To build the Python bindings yourself, create a virtual environment:
+```sh
+# Linux
+python3 -m venv py-venv
+. ./py-venv/bin/activate
+```
+```sh
+# Windows
+python3 -m venv py-venv
+./py-venv/Scripts/Activate.ps1
+```
+Then install [Eigen](https://eigen.tuxfamily.org):
+```sh
+# Linux
+./scripts/install-eigen.sh
+```
+```sh
+# Windows
+./scripts/install-eigen.ps1
+```
+And finally, install the package:
+```sh
+pip install .
+```
+
+## Julia installation
+
+Work in progress ...
 
 ## C/C++ installation
 

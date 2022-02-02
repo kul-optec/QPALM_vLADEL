@@ -1,0 +1,6 @@
+/**
+ * @example c/qpalm_demo.c
+ * @example matlab/qpalm_mex_demo.m
+ * @example matlab/qpalm_mex_nonconvex_demo.m
+ * @example python/qpalm_python_demo.py
+ */
