@@ -42,11 +42,10 @@ Documentation = "https://kul-optec.github.io/QPALM"
 Tracker = "https://github.com/kul-optec/QPALM/issues"
 
 [tool.py-build-cmake.module]
-directory = "QPALM/python"
+directory = "QPALM/interfaces/python"
 
 [tool.py-build-cmake.sdist]
 include = ["CMakeLists.txt", "LADEL", "QPALM"]
-exclude = ["*.cache"]
 
 [tool.py-build-cmake.cmake]
 build_type = "RelWithDebInfo"
@@ -66,7 +65,7 @@ args = ["-v"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-testpaths = ["QPALM/python/test"]
+testpaths = ["QPALM/interfaces/python/test"]
 
 [tool.mypy]
 plugins = ["numpy.typing.mypy_plugin"]
@@ -77,4 +76,4 @@ plugins = ["numpy.typing.mypy_plugin"]
 # site-packages and the source folder. To get the search order correct, 
 # explicitly point it to the source folder first (it will still look for the C++ 
 # extension module stubs in site-packages).
-extraPaths = ["QPALM/python"]
+extraPaths = ["QPALM/interfaces/python"]
