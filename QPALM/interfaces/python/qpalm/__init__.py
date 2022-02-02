@@ -1,6 +1,6 @@
 """Proximal Augmented Lagrangian method for Quadratic Programs"""
 
-__version__ = '0.0.0a0'
+__version__ = '0.0.0a1'
 
 try:
     from qpalm._qpalm import *

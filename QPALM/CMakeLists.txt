@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(QPALM VERSION 0.0.0)
-set(PY_VERSION_SUFFIX "a0")
+set(PY_VERSION_SUFFIX "a1")
 
 # Options
 option(QPALM_WARNINGS_AS_ERRORS "Treat warnings as errors" Off)
@@ -46,6 +46,11 @@ target_include_directories(qpalm
 target_link_libraries(qpalm PRIVATE qpalm_lax_warnings)
 target_link_libraries(qpalm PUBLIC ladel)
 set_target_properties(qpalm PROPERTIES POSITION_INDEPENDENT_CODE On)
+target_compile_definitions(qpalm 
+    PUBLIC QPALM_VERSION_STR=\"${QPALM_VERSION}${PY_VERSION_SUFFIX}\"
+           QPALM_VERSION_MAJOR=${QPALM_VERSION_MAJOR}
+           QPALM_VERSION_MINOR=${QPALM_VERSION_MINOR}
+           QPALM_VERSION_PATCH=${QPALM_VERSION_PATCH})
 if (NOT WIN32)
     target_link_libraries(qpalm PRIVATE m)
 endif()

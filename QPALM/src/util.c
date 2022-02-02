@@ -106,8 +106,8 @@ void update_status(QPALMInfo *info, c_int status_val) {
 #ifdef PRINTING
 
 void print_header(void) {
-    c_print("\n                 QPALM Version 1.0                \n\n");
-    c_print("Iter |   P. res   |   D. res   |  Stepsize  |  Objective \n");
+    c_print("\n                  QPALM Version " QPALM_VERSION_STR "                   \n\n");
+    c_print("Iter |   P. res   |   D. res   |  Stepsize  |  Objective  \n");
     c_print("==========================================================\n");
 }
 
