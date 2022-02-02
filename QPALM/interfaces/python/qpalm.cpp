@@ -104,7 +104,10 @@ PYBIND11_MODULE(MODULE_NAME, m) {
             [](qpalm::QPALMData &d, qpalm::vec_t b) {
                 check_dim(b, "bmax", d.m);
                 d.bmax = std::move(b);
-            });
+            })
+        .def("_get_c_data_ptr", &qpalm::QPALMData::get_c_data_ptr,
+             "Return a pointer to the C data struct (of type ::QPALMData).",
+             py::return_value_policy::reference_internal);
 
     py::class_<qpalm::QPALMSolutionView>(m, "QPALMSolution")
         .def_readonly("x", &qpalm::QPALMSolutionView::x)
@@ -200,8 +203,8 @@ PYBIND11_MODULE(MODULE_NAME, m) {
             "update_Q_A",
             [](qpalm::QPALMSolver &self, qpalm::const_ref_vec_t Q_vals,
                qpalm::const_ref_vec_t A_vals) {
-                check_dim(Q_vals, "Q_vals", self.get_c_work()->data->Q->nzmax);
-                check_dim(A_vals, "A_vals", self.get_c_work()->data->A->nzmax);
+                check_dim(Q_vals, "Q_vals", self.get_c_work_ptr()->data->Q->nzmax);
+                check_dim(A_vals, "A_vals", self.get_c_work_ptr()->data->A->nzmax);
                 self.update_Q_A(Q_vals, A_vals);
             },
             "Q_vals"_a, "A_vals"_a)
@@ -227,8 +230,9 @@ PYBIND11_MODULE(MODULE_NAME, m) {
                                    py::return_value_policy::reference, py::keep_alive<0, 1>()))
         .def(
             "_get_c_work_ptr",
-            [](qpalm::QPALMSolver &self) -> const void * { return self.get_c_work(); },
-            "Return a pointer to the C workspace struct (of type ::QPALMWorkspace).");
+            [](qpalm::QPALMSolver &self) -> const void * { return self.get_c_work_ptr(); },
+            "Return a pointer to the C workspace struct (of type ::QPALMWorkspace).",
+            py::return_value_policy::reference_internal);
 }
 
 static int print_wrap(const char *fmt, ...) {

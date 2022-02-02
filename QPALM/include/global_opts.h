@@ -19,16 +19,6 @@ extern "C" {
 typedef ladel_double  c_float; /**< type for floating point numbers */
 typedef ladel_int     c_int; /**< type for integer numbers */
 
-/** 
- * @name Data customizations
- * @{
- */
-#  include <stdlib.h>
-
-/**
- * @}
- */
-
 /**
  * @name Custom memory allocation (e.g. matlab/python)
  * @{

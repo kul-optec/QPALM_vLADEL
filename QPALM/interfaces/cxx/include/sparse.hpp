@@ -20,6 +20,8 @@ using sp_index_t = ladel_int;
 using sparse_mat_t = Eigen::SparseMatrix<c_float, Eigen::ColMajor, sp_index_t>;
 /// Read-only view on a sparse matrix.
 using sparse_mat_view_t = Eigen::Map<const sparse_mat_t>;
+/// Type for (row, column, value) triplets for initializing sparse matrices.
+using triplet_t = Eigen::Triplet<c_float, sp_index_t>;
 /// Owning dense vector type.
 using vec_t = Eigen::Matrix<c_float, Eigen::Dynamic, 1>;
 /// Borrowed dense vector type (vector view).

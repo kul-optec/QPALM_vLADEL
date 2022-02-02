@@ -26,7 +26,7 @@ python3 -m pip install qpalm
 
 To install the Matlab interface, download `qpalm-matlab.tar.gz` from the 
 [releases page](https://github.com/tttapa/QPALM-minimal/releases/latest), and 
-extract it into `~/Documents/MATLAB` folder. As a one-liner:
+extract it into the `~/Documents/MATLAB` folder. As a one-liner:
 ```sh
 wget https://github.com/tttapa/QPALM-minimal/releases/download/0.0.0a0/qpalm-matlab.tar.gz -O- | tar xz -C ~/Documents/MATLAB
 ```

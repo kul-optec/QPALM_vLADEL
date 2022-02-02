@@ -30,6 +30,9 @@ typedef struct array_element  {
 } array_element;
 
 
+/// @addtogroup solver-grp
+/// @{
+
 /******************
 * Internal types *
 ******************/
@@ -42,10 +45,15 @@ typedef struct {
   c_float *y; ///< dual solution
 } QPALMSolution;
 
+/// @}
+
 /**
  * QPALM Timer for statistics
  */
 typedef struct QPALM_TIMER QPALMTimer;
+
+/// @addtogroup solver-grp
+/// @{
 
 /**
  * Problem scaling matrices stored as vectors
@@ -138,6 +146,8 @@ typedef struct {
   c_int   max_rank_update;          ///< maximum rank for the sparse factorization update
   c_float max_rank_update_fraction; ///< maximum rank (relative to n+m) for the factorization update
 } QPALMSettings;
+
+/// @}
 
 /**
  * Variables for linear system solving 

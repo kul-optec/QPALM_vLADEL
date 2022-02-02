@@ -35,7 +35,7 @@ extern "C" {
 ********************/
 
 /**
- * @name Main solver API
+ * @defgroup solver-grp Main solver API
  * @{
  */
 
