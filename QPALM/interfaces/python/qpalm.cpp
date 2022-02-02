@@ -44,6 +44,8 @@ static void check_dim(const qpalm::vec_t &v, std::string_view name, qpalm::index
 /// `printf`-style wrapper that prints to Python
 static int print_wrap(const char *fmt, ...) LADEL_ATTR_PRINTF_LIKE;
 
+#define PYBIND11_SUPPORTS_MAP_SPARSE_MATRIX 0
+
 PYBIND11_MODULE(MODULE_NAME, m) {
     m.doc()               = "C and C++ implementation of QPALM";
     m.attr("__version__") = VERSION_INFO;
@@ -56,42 +58,49 @@ PYBIND11_MODULE(MODULE_NAME, m) {
 
     py::class_<qpalm::QPALMData>(m, "QPALMData")
         .def(py::init<qpalm::index_t, qpalm::index_t>(), "n"_a, "m"_a)
+        .def_property("Q",
+#if PYBIND11_SUPPORTS_MAP_SPARSE_MATRIX
+                      py::cpp_function( // https://github.com/pybind/pybind11/issues/2618
+                          &qpalm::QPALMData::get_Q, py::return_value_policy::reference,
+                          py::keep_alive<0, 1>()),
+#else
+                          [](const qpalm::QPALMData &d) -> qpalm::sparse_mat_t{
+                              return d.get_Q();
+                          },
+#endif
+                      [](qpalm::QPALMData &d, qpalm::sparse_mat_t Q) {
+                          check_dim(Q, "Q", d.n, d.n);
+                          d.set_Q(std::move(Q));
+                      })
+        .def_property("A",
+#if PYBIND11_SUPPORTS_MAP_SPARSE_MATRIX
+                      py::cpp_function( // https://github.com/pybind/pybind11/issues/2618
+                          &qpalm::QPALMData::get_A, py::return_value_policy::reference,
+                          py::keep_alive<0, 1>()),
+#else
+                          [](const qpalm::QPALMData &d) -> qpalm::sparse_mat_t{
+                              return d.get_A();
+                          },
+#endif
+                      [](qpalm::QPALMData &d, qpalm::sparse_mat_t A) {
+                          check_dim(A, "A", d.m, d.n);
+                          d.set_A(std::move(A));
+                      })
         .def_property(
-            "Q",
-            [](qpalm::QPALMData &) -> qpalm::sparse_mat_t {
-                throw std::logic_error("Not implemented");
-            },
-            [](qpalm::QPALMData &d, qpalm::sparse_mat_t Q) {
-                check_dim(Q, "Q", d.n, d.n);
-                d.set_Q(std::move(Q));
-            })
-        .def_property(
-            "A",
-            [](qpalm::QPALMData &) -> qpalm::sparse_mat_t {
-                throw std::logic_error("Not implemented");
-            },
-            [](qpalm::QPALMData &d, qpalm::sparse_mat_t A) {
-                check_dim(A, "A", d.m, d.n);
-                d.set_A(std::move(A));
-            })
-        .def_property(
-            "q",
-            [](qpalm::QPALMData &) -> qpalm::vec_t { throw std::logic_error("Not implemented"); },
+            "q", [](const qpalm::QPALMData &d) -> qpalm::vec_t { return d.q; },
             [](qpalm::QPALMData &d, qpalm::vec_t q) {
                 check_dim(q, "q", d.n);
                 d.q = (std::move(q));
             })
         .def_readwrite("c", &qpalm::QPALMData::c)
         .def_property(
-            "bmin",
-            [](qpalm::QPALMData &) -> qpalm::vec_t { throw std::logic_error("Not implemented"); },
+            "bmin", [](const qpalm::QPALMData &d) -> qpalm::vec_t { return d.bmin; },
             [](qpalm::QPALMData &d, qpalm::vec_t b) {
                 check_dim(b, "bmin", d.m);
                 d.bmin = std::move(b);
             })
         .def_property(
-            "bmax",
-            [](qpalm::QPALMData &) -> qpalm::vec_t { throw std::logic_error("Not implemented"); },
+            "bmax", [](const qpalm::QPALMData &d) -> qpalm::vec_t { return d.bmax; },
             [](qpalm::QPALMData &d, qpalm::vec_t b) {
                 check_dim(b, "bmax", d.m);
                 d.bmax = std::move(b);

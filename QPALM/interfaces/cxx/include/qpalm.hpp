@@ -31,6 +31,13 @@ class QPALMData {
     void set_A(const sparse_mat_t &A) { this->A = eigen_to_ladel_copy(A); }
     const ::QPALMData &get_c_data() const;
 
+    sparse_mat_view_t get_Q() const {
+        return {Q->nrow, Q->ncol, Q->nzmax, Q->p, Q->i, Q->x, Q->nz};
+    }
+    sparse_mat_view_t get_A() const {
+        return {A->nrow, A->ncol, A->nzmax, A->p, A->i, A->x, A->nz};
+    }
+
   private:
     mutable ::QPALMData data{};
 };

@@ -18,6 +18,8 @@ using index_t = Eigen::Index;
 using sp_index_t = ladel_int;
 /// Owning sparse matrix type.
 using sparse_mat_t = Eigen::SparseMatrix<c_float, Eigen::ColMajor, sp_index_t>;
+/// Read-only view on a sparse matrix.
+using sparse_mat_view_t = Eigen::Map<const sparse_mat_t>;
 /// Owning dense vector type.
 using vec_t = Eigen::Matrix<c_float, Eigen::Dynamic, 1>;
 /// Borrowed dense vector type (vector view).
@@ -42,10 +44,10 @@ using ladel_sparse_matrix_ptr =
 
 /// Convert an Eigen sparse matrix to a LADEL sparse matrix, without creating
 /// a copy.
-/// @note   The returned object contains pointers to the data of @p mat, so do 
-///         not reallocate or deallocate using the @c ladel_sparse_free 
+/// @note   The returned object contains pointers to the data of @p mat, so do
+///         not reallocate or deallocate using the @c ladel_sparse_free
 ///         and similar functions. Modifications of the returned LADEL matrix
-///         will affect the original Eigen matrix, so make sure that the 
+///         will affect the original Eigen matrix, so make sure that the
 ///         representation remains consistent.
 inline ladel_sparse_matrix eigen_to_ladel(sparse_mat_t &mat,
                                           ladel_int symmetry = UNSYMMETRIC);
