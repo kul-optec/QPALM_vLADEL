@@ -36,6 +36,7 @@ extern "C" {
 
 /**
  * @defgroup solver-grp Main solver API
+ * @brief   The main C API of the QPALM solver.
  * @{
  */
 

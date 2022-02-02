@@ -228,6 +228,14 @@ PYBIND11_MODULE(MODULE_NAME, m) {
                                py::cpp_function( // https://github.com/pybind/pybind11/issues/2618
                                    &qpalm::QPALMSolver::get_info,
                                    py::return_value_policy::reference, py::keep_alive<0, 1>()))
+        .def_property_readonly("prim_inf_certificate",
+                               py::cpp_function( // https://github.com/pybind/pybind11/issues/2618
+                                   &qpalm::QPALMSolver::get_prim_inf_certificate,
+                                   py::return_value_policy::copy, py::keep_alive<0, 1>()))
+        .def_property_readonly("dual_inf_certificate",
+                               py::cpp_function( // https://github.com/pybind/pybind11/issues/2618
+                                   &qpalm::QPALMSolver::get_dual_inf_certificate,
+                                   py::return_value_policy::copy, py::keep_alive<0, 1>()))
         .def(
             "_get_c_work_ptr",
             [](qpalm::QPALMSolver &self) -> const void * { return self.get_c_work_ptr(); },

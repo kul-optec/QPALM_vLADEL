@@ -26,7 +26,7 @@ struct qpalm_workspace_cleaner {
 } // namespace alloc
 
 /**
- * Represents the matrices and vectors that define the problem.
+ * Stores the matrices and vectors that define the problem.
  * @f{align*}{ 
  * & \operatorname*{\mathrm{minimize}}_x
  *      & & \tfrac{1}{2}x^\top Q x + q^\top x + c \\
@@ -106,7 +106,6 @@ using ::QPALMInfo;
  * @note   This is just a view of the solution, which is invalidated when the
  *         solver object is destroyed. Create a copy of @c x and @c y as type
  *         @c vec_t if you need the solution after the solver is gone.
- * @ingroup qpalm-cxx-grp
  */
 struct QPALMSolutionView {
     const_borrowed_vec_t x{nullptr, 0};
@@ -156,6 +155,11 @@ class QPALMSolver {
     /// @note   Returns a reference that is only valid as long as the solver is
     ///         not destroyed.
     const QPALMInfo &get_info() const;
+
+    /// Get the certificate of primal infeasibility of the problem.
+    const_borrowed_vec_t get_prim_inf_certificate() const;
+    /// Get the certificate of dual infeasibility of the problem.
+    const_borrowed_vec_t get_dual_inf_certificate() const;
 
     /// Get the problem dimension @f$ n @f$ (size of @f$ x @f$).
     /// @see    @ref QPALMData::n

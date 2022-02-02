@@ -67,6 +67,17 @@ const QPALMInfo &QPALMSolver::get_info() const {
     assert(work->info);
     return *work->info;
 }
+
+const_borrowed_vec_t QPALMSolver::get_prim_inf_certificate() const {
+    auto em = static_cast<Eigen::Index>(work->data->m);
+    return {work->delta_y, em};
+}
+
+const_borrowed_vec_t QPALMSolver::get_dual_inf_certificate() const {
+    auto en = static_cast<Eigen::Index>(work->data->n);
+    return {work->delta_x, en};
+}
+
 void alloc::qpalm_workspace_cleaner::operator()(::QPALMWorkspace *w) const {
     ::qpalm_cleanup(w);
 }
