@@ -18,4 +18,4 @@ endif()
 install(TARGETS qpalm_jll
         EXCLUDE_FROM_ALL
         COMPONENT julia_modules
-        LIBRARY DESTINATION .)
+        LIBRARY DESTINATION lib)
