@@ -88,9 +88,27 @@ Work in progress ...
 
 ## C/C++ installation
 
-QPALM currently offers no install target for the C/C++ libraries and headers,
-but you can easily add it to your own CMake projects using e.g.
-`add_subdirectory`. If you do so, include the `QPALM` subfolder (the one with
-the `include`, `mex` and `src` directories in it), not the root of the 
-directory, which is the developer project (which includes extra warnings, tests,
-code coverage, etc.).
+To install the C and C++ libraries and headers, simply follow the standard 
+CMake configure, build, install instructions:
+
+```sh
+cmake -B build -S QPALM \
+    -D CMAKE_BUILD_TYPE=Release \
+    -D QPALM_WITH_CXX=On \
+    -D CMAKE_POSITION_INDEPENDENT_CODE=On
+cmake --build build --config Release -j
+cmake --install build --config Release --prefix /usr/local
+cmake --install build/QPALM/LADEL --prefix /usr/local
+```
+
+If you just need the shared libraries, you can use:
+```sh
+cmake -B build -S QPALM \
+    -D CMAKE_BUILD_TYPE=Release \
+    -D QPALM_WITH_CXX=On \
+    -D CMAKE_POSITION_INDEPENDENT_CODE=On \
+    -D BUILD_SHARED_LIBS=On
+cmake --build build --config Release -j
+cmake --install build --config Release --component shlib --prefix /usr/local
+cmake --install build/LADEL --component shlib --prefix /usr/local
+```

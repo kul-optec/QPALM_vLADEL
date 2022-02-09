@@ -24,12 +24,25 @@ from [PyPI](https://pypi.org/project/qpalm/):
 python3 -m pip install qpalm
 ```
 
-To install the Matlab interface, download `qpalm-matlab.tar.gz` from the 
+To install the Matlab interface, download `qpalm-matlab-linux.tar.gz` or 
+`qpalm-matlab-windows.zip` from the 
 [releases page](https://github.com/tttapa/QPALM-minimal/releases/latest), and 
-extract it into the `~/Documents/MATLAB` folder. As a one-liner:
+extract it into the `~/Documents/MATLAB` folder.  
+As a one-liner for Linux:
 ```sh
-wget https://github.com/tttapa/QPALM-minimal/releases/download/0.0.0a2/qpalm-matlab.tar.gz -O- | tar xz -C ~/Documents/MATLAB
+wget https://github.com/tttapa/QPALM-minimal/releases/download/0.0.0a2/qpalm-matlab-linux.tar.gz -O- | tar xz -C ~/Documents/MATLAB
 ```
+
+For the full instructions to build QPALM from source, please see 
+<https://tttapa.github.io/QPALM-minimal/Doxygen/installation-md.html>
+
+## Supported platforms
+
+QPALM is written in C, with interfaces for C++, Python, Julia and Matlab.  
+Binaries are available for Linux on x86-64 and AArch64<sup>*</sup> and for
+Windows on x86-64.
+
+<sup>(*) Except Matlab.</sup>
 
 ## Benchmarks
 
@@ -55,6 +68,11 @@ If you use QPALM in your research, please cite the following paper:
 	month       = {Dec.},
 }
 ```
+
+## Previous versions
+
+The original repository by Ben Hermans at <https://github.com/Benny44/QPALM_vLADEL>
+will no longer be maintained.
 
 ## License
 
