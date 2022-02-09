@@ -62,7 +62,7 @@ target_link_libraries(qpalm-obj PRIVATE qpalm_lax_warnings)
 set_target_properties(qpalm-obj PROPERTIES C_VISIBILITY_PRESET hidden)
 target_compile_definitions(qpalm-obj
     PRIVATE QPALM_EXPORTS
-    INTERFACE $<STREQUAL:$<TARGET_PROPERTY:qpalm,TYPE>,SHARED_LIBRARY>:QPALM_IMPORTS>)
+    INTERFACE $<$<STREQUAL:$<TARGET_PROPERTY:qpalm,TYPE>,SHARED_LIBRARY>:QPALM_IMPORTS>)
 if (NOT WIN32)
     target_link_libraries(qpalm-obj PRIVATE m)
 endif()

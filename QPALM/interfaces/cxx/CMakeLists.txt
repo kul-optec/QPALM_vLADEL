@@ -14,7 +14,7 @@ target_link_libraries(qpalm_cxx PRIVATE qpalm_warnings)
 target_link_libraries(qpalm_cxx PUBLIC ${PROJECT_NAME}::qpalm Eigen3::Eigen)
 target_compile_definitions(qpalm_cxx 
     PRIVATE QPALM_CXX_EXPORTS
-    INTERFACE $<STREQUAL:$<TARGET_PROPERTY:qpalm_cxx,TYPE>,SHARED_LIBRARY>:QPALM_CXX_IMPORTS>)
+    INTERFACE $<$<STREQUAL:$<TARGET_PROPERTY:qpalm_cxx,TYPE>,SHARED_LIBRARY>:QPALM_CXX_IMPORTS>)
 set_target_properties(qpalm-obj PROPERTIES 
     C_VISIBILITY_PRESET hidden
     CXX_VISIBILITY_PRESET hidden)
