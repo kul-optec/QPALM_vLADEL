@@ -30,6 +30,19 @@ endif()
 
 set(QPALM_WARNINGS_AS_ERRORS On)
 
+# Source code
 add_subdirectory(QPALM)
-add_subdirectory(examples)
-add_subdirectory(test)
+
+# Examples
+option(QPALM_WITH_EXAMPLES
+    "Build the example programs" On)
+if (QPALM_WITH_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+
+# Unit tests
+option(QPALM_WITH_TESTS
+    "Build the unit tests" On)
+if (QPALM_WITH_TESTS)
+    add_subdirectory(test)
+endif()
