@@ -35,5 +35,5 @@ if (${CMAKE_VERSION} VERSION_GREATER_EQUAL 3.21)
         COMMAND_EXPAND_LISTS)
 endif()
 
-gtest_discover_tests(tests)
+gtest_discover_tests(tests DISCOVERY_TIMEOUT 60)
 add_executable(QPALM::tests ALIAS tests)
