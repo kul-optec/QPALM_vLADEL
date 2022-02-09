@@ -11,7 +11,7 @@ matlab_add_mex(
     LINK_TO QPALM::qpalm LADEL::mex_util # Dependencies
 )
 target_include_directories(qpalm_mex PRIVATE include)
-if (NOT WIN32)
+if (NOT WIN32 AND NOT APPLE)
     # Matlab's C++ standard library is too old, so link it statically:
     target_link_options(qpalm_mex PUBLIC -static-libstdc++ -static-libgcc)
 endif()

@@ -30,7 +30,7 @@ target_compile_definitions(_qpalm PRIVATE
 set_target_properties(_qpalm PROPERTIES 
     CXX_VISIBILITY_PRESET hidden
     C_VISIBILITY_PRESET hidden)
-if (NOT WIN32)
+if (NOT WIN32 AND NOT APPLE)
     target_link_options(_qpalm PRIVATE "LINKER:--exclude-libs,ALL")
 endif()
 
