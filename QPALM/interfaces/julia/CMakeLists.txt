@@ -15,7 +15,8 @@ if (NOT WIN32 AND NOT APPLE) # Make sure LADEL is included privately
 endif()
 
 # Install the QPALM shared library Julia module
+include(GNUInstallDirs)
 install(TARGETS qpalm_jll
         EXCLUDE_FROM_ALL
         COMPONENT julia_modules
-        LIBRARY DESTINATION lib)
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
