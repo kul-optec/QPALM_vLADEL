@@ -26,5 +26,14 @@ target_include_directories(tests
 target_link_libraries(tests PRIVATE qpalm-obj)
 target_link_libraries(tests PRIVATE GTest::gtest_main)
 
+if (${CMAKE_VERSION} VERSION_GREATER_EQUAL 3.21) 
+    # Copy DLLs for test executable
+    add_custom_command(TARGET tests PRE_LINK COMMAND
+        COMMAND ${CMAKE_COMMAND} -E 
+            $<IF:$<BOOL:$<TARGET_RUNTIME_DLLS:tests>>,copy,true>
+            $<TARGET_RUNTIME_DLLS:tests> $<TARGET_FILE_DIR:tests>
+        COMMAND_EXPAND_LISTS)
+endif()
+
 gtest_discover_tests(tests)
 add_executable(QPALM::tests ALIAS tests)

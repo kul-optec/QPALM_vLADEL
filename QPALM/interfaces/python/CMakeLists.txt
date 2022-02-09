@@ -9,6 +9,12 @@ if (DEFINED VERIFY_VERSION)
     endif()
 endif()
 
+# Python interface requires the C++ interface
+if (NOT QPALM_WITH_CXX)
+    message(FATAL_ERROR "QPALM Python interface requires the C++ interface."
+                        "Enable it using -DQPALM_WITH_CXX=On.")
+endif()
+
 # Find the Pybind11 headers
 include(cmake/QueryPythonForPybind11.cmake)
 find_pybind11_python_first()

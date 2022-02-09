@@ -15,14 +15,18 @@
 #    ifdef __GNUC__
 #        ifdef QPALM_EXPORTS
 #            define QPALM_EXPORT __attribute__((dllexport))
-#        else
+#        elif QPALM_IMPORTS
 #            define QPALM_EXPORT __attribute__((dllimport))
+#        else
+#            define QPALM_EXPORT
 #        endif
 #    else /* __GNUC__ */
 #        ifdef QPALM_EXPORTS
-#            define QPALM_EXPORT __dllspec(dllexport)
+#            define QPALM_EXPORT __declspec(dllexport)
+#        elif QPALM_IMPORTS
+#            define QPALM_EXPORT __declspec(dllimport)
 #        else
-#            define QPALM_EXPORT __dllspec(dllimport)
+#            define QPALM_EXPORT
 #        endif
 #    endif /* __GNUC__ */
 #else /* WIN32 */

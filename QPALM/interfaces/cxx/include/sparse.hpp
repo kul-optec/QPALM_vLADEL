@@ -10,6 +10,8 @@
 
 #include <memory> // unique_ptr
 
+#include <qpalm_cxx-export.hpp>
+
 namespace qpalm {
 
 /// Index types for vectors and matrices.
@@ -35,7 +37,7 @@ using const_ref_vec_t = Eigen::Ref<const vec_t>;
 
 namespace alloc {
 struct ladel_sparse_matrix_deleter {
-    void operator()(ladel_sparse_matrix *) const;
+    QPALM_CXX_EXPORT void operator()(ladel_sparse_matrix *) const;
 };
 } // namespace alloc
 
@@ -51,13 +53,13 @@ using ladel_sparse_matrix_ptr =
 ///         and similar functions. Modifications of the returned LADEL matrix
 ///         will affect the original Eigen matrix, so make sure that the
 ///         representation remains consistent.
-inline ladel_sparse_matrix eigen_to_ladel(sparse_mat_t &mat,
+QPALM_CXX_EXPORT ladel_sparse_matrix eigen_to_ladel(sparse_mat_t &mat,
                                           ladel_int symmetry = UNSYMMETRIC);
 
 /// Similar to @ref eigen_to_ladel, but creates a copy of all data, in such a
 /// way that the returned matrix is completely decoupled from @p mat, and such
 /// that it can be reallocated and deallocated by the @c ladel_sparse_free
 /// and similar functions.
-ladel_sparse_matrix_ptr eigen_to_ladel_copy(const sparse_mat_t &mat);
+QPALM_CXX_EXPORT ladel_sparse_matrix_ptr eigen_to_ladel_copy(const sparse_mat_t &mat);
 
 } // namespace qpalm

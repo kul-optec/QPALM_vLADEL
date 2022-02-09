@@ -21,7 +21,7 @@ namespace qpalm {
 namespace alloc {
 /// Callable that cleans up the given workspace.
 struct qpalm_workspace_cleaner {
-    void operator()(::QPALMWorkspace *) const;
+    QPALM_CXX_EXPORT void operator()(::QPALMWorkspace *) const;
 };
 } // namespace alloc
 
@@ -68,7 +68,7 @@ class QPALMData {
     }
     /// Get a pointer to the underlying C data structure.
     /// @see    @ref ::QPALMData
-    const ::QPALMData *get_c_data_ptr() const;
+    QPALM_CXX_EXPORT const ::QPALMData *get_c_data_ptr() const;
 
     /// Get a view on the Q matrix of the problem.
     sparse_mat_view_t get_Q() const {
@@ -91,7 +91,7 @@ class QPALMData {
 struct QPALMSettings : ::QPALMSettings {
     /// Construct with default settings.
     /// @see    @ref qpalm_set_default_settings
-    QPALMSettings();
+    QPALM_CXX_EXPORT QPALMSettings();
 };
 
 /**
@@ -122,44 +122,44 @@ class QPALMSolver {
   public:
     /// Create a new solver for the problem defined by @p data and with the
     /// parameters defined by @p settings.
-    QPALMSolver(const QPALMData &data, const QPALMSettings &settings);
+    QPALM_CXX_EXPORT QPALMSolver(const QPALMData &data, const QPALMSettings &settings);
 
     /// @see    @ref ::qpalm_update_settings
-    void update_settings(const QPALMSettings &settings);
+    QPALM_CXX_EXPORT void update_settings(const QPALMSettings &settings);
     /// @see    @ref ::qpalm_update_bounds
-    void update_bounds(std::optional<const_ref_vec_t> bmin,
+    QPALM_CXX_EXPORT void update_bounds(std::optional<const_ref_vec_t> bmin,
                        std::optional<const_ref_vec_t> bmax);
     /// @see    @ref ::qpalm_update_q
-    void update_q(const_ref_vec_t q);
+    QPALM_CXX_EXPORT void update_q(const_ref_vec_t q);
     /// @see    @ref ::qpalm_update_Q_A
     /// @note   Updates only the values, sparsity pattern should remain the
     ///         same.
-    void update_Q_A(const_ref_vec_t Q_vals, const_ref_vec_t A_vals);
+    QPALM_CXX_EXPORT void update_Q_A(const_ref_vec_t Q_vals, const_ref_vec_t A_vals);
 
     /// @see    @ref ::qpalm_warm_start
-    void warm_start(std::optional<const_ref_vec_t> x,
+    QPALM_CXX_EXPORT void warm_start(std::optional<const_ref_vec_t> x,
                     std::optional<const_ref_vec_t> y);
 
     /// Solve the problem. The solution will be available through
     /// @ref get_solution() and the solver information and statistics through
     /// @ref get_info().
     /// @see    @ref ::qpalm_solve
-    void solve();
+    QPALM_CXX_EXPORT void solve();
 
     /// Get the solution computed by @ref solve().
     /// @note   Returns a view that is only valid as long as the solver is not
     ///         destroyed.
     /// @see    @ref QPALMWorkspace::solution
-    QPALMSolutionView get_solution() const;
+    QPALM_CXX_EXPORT QPALMSolutionView get_solution() const;
     /// Get the solver information from the last call to @ref solve().
     /// @note   Returns a reference that is only valid as long as the solver is
     ///         not destroyed.
-    const QPALMInfo &get_info() const;
+    QPALM_CXX_EXPORT const QPALMInfo &get_info() const;
 
     /// Get the certificate of primal infeasibility of the problem.
-    const_borrowed_vec_t get_prim_inf_certificate() const;
+    QPALM_CXX_EXPORT const_borrowed_vec_t get_prim_inf_certificate() const;
     /// Get the certificate of dual infeasibility of the problem.
-    const_borrowed_vec_t get_dual_inf_certificate() const;
+    QPALM_CXX_EXPORT const_borrowed_vec_t get_dual_inf_certificate() const;
 
     /// Get the problem dimension @f$ n @f$ (size of @f$ x @f$).
     /// @see    @ref QPALMData::n
@@ -170,7 +170,7 @@ class QPALMSolver {
 
     /// Get a pointer to the underlying C workspace data structure.
     /// @see    @ref ::QPALMWorkspace
-    const ::QPALMWorkspace *get_c_work_ptr() const { return work.get(); }
+    QPALM_CXX_EXPORT const ::QPALMWorkspace *get_c_work_ptr() const { return work.get(); }
 
   private:
     using workspace_ptr =
