@@ -57,5 +57,7 @@ elseif (CMAKE_C_COMPILER_ID MATCHES "MSVC")
 else()
     message(FATAL_ERROR "No known warnings for this compiler")
 endif()
+add_library(${PROJECT_NAME}::qpalm_lax_warnings ALIAS qpalm_lax_warnings)
+add_library(${PROJECT_NAME}::qpalm_warnings ALIAS qpalm_warnings)
 
 set(CMAKE_DEBUG_POSTFIX "d")

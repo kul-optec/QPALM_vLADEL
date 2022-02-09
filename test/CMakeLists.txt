@@ -27,4 +27,4 @@ target_link_libraries(tests PRIVATE QPALM::qpalm)
 target_link_libraries(tests PRIVATE GTest::gtest_main)
 
 gtest_discover_tests(tests)
-add_executable(qpalm::tests ALIAS tests)
+add_executable(QPALM::tests ALIAS tests)

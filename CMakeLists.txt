@@ -17,7 +17,7 @@ if (QPALM_WITH_COVERAGE)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage -fno-inline")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -fno-inline")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
-    add_dependencies(coverage qpalm::tests)
+    add_dependencies(coverage QPALM::tests)
 endif()
 
 # Add documentation target

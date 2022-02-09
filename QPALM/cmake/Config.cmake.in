@@ -3,4 +3,4 @@
 include(CMakeFindDependencyMacro)
 find_dependency(ladel)
 
-include ("${CMAKE_CURRENT_LIST_DIR}/qpalmTargets.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/QPALMTargets.cmake")
