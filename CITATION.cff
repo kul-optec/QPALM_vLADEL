@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use QPALM in your research, please cite the following paper."
+authors:
+- family-names: "Hermans"
+  given-names: "Ben"
+- family-names: "Themelis"
+  given-names: "Andreas"
+- family-names: "Patrinos"
+  given-names: "Panagiotis"
+title: "QPALM: A Newton-type Proximal Augmented Lagrangian Method for Quadratic Programs"
+version: 0.0.0
+doi: 10.5281/zenodo.5939473
+date-released: 2022-02-01
+url: "https://github.com/kul-optec/QPALM"
