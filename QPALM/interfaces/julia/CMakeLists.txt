@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.17)
+
+add_library(qpalm_jll SHARED "qpalm_julia.c")
+set_target_properties(qpalm_jll PROPERTIES C_VISIBILITY_PRESET hidden)
+target_link_libraries(qpalm_jll PUBLIC qpalm-obj)
+target_link_libraries(qpalm_jll PRIVATE qpalm_lax_warnings)
+if (NOT WIN32) # Make sure LADEL is included privately
+    # target_link_options(qpalm_jll PRIVATE 
+    #     "LINKER:--exclude-libs,$<TARGET_FILE_BASE_NAME:ladel>")
+    target_link_options(qpalm_jll PRIVATE 
+        "LINKER:--exclude-libs,ALL")
+endif()
+
+# Install the QPALM shared library Julia module
+install(TARGETS qpalm_jll
+        EXCLUDE_FROM_ALL
+        COMPONENT julia_modules
+        LIBRARY DESTINATION .)

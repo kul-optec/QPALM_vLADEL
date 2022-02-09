@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.17)
 project(QPALM VERSION 0.0.0)
 set(PY_VERSION_SUFFIX "a2")
 
@@ -9,23 +9,41 @@ option(QPALM_TIMING "Enable timing" On)
 option(QPALM_PRINTING "Allow printing" On)
 option(QPALM_WITH_CXX "Build the C++ interface" Off)
 option(QPALM_WITH_PYTHON "Build the Python interface" Off)
+option(QPALM_WITH_JULIA "Build the Julia interface" Off)
 option(QPALM_WITH_MEX "Build the MATLAB interface" Off)
 
 include(cmake/GlobalCompileOptions.cmake)
 
 # LADEL linear algebra C library
 function(add_ladel)
-    set(CMAKE_POSITION_INDEPENDENT_CODE On) # scoped
     set(LADEL_WITH_MEX ${QPALM_WITH_MEX})
     add_subdirectory(../LADEL/LADEL LADEL EXCLUDE_FROM_ALL)
 endfunction()
 add_ladel()
 
-cmake_policy(SET CMP0094 NEW)
-set(Python3_FIND_REGISTRY NEVER)
-
 # QPALM C library
-add_library(qpalm
+add_library(qpalm-headers INTERFACE)
+target_include_directories(qpalm-headers
+    INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+              $<INSTALL_INTERFACE:include>)
+target_compile_definitions(qpalm-headers INTERFACE USE_LADEL)
+if (QPALM_NONCONVEX)
+    target_compile_definitions(qpalm-headers INTERFACE COMPILE_NONCONVEX)
+endif()
+if (QPALM_TIMING)
+    target_compile_definitions(qpalm-headers INTERFACE PROFILING)
+endif()
+if (QPALM_PRINTING)
+    target_compile_definitions(qpalm-headers INTERFACE PRINTING)
+endif()
+target_compile_definitions(qpalm-headers 
+    INTERFACE QPALM_VERSION_STR=\"${QPALM_VERSION}${PY_VERSION_SUFFIX}\"
+              QPALM_VERSION_MAJOR=${QPALM_VERSION_MAJOR}
+              QPALM_VERSION_MINOR=${QPALM_VERSION_MINOR}
+              QPALM_VERSION_PATCH=${QPALM_VERSION_PATCH})
+target_link_libraries(qpalm-headers INTERFACE LADEL::ladel)
+
+add_library(qpalm-obj OBJECT
     "src/iteration.c"
     "src/lin_alg.c"
     "src/linesearch.c"
@@ -39,36 +57,34 @@ add_library(qpalm
     "src/validate.c"
     "src/global_opts.c"
 )
-target_include_directories(qpalm
-    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-           $<INSTALL_INTERFACE:include>
-)
-target_link_libraries(qpalm PRIVATE qpalm_lax_warnings)
-target_link_libraries(qpalm PUBLIC ladel)
-set_target_properties(qpalm PROPERTIES POSITION_INDEPENDENT_CODE On)
-target_compile_definitions(qpalm 
-    PUBLIC QPALM_VERSION_STR=\"${QPALM_VERSION}${PY_VERSION_SUFFIX}\"
-           QPALM_VERSION_MAJOR=${QPALM_VERSION_MAJOR}
-           QPALM_VERSION_MINOR=${QPALM_VERSION_MINOR}
-           QPALM_VERSION_PATCH=${QPALM_VERSION_PATCH})
+target_link_libraries(qpalm-obj PUBLIC qpalm-headers)
+target_link_libraries(qpalm-obj PRIVATE qpalm_lax_warnings)
+set_target_properties(qpalm-obj PROPERTIES C_VISIBILITY_PRESET hidden)
+target_compile_definitions(qpalm-obj PRIVATE QPALM_EXPORTS)
 if (NOT WIN32)
-    target_link_libraries(qpalm PRIVATE m)
+    target_link_libraries(qpalm-obj PRIVATE m)
 endif()
 
-target_compile_definitions(qpalm PUBLIC USE_LADEL)
-if (QPALM_NONCONVEX)
-    target_compile_definitions(qpalm PUBLIC COMPILE_NONCONVEX)
-endif()
-if (QPALM_TIMING)
-    target_compile_definitions(qpalm PUBLIC PROFILING)
-endif()
-if (QPALM_PRINTING)
-    target_compile_definitions(qpalm PUBLIC PRINTING)
-endif()
-if (QPALM_WITH_PYTHON)
-    find_package(Python3 REQUIRED COMPONENTS Development)
-    target_link_libraries(qpalm PUBLIC Python3::Module)
-endif()
-add_library(qpalm::qpalm ALIAS qpalm)
+add_library(qpalm)
+target_link_libraries(qpalm PUBLIC qpalm-obj)
+set_target_properties(qpalm PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR})
+add_library(${PROJECT_NAME}::qpalm ALIAS qpalm)
 
+# C++, Python, Julia, Matlab interfaces
 add_subdirectory(interfaces)
+
+# Installation
+include(cmake/Install.cmake)
+
+# Packaging
+include(InstallRequiredSystemLibraries)
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/../LICENSE")
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../README.md")
+SET(CPACK_GENERATOR "DEB;TGZ")
+SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Pieter P")
+include(CPack)

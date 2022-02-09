@@ -11,6 +11,24 @@
 #ifndef GLOBAL_OPTS_H
 # define GLOBAL_OPTS_H
 
+#ifdef WIN32
+#    ifdef __GNUC__
+#        ifdef QPALM_EXPORTS
+#            define QPALM_EXPORT __attribute__((dllexport))
+#        else
+#            define QPALM_EXPORT __attribute__((dllimport))
+#        endif
+#    else /* __GNUC__ */
+#        ifdef QPALM_EXPORTS
+#            define QPALM_EXPORT __dllspec(dllexport)
+#        else
+#            define QPALM_EXPORT __dllspec(dllimport)
+#        endif
+#    endif /* __GNUC__ */
+#else /* WIN32 */
+#    define QPALM_EXPORT __attribute__((visibility("default")))
+#endif /* WIN32 */
+
 # ifdef __cplusplus
 extern "C" {
 # endif 

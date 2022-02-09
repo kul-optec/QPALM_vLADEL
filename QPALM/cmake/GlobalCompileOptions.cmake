@@ -57,3 +57,5 @@ elseif (CMAKE_C_COMPILER_ID MATCHES "MSVC")
 else()
     message(FATAL_ERROR "No known warnings for this compiler")
 endif()
+
+set(CMAKE_DEBUG_POSTFIX "d")

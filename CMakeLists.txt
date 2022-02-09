@@ -1,7 +1,7 @@
 # This is the CMake file for developers. If you are a user or a packager, please
 # see QPALM/CMakeLists.txt instead.
 
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.17)
 project(QPALM-dev)
 enable_testing()
 

@@ -8,7 +8,7 @@ find_package(Matlab REQUIRED COMPONENTS MEX_COMPILER)
 matlab_add_mex(
     NAME qpalm_mex                       # Name for use in Matlab
     SRC src/qpalm_mex.c                  # Source files to compile
-    LINK_TO qpalm::qpalm ladel::mex_util # Dependencies
+    LINK_TO QPALM::qpalm LADEL::mex_util # Dependencies
 )
 target_include_directories(qpalm_mex PRIVATE include)
 if (NOT WIN32)

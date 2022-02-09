@@ -23,7 +23,7 @@ target_include_directories(tests
             include/Minunit
 )
 
-target_link_libraries(tests PRIVATE qpalm::qpalm)
+target_link_libraries(tests PRIVATE QPALM::qpalm)
 target_link_libraries(tests PRIVATE GTest::gtest_main)
 
 gtest_discover_tests(tests)

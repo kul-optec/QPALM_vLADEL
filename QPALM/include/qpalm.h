@@ -45,7 +45,7 @@ extern "C" {
  * Assumes settings are already allocated in memory.
  * @param settings Settings structure
  */
-void qpalm_set_default_settings(QPALMSettings *settings);
+QPALM_EXPORT void qpalm_set_default_settings(QPALMSettings *settings);
 
 
 /**
@@ -61,7 +61,7 @@ void qpalm_set_default_settings(QPALMSettings *settings);
  * @param  settings     Solver settings
  * @return              Solver environment
  */
-QPALMWorkspace* qpalm_setup(const QPALMData     *data,
+QPALM_EXPORT QPALMWorkspace* qpalm_setup(const QPALMData     *data,
                             const QPALMSettings *settings);
 
 
@@ -76,7 +76,7 @@ QPALMWorkspace* qpalm_setup(const QPALMData     *data,
  * @param x_warm_start Warm start for the primal variables
  * @param y_warm_start Warm start for the dual variables
  */
-void qpalm_warm_start(QPALMWorkspace *work, 
+QPALM_EXPORT void qpalm_warm_start(QPALMWorkspace *work, 
                       const c_float  *x_warm_start, 
                       const c_float  *y_warm_start);
 
@@ -95,7 +95,7 @@ void qpalm_warm_start(QPALMWorkspace *work,
  *
  * @param  work Workspace
  */
-void qpalm_solve(QPALMWorkspace *work);
+QPALM_EXPORT void qpalm_solve(QPALMWorkspace *work);
 
 
 /**
@@ -106,7 +106,7 @@ void qpalm_solve(QPALMWorkspace *work);
  * @param work Workspace
  * @param settings New settings
  */
-void qpalm_update_settings(QPALMWorkspace      *work, 
+QPALM_EXPORT void qpalm_update_settings(QPALMWorkspace      *work, 
                            const QPALMSettings *settings);
 
 /**
@@ -118,7 +118,7 @@ void qpalm_update_settings(QPALMWorkspace      *work,
  * @param bmin New lower bounds
  * @param bmax New upper bounds
  */
-void qpalm_update_bounds(QPALMWorkspace *work,
+QPALM_EXPORT void qpalm_update_bounds(QPALMWorkspace *work,
                          const c_float  *bmin, 
                          const c_float  *bmax);
 
@@ -130,7 +130,7 @@ void qpalm_update_bounds(QPALMWorkspace *work,
  * @param work Workspace
  * @param q Linear part of the objective
  */
-void qpalm_update_q(QPALMWorkspace  *work, 
+QPALM_EXPORT void qpalm_update_q(QPALMWorkspace  *work, 
                     const c_float   *q);
 
 /**
@@ -143,7 +143,7 @@ void qpalm_update_q(QPALMWorkspace  *work,
  * @param Qx Elements of Q (upper diagonal part)
  * @param Ax Elements of A
  */
-void qpalm_update_Q_A(QPALMWorkspace *work, 
+QPALM_EXPORT void qpalm_update_Q_A(QPALMWorkspace *work, 
                       const c_float  *Qx, 
                       const c_float  *Ax);
 
@@ -155,7 +155,7 @@ void qpalm_update_Q_A(QPALMWorkspace *work,
  * This function should be the called after the user is done using QPALM.
  * @param  work Workspace
  */
-void qpalm_cleanup(QPALMWorkspace *work);
+QPALM_EXPORT void qpalm_cleanup(QPALMWorkspace *work);
 
 /**
  * @}

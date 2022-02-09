@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.20)
 set(PY_FULL_VERSION ${PROJECT_VERSION}${PY_VERSION_SUFFIX})
 
 # Make sure that the Python and CMake versions match
@@ -13,14 +14,16 @@ include(cmake/QueryPythonForPybind11.cmake)
 find_pybind11_python_first()
 
 # Compile the example Python module
-Python3_add_library(_qpalm MODULE "qpalm.cpp")
+Python3_add_library(_qpalm MODULE "qpalm.py.cpp")
 target_compile_features(_qpalm PRIVATE cxx_std_17)
 target_link_libraries(_qpalm PRIVATE qpalm_warnings)
 target_link_libraries(_qpalm PRIVATE pybind11::pybind11 qpalm qpalm_cxx)
 target_compile_definitions(_qpalm PRIVATE
-    MODULE_NAME=_qpalm
-    VERSION_INFO="${PY_FULL_VERSION}"
-)
+    MODULE_NAME=$<TARGET_FILE_BASE_NAME:_qpalm>
+    VERSION_INFO="${PY_FULL_VERSION}")
+set_target_properties(_qpalm PROPERTIES 
+    CXX_VISIBILITY_PRESET hidden
+    C_VISIBILITY_PRESET hidden)
 if (NOT WIN32)
     target_link_options(_qpalm PRIVATE "LINKER:--exclude-libs,ALL")
 endif()
