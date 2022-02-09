@@ -12,6 +12,9 @@ target_include_directories(qpalm_cxx
 target_compile_features(qpalm_cxx PUBLIC cxx_std_17)
 target_link_libraries(qpalm_cxx PRIVATE qpalm_warnings)
 target_link_libraries(qpalm_cxx PUBLIC ${PROJECT_NAME}::qpalm Eigen3::Eigen)
+set_target_properties(qpalm_cxx PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR})
 add_library(${PROJECT_NAME}::qpalm_cxx ALIAS qpalm_cxx)
 
 include(cmake/Install.cmake)

@@ -10,7 +10,7 @@
 #define FALSE 0
 
 c_float* random_vector(c_int n) {
-  c_float* X = c_calloc(n, sizeof(c_float));
+  c_float* X = qpalm_calloc(n, sizeof(c_float));
   for (int i = 0; i < n; i++) {
     X[i] = (c_float) 10*rand()/RAND_MAX;
   }
@@ -18,7 +18,7 @@ c_float* random_vector(c_int n) {
 }
 
 c_float* constant_vector(c_float c, c_int n) {
-  c_float* X = c_calloc(n, sizeof(c_float));
+  c_float* X = qpalm_calloc(n, sizeof(c_float));
   for (int i = 0; i < n; i++) {
     X[i] = c;
   }
@@ -32,14 +32,14 @@ int main() {
   c_int m = M;
 
   // Problem settings
-  QPALMSettings *settings = (QPALMSettings *)c_malloc(sizeof(QPALMSettings));
+  QPALMSettings *settings = (QPALMSettings *)qpalm_malloc(sizeof(QPALMSettings));
 
   // Structures
   QPALMWorkspace *work; // Workspace
   QPALMData *data;      // QPALMData
 
   // Populate data
-  data    = (QPALMData *)c_malloc(sizeof(QPALMData));
+  data    = (QPALMData *)qpalm_malloc(sizeof(QPALMData));
   data->n = n;
   data->m = m;
   data->q = random_vector(data->n);
@@ -100,11 +100,11 @@ int main() {
   data->A = ladel_sparse_free(data->A);
 
   qpalm_cleanup(work);
-  c_free(data->q);
-  c_free(data->bmin);
-  c_free(data->bmax);
-  c_free(data);
-  c_free(settings);
+  qpalm_free(data->q);
+  qpalm_free(data->bmin);
+  qpalm_free(data->bmax);
+  qpalm_free(data);
+  qpalm_free(settings);
 
   return 0;
 

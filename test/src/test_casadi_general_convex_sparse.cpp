@@ -15,15 +15,15 @@ static solver_common *c;
 static solver_common common;
 
 void casadi_general_convex_sparse_suite_setup(void) {
-    settings = (QPALMSettings *)c_malloc(sizeof(QPALMSettings));
+    settings = (QPALMSettings *)qpalm_malloc(sizeof(QPALMSettings));
     qpalm_set_default_settings(settings);
     settings->eps_abs = 1e-12;
     settings->eps_rel = 1e-12;
     // settings->scaling = 0;
 
-    c_float* dummy = (c_float *)c_calloc(ANZMAX+QNZMAX, sizeof(c_float)); dummy[0] = 0; dummy[1] = 0;
-    c_int *Ai = (c_int *)c_calloc(ANZMAX, sizeof(c_int)); 
-    c_int *Ap = (c_int *)c_calloc(N+1, sizeof(c_int));
+    c_float* dummy = (c_float *)qpalm_calloc(ANZMAX+QNZMAX, sizeof(c_float)); dummy[0] = 0; dummy[1] = 0;
+    c_int *Ai = (c_int *)qpalm_calloc(ANZMAX, sizeof(c_int)); 
+    c_int *Ap = (c_int *)qpalm_calloc(N+1, sizeof(c_int));
     Ap[0] = 0; Ap[1] = 3; Ap[2] = 5; Ap[3] = 8; Ap[4] = 11; Ap[5] = 14; 
     Ai[0] = 0; Ai[1] = 5; Ai[2] = 6; Ai[3] = 1; Ai[4] = 6; Ai[5] = 2; Ai[6] = 5; Ai[7] = 6; Ai[8] = 3; Ai[9] = 5; Ai[10] = 6; Ai[11] = 4; Ai[12] = 5; Ai[13] = 6;   
 
@@ -38,8 +38,8 @@ void casadi_general_convex_sparse_suite_setup(void) {
     A.symmetry = UNSYMMETRIC;
     A.values = TRUE;
 
-    c_int *Qi = (c_int *)c_calloc(QNZMAX, sizeof(c_int)); 
-    c_int *Qp = (c_int *)c_calloc(N+1, sizeof(c_int));
+    c_int *Qi = (c_int *)qpalm_calloc(QNZMAX, sizeof(c_int)); 
+    c_int *Qp = (c_int *)qpalm_calloc(N+1, sizeof(c_int));
     Qp[0] = 0; Qp[1] = 1; Qp[2] = 3; Qp[3] = 5; Qp[4] = 6; Qp[5] = 7; 
     Qi[0] = 0; Qi[1] = 1; Qi[2] = 2; Qi[3] = 1; Qi[4] = 2; Qi[5] = 3; Qi[6] = 4;  
 
@@ -69,19 +69,19 @@ void casadi_general_convex_sparse_suite_setup(void) {
     // Setup workspace
     work = qpalm_setup(&data, settings);
 
-    c_free(dummy);
-    c_free(Ai);
-    c_free(Ap);
-    c_free(Qi);
-    c_free(Qp);
+    qpalm_free(dummy);
+    qpalm_free(Ai);
+    qpalm_free(Ap);
+    qpalm_free(Qi);
+    qpalm_free(Qp);
 
-    w = (c_float *)c_calloc(QNZMAX+ANZMAX, sizeof(c_float)); //double workspace
+    w = (c_float *)qpalm_calloc(QNZMAX+ANZMAX, sizeof(c_float)); //double workspace
 }
 
 void casadi_general_convex_sparse_suite_teardown(void) {
-    c_free(settings);
+    qpalm_free(settings);
     // Clean setup
-    c_free(w);
+    qpalm_free(w);
 }
 
 void casadi_general_convex_sparse_test_teardown(void) {

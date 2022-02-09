@@ -14,7 +14,7 @@ static solver_common common;
 
 
 void update_suite_setup(void) {
-    settings = (QPALMSettings *)c_malloc(sizeof(QPALMSettings));
+    settings = (QPALMSettings *)qpalm_malloc(sizeof(QPALMSettings));
     qpalm_set_default_settings(settings);
     settings->eps_abs = 1e-6;
     settings->eps_rel = 1e-6;
@@ -22,15 +22,15 @@ void update_suite_setup(void) {
     settings->proximal = TRUE;
     settings->factorization_method = FACTORIZE_KKT;
 
-    data = (QPALMData *)c_malloc(sizeof(QPALMData));
+    data = (QPALMData *)qpalm_malloc(sizeof(QPALMData));
     data->n = N;
     data->m = M;
     data->c = 0;
-    data->q = (c_float *)c_calloc(N,sizeof(c_float));
+    data->q = (c_float *)qpalm_calloc(N,sizeof(c_float));
     data->q[0] = 1; data->q[1] = -2; 
-    data->bmin = (c_float *)c_calloc(M,sizeof(c_float));
+    data->bmin = (c_float *)qpalm_calloc(M,sizeof(c_float));
     data->bmin[0] = -1; data->bmin[1] = -3; data->bmin[2] = -0.2; 
-    data->bmax = (c_float *)c_calloc(M,sizeof(c_float));
+    data->bmax = (c_float *)qpalm_calloc(M,sizeof(c_float));
     data->bmax[0] = 1; data->bmax[1] = 3; data->bmax[2] = 0.2; 
 
     // solver_common common;
@@ -62,14 +62,14 @@ void update_suite_setup(void) {
 }
 
 void update_suite_teardown(void) {
-    c_free(settings);
+    qpalm_free(settings);
     // Clean setup
     data->Q = ladel_sparse_free(data->Q);
     data->A = ladel_sparse_free(data->A);
-    c_free(data->q);
-    c_free(data->bmin);
-    c_free(data->bmax);
-    c_free(data);
+    qpalm_free(data->q);
+    qpalm_free(data->bmin);
+    qpalm_free(data->bmax);
+    qpalm_free(data);
 
     qpalm_cleanup(work);
 }

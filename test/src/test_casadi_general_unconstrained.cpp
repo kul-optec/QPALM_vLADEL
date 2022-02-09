@@ -15,19 +15,19 @@ static solver_common common;
 
 
 void casadi_general_unconstrained_suite_setup(void) {
-    settings = (QPALMSettings *)c_malloc(sizeof(QPALMSettings));
+    settings = (QPALMSettings *)qpalm_malloc(sizeof(QPALMSettings));
     qpalm_set_default_settings(settings);
     settings->eps_abs = 1e-12;
     settings->eps_rel = 1e-12;
 
-    data = (QPALMData *)c_malloc(sizeof(QPALMData));
+    data = (QPALMData *)qpalm_malloc(sizeof(QPALMData));
     data->n = N;
     data->m = M;
     data->c = 0;
-    data->q = (c_float *)c_calloc(N,sizeof(c_float));
+    data->q = (c_float *)qpalm_calloc(N,sizeof(c_float));
     data->q[0] = -0.7; data->q[1] = -2.3;   
-    data->bmin = (c_float *)c_calloc(M,sizeof(c_float));
-    data->bmax = (c_float *)c_calloc(M,sizeof(c_float));
+    data->bmin = (c_float *)qpalm_calloc(M,sizeof(c_float));
+    data->bmax = (c_float *)qpalm_calloc(M,sizeof(c_float));
 
     // solver_common common;
     c = &common;
@@ -50,14 +50,14 @@ void casadi_general_unconstrained_suite_setup(void) {
 }
 
 void casadi_general_unconstrained_suite_teardown(void) {
-    c_free(settings);
+    qpalm_free(settings);
     // Clean setup
     data->Q = ladel_sparse_free(data->Q);
     data->A = ladel_sparse_free(data->A);
-    c_free(data->q);
-    c_free(data->bmin);
-    c_free(data->bmax);
-    c_free(data);
+    qpalm_free(data->q);
+    qpalm_free(data->bmin);
+    qpalm_free(data->bmax);
+    qpalm_free(data);
 }
 
 void casadi_general_unconstrained_test_teardown(void) {

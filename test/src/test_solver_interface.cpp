@@ -14,12 +14,12 @@ static solver_common common, *c;
 
 
 void solver_suite_setup(void) {
-    QPALMSettings *settings = (QPALMSettings *)c_malloc(sizeof(QPALMSettings));
+    QPALMSettings *settings = (QPALMSettings *)qpalm_malloc(sizeof(QPALMSettings));
     qpalm_set_default_settings(settings);
     settings->eps_abs = 1e-6;
     settings->eps_rel = 1e-6;
 
-    QPALMData *data    = (QPALMData *)c_malloc(sizeof(QPALMData));
+    QPALMData *data    = (QPALMData *)qpalm_malloc(sizeof(QPALMData));
     data->n = N;
     data->m = M;
     data->c = 0;
@@ -58,8 +58,8 @@ void solver_suite_setup(void) {
     // Setup workspace
     work = qpalm_setup(data, settings);
 
-    c_free(data);
-    c_free(settings);
+    qpalm_free(data);
+    qpalm_free(settings);
 }
 
 void solver_suite_teardown(void) {

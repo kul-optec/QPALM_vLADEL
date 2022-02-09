@@ -10,7 +10,7 @@ QPALM_EXPORT QPALMData *qpalm_julia_set_data(c_int           n,
                                 c_float         *bmin, 
                                 c_float         *bmax) 
 {
-  QPALMData *data   = c_calloc(1, sizeof(QPALMData));
+  QPALMData *data   = qpalm_calloc(1, sizeof(QPALMData));
   data->n           = n;           
   data->m           = m;                   
   data->bmin        = bmin;      

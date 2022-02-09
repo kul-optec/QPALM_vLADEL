@@ -73,7 +73,7 @@ QPALMWorkspace* qpalm_setup(const QPALMData *data, const QPALMSettings *settings
     if (!validate_data(data)) 
     {
         # ifdef PRINTING
-        c_eprint("Data validation returned failure");
+        qpalm_eprint("Data validation returned failure");
         # endif /* ifdef PRINTING */
         return QPALM_NULL;
     }
@@ -82,25 +82,25 @@ QPALMWorkspace* qpalm_setup(const QPALMData *data, const QPALMSettings *settings
     if (!validate_settings(settings)) 
     {
         # ifdef PRINTING
-        c_eprint("Settings validation returned failure");
+        qpalm_eprint("Settings validation returned failure");
         # endif /* ifdef PRINTING */
         return QPALM_NULL;
     }
 
     // Allocate empty workspace
-    work = c_calloc(1, sizeof(QPALMWorkspace));
+    work = qpalm_calloc(1, sizeof(QPALMWorkspace));
 
     if (!work) 
     {
         # ifdef PRINTING
-        c_eprint("allocating work failure");
+        qpalm_eprint("allocating work failure");
         # endif /* ifdef PRINTING */
         return QPALM_NULL;
     }
 
     // Start and allocate directly timer
     # ifdef PROFILING
-    work->timer = c_malloc(sizeof(QPALMTimer));
+    work->timer = qpalm_malloc(sizeof(QPALMTimer));
     qpalm_tic(work->timer);
     # endif /* ifdef PROFILING */
 
@@ -113,12 +113,12 @@ QPALMWorkspace* qpalm_setup(const QPALMData *data, const QPALMSettings *settings
     size_t m = data->m;
 
     //Initialize the solver for the linear system
-    work->solver = c_calloc(1, sizeof(QPALMSolver));
+    work->solver = qpalm_calloc(1, sizeof(QPALMSolver));
     solver_common common, *c;
     c = &common;
 
     // Copy problem data into workspace
-    work->data       = c_calloc(1, sizeof(QPALMData));
+    work->data       = qpalm_calloc(1, sizeof(QPALMData));
     work->data->n    = data->n;           
     work->data->m    = data->m;                   
     work->data->bmin = vec_copy(data->bmin, m);      
@@ -131,87 +131,87 @@ QPALMWorkspace* qpalm_setup(const QPALMData *data, const QPALMSettings *settings
     ladel_to_upper_diag(work->data->Q);
 
     // Allocate internal solver variables 
-    work->x        = c_calloc(n, sizeof(c_float));
-    work->y        = c_calloc(m, sizeof(c_float));
-    work->Ax       = c_calloc(m, sizeof(c_float));
-    work->Qx       = c_calloc(n, sizeof(c_float));
-    work->x_prev   = c_calloc(n, sizeof(c_float));
-    work->Aty      = c_calloc(n, sizeof(c_float));
+    work->x        = qpalm_calloc(n, sizeof(c_float));
+    work->y        = qpalm_calloc(m, sizeof(c_float));
+    work->Ax       = qpalm_calloc(m, sizeof(c_float));
+    work->Qx       = qpalm_calloc(n, sizeof(c_float));
+    work->x_prev   = qpalm_calloc(n, sizeof(c_float));
+    work->Aty      = qpalm_calloc(n, sizeof(c_float));
 
-    work->x0 = c_calloc(n, sizeof(c_float));
+    work->x0 = qpalm_calloc(n, sizeof(c_float));
 
     work->initialized = FALSE;
 
     // Workspace variables
-    work->temp_m   = c_calloc(m, sizeof(c_float));
-    work->temp_n   = c_calloc(n, sizeof(c_float));
-    work->sigma = c_calloc(m, sizeof(c_float));
-    work->sigma_inv = c_calloc(m, sizeof(c_float));
+    work->temp_m   = qpalm_calloc(m, sizeof(c_float));
+    work->temp_n   = qpalm_calloc(n, sizeof(c_float));
+    work->sigma = qpalm_calloc(m, sizeof(c_float));
+    work->sigma_inv = qpalm_calloc(m, sizeof(c_float));
     work->nb_sigma_changed = 0;
 
-    work->z  = c_calloc(m, sizeof(c_float));
-    work->Axys = c_calloc(m, sizeof(c_float));
-    work->pri_res = c_calloc(m, sizeof(c_float));
-    work->pri_res_in = c_calloc(m, sizeof(c_float));
-    work->df = c_calloc(n, sizeof(c_float));
+    work->z  = qpalm_calloc(m, sizeof(c_float));
+    work->Axys = qpalm_calloc(m, sizeof(c_float));
+    work->pri_res = qpalm_calloc(m, sizeof(c_float));
+    work->pri_res_in = qpalm_calloc(m, sizeof(c_float));
+    work->df = qpalm_calloc(n, sizeof(c_float));
     
-    work->xx0 = c_calloc(n, sizeof(c_float));
-    work->dphi = c_calloc(n, sizeof(c_float));
-    work->dphi_prev = c_calloc(n, sizeof(c_float));
+    work->xx0 = qpalm_calloc(n, sizeof(c_float));
+    work->dphi = qpalm_calloc(n, sizeof(c_float));
+    work->dphi_prev = qpalm_calloc(n, sizeof(c_float));
 
     // Linesearch variables
-    work->sqrt_sigma  = c_calloc(m, sizeof(c_float));
-    work->delta       = c_calloc(m*2, sizeof(c_float));
-    work->alpha       = c_calloc(m*2, sizeof(c_float));
-    work->delta2      = c_calloc(m*2, sizeof(c_float));
-    work->delta_alpha = c_calloc(m*2, sizeof(c_float));
-    work->temp_2m     = c_calloc(m*2, sizeof(c_float));
-    work->s           = c_calloc(m*2, sizeof(array_element));
-    work->index_L     = c_calloc(m*2, sizeof(c_int));
-    work->index_P     = c_calloc(m*2, sizeof(c_int));
-    work->index_J     = c_calloc(m*2, sizeof(c_int));
+    work->sqrt_sigma  = qpalm_calloc(m, sizeof(c_float));
+    work->delta       = qpalm_calloc(m*2, sizeof(c_float));
+    work->alpha       = qpalm_calloc(m*2, sizeof(c_float));
+    work->delta2      = qpalm_calloc(m*2, sizeof(c_float));
+    work->delta_alpha = qpalm_calloc(m*2, sizeof(c_float));
+    work->temp_2m     = qpalm_calloc(m*2, sizeof(c_float));
+    work->s           = qpalm_calloc(m*2, sizeof(array_element));
+    work->index_L     = qpalm_calloc(m*2, sizeof(c_int));
+    work->index_P     = qpalm_calloc(m*2, sizeof(c_int));
+    work->index_J     = qpalm_calloc(m*2, sizeof(c_int));
 
     // Primal infeasibility variables
-    work->delta_y   = c_calloc(m, sizeof(c_float));
-    work->Atdelta_y = c_calloc(n, sizeof(c_float));
+    work->delta_y   = qpalm_calloc(m, sizeof(c_float));
+    work->Atdelta_y = qpalm_calloc(n, sizeof(c_float));
 
     // Dual infeasibility variables
-    work->delta_x  = c_calloc(n, sizeof(c_float));
-    work->Qdelta_x = c_calloc(n, sizeof(c_float));
-    work->Adelta_x = c_calloc(m, sizeof(c_float));
+    work->delta_x  = qpalm_calloc(n, sizeof(c_float));
+    work->Qdelta_x = qpalm_calloc(n, sizeof(c_float));
+    work->Adelta_x = qpalm_calloc(m, sizeof(c_float));
 
     qpalm_set_factorization_method(work, c);
     // c = &common;
     
     // Allocate scaling structure
-    work->scaling       = c_malloc(sizeof(QPALMScaling));
-    work->scaling->D    = c_calloc(n, sizeof(c_float));
-    work->scaling->Dinv = c_calloc(n, sizeof(c_float));
-    work->scaling->E    = c_calloc(m, sizeof(c_float));
-    work->scaling->Einv = c_calloc(m, sizeof(c_float));
+    work->scaling       = qpalm_malloc(sizeof(QPALMScaling));
+    work->scaling->D    = qpalm_calloc(n, sizeof(c_float));
+    work->scaling->Dinv = qpalm_calloc(n, sizeof(c_float));
+    work->scaling->E    = qpalm_calloc(m, sizeof(c_float));
+    work->scaling->Einv = qpalm_calloc(m, sizeof(c_float));
 
-    work->solver->E_temp = c_calloc(m, sizeof(c_float));
+    work->solver->E_temp = qpalm_calloc(m, sizeof(c_float));
     work->E_temp = work->solver->E_temp;
-    work->solver->D_temp = c_calloc(n, sizeof(c_float));
+    work->solver->D_temp = qpalm_calloc(n, sizeof(c_float));
     work->D_temp = work->solver->D_temp;
 
     // Solver variables
-    work->solver->active_constraints = c_calloc(m, sizeof(c_int));
-    work->solver->active_constraints_old = c_calloc(m, sizeof(c_int));
+    work->solver->active_constraints = qpalm_calloc(m, sizeof(c_int));
+    work->solver->active_constraints_old = qpalm_calloc(m, sizeof(c_int));
     vec_set_scalar_int(work->solver->active_constraints_old, FALSE, m);
     work->solver->reset_newton = TRUE;
-    work->solver->enter = c_calloc(m, sizeof(c_int));
-    work->solver->leave = c_calloc(m, sizeof(c_int));
+    work->solver->enter = qpalm_calloc(m, sizeof(c_int));
+    work->solver->leave = qpalm_calloc(m, sizeof(c_int));
 
     if (work->solver->factorization_method == FACTORIZE_KKT)
     {
-        work->solver->rhs_kkt = c_malloc((n+m)*sizeof(c_float));
-        work->solver->sol_kkt = c_malloc((n+m)*sizeof(c_float));
+        work->solver->rhs_kkt = qpalm_malloc((n+m)*sizeof(c_float));
+        work->solver->sol_kkt = qpalm_malloc((n+m)*sizeof(c_float));
         c_int kkt_nzmax = work->data->Q->nzmax + work->data->A->nzmax + m;
         work->solver->kkt_full = ladel_sparse_alloc(n+m, n+m, kkt_nzmax, UPPER, TRUE, FALSE);
         work->solver->kkt = ladel_sparse_alloc(n+m, n+m, kkt_nzmax, UPPER, TRUE, TRUE);
-        work->solver->first_row_A = c_malloc(m*sizeof(c_int));
-        work->solver->first_elem_A = c_malloc(m*sizeof(c_float));
+        work->solver->first_row_A = qpalm_malloc(m*sizeof(c_int));
+        work->solver->first_elem_A = qpalm_malloc(m*sizeof(c_float));
         work->solver->sym = ladel_symbolics_alloc(m+n);
     } 
     else if (work->solver->factorization_method == FACTORIZE_SCHUR)
@@ -219,19 +219,19 @@ QPALMWorkspace* qpalm_setup(const QPALMData *data, const QPALMSettings *settings
         work->solver->sym = ladel_symbolics_alloc(n);
     }
     
-    work->solver->neg_dphi = c_calloc(n, sizeof(c_float));
+    work->solver->neg_dphi = qpalm_calloc(n, sizeof(c_float));
     work->neg_dphi = work->solver->neg_dphi; 
-    work->solver->d = c_calloc(n, sizeof(c_float));
+    work->solver->d = qpalm_calloc(n, sizeof(c_float));
     work->d = work->solver->d;
-    work->solver->Qd = c_calloc(n, sizeof(c_float));
+    work->solver->Qd = qpalm_calloc(n, sizeof(c_float));
     work->Qd = work->solver->Qd;
-    work->solver->Ad = c_calloc(m, sizeof(c_float));
+    work->solver->Ad = qpalm_calloc(m, sizeof(c_float));
     work->Ad = work->solver->Ad;
-    work->solver->yh = c_calloc(m, sizeof(c_float));
+    work->solver->yh = qpalm_calloc(m, sizeof(c_float));
     work->yh = work->solver->yh;
-    work->solver->Atyh = c_calloc(n, sizeof(c_float));
+    work->solver->Atyh = qpalm_calloc(n, sizeof(c_float));
     work->Atyh = work->solver->Atyh;
-    work->solver->At_scale = c_calloc(m, sizeof(c_float));
+    work->solver->At_scale = qpalm_calloc(m, sizeof(c_float));
 
     work->solver->first_factorization = TRUE;
     
@@ -239,12 +239,12 @@ QPALMWorkspace* qpalm_setup(const QPALMData *data, const QPALMSettings *settings
         work->solver->sym_Q = ladel_symbolics_alloc(n);
 
     // Allocate solution
-    work->solution    = c_calloc(1, sizeof(QPALMSolution));
-    work->solution->x = c_calloc(1, n * sizeof(c_float));
-    work->solution->y = c_calloc(1, m * sizeof(c_float));
+    work->solution    = qpalm_calloc(1, sizeof(QPALMSolution));
+    work->solution->x = qpalm_calloc(1, n * sizeof(c_float));
+    work->solution->y = qpalm_calloc(1, m * sizeof(c_float));
     
     // Allocate and initialize information
-    work->info                = c_calloc(1, sizeof(QPALMInfo));
+    work->info                = qpalm_calloc(1, sizeof(QPALMInfo));
     update_status(work->info, QPALM_UNSOLVED);
     # ifdef PROFILING
     work->info->solve_time  = 0.0;                    // Solve time to zero
@@ -281,7 +281,7 @@ void qpalm_warm_start(QPALMWorkspace *work, const c_float *x_warm_start, const c
     } 
     else 
     {
-        c_free(work->x);
+        qpalm_free(work->x);
         work->x = NULL;
     }
 
@@ -291,7 +291,7 @@ void qpalm_warm_start(QPALMWorkspace *work, const c_float *x_warm_start, const c
     } 
     else 
     {
-        c_free(work->y);
+        qpalm_free(work->y);
         work->y = NULL;
     }
     
@@ -347,7 +347,7 @@ static void qpalm_initialize(QPALMWorkspace *work, solver_common **common1, solv
 
     if (work->x == NULL)
     {
-        work->x = c_calloc(n, sizeof(c_float));
+        work->x = qpalm_calloc(n, sizeof(c_float));
         vec_set_scalar(work->x, 0., n);
         vec_set_scalar(work->x_prev, 0., n);
         vec_set_scalar(work->x0, 0., n);
@@ -363,7 +363,7 @@ static void qpalm_initialize(QPALMWorkspace *work, solver_common **common1, solv
 
     if (work->y == NULL)
     {
-        work->y = c_calloc(m, sizeof(c_float));
+        work->y = qpalm_calloc(m, sizeof(c_float));
         vec_set_scalar(work->y, 0., m);
     }
 
@@ -553,7 +553,7 @@ void qpalm_solve(QPALMWorkspace *work)
             #ifdef PRINTING
             if (work->settings->verbose && mod(iter, work->settings->print_iter) == 0) 
             {
-                c_print("%4ld | ---------------------------------------------------\n", iter);
+                qpalm_print("%4ld | ---------------------------------------------------\n", iter);
             }
             #endif    
         } 
@@ -617,14 +617,14 @@ void qpalm_update_settings(QPALMWorkspace* work, const QPALMSettings *settings)
     if (!validate_settings(settings)) 
     {
         # ifdef PRINTING
-        c_eprint("Settings validation returned failure");
+        qpalm_eprint("Settings validation returned failure");
         # endif /* ifdef PRINTING */
         update_status(work->info, QPALM_ERROR);
         return;
     }
     
     // Copy settings
-    c_free(work->settings);
+    qpalm_free(work->settings);
     work->settings = copy_settings(settings);
     work->sqrt_delta = c_sqrt(work->settings->delta);
     # ifdef PROFILING
@@ -656,7 +656,7 @@ void qpalm_update_bounds(QPALMWorkspace *work, const c_float *bmin, const c_floa
             if (bmin[j] > bmax[j]) 
             {
                 # ifdef PRINTING
-                c_eprint("Lower bound at index %d is greater than upper bound: %.4e > %.4e",
+                qpalm_eprint("Lower bound at index %d is greater than upper bound: %.4e > %.4e",
                         (int)j, work->data->bmin[j], work->data->bmax[j]);
                 # endif /* ifdef PRINTING */
                 update_status(work->info, QPALM_ERROR);
@@ -735,107 +735,107 @@ void qpalm_cleanup(QPALMWorkspace *work)
 
             work->data->A = ladel_sparse_free(work->data->A);
 
-            if (work->data->q) c_free(work->data->q);
+            if (work->data->q) qpalm_free(work->data->q);
 
-            if (work->data->bmin) c_free(work->data->bmin);
+            if (work->data->bmin) qpalm_free(work->data->bmin);
 
-            if (work->data->bmax) c_free(work->data->bmax);
-            c_free(work->data);
+            if (work->data->bmax) qpalm_free(work->data->bmax);
+            qpalm_free(work->data);
         }
 
         // Free scaling
-        if (work->scaling->D) c_free(work->scaling->D);
+        if (work->scaling->D) qpalm_free(work->scaling->D);
 
-        if (work->scaling->Dinv) c_free(work->scaling->Dinv);
+        if (work->scaling->Dinv) qpalm_free(work->scaling->Dinv);
 
-        if (work->scaling->E) c_free(work->scaling->E);
+        if (work->scaling->E) qpalm_free(work->scaling->E);
 
-        if (work->scaling->Einv) c_free(work->scaling->Einv);
+        if (work->scaling->Einv) qpalm_free(work->scaling->Einv);
 
-        c_free(work->scaling);
+        qpalm_free(work->scaling);
 
         // Free other Variables
-        if (work->x) c_free(work->x);
+        if (work->x) qpalm_free(work->x);
         
-        if (work->y) c_free(work->y);
+        if (work->y) qpalm_free(work->y);
 
-        if (work->Ax) c_free(work->Ax);
+        if (work->Ax) qpalm_free(work->Ax);
 
-        if (work->Qx) c_free(work->Qx);
+        if (work->Qx) qpalm_free(work->Qx);
         
-        if (work->x_prev) c_free(work->x_prev);
+        if (work->x_prev) qpalm_free(work->x_prev);
 
-        if (work->Aty) c_free(work->Aty);
+        if (work->Aty) qpalm_free(work->Aty);
 
-        if (work->temp_m) c_free(work->temp_m);
+        if (work->temp_m) qpalm_free(work->temp_m);
 
-        if (work->temp_n) c_free(work->temp_n);
+        if (work->temp_n) qpalm_free(work->temp_n);
 
-        if (work->sigma) c_free(work->sigma);
+        if (work->sigma) qpalm_free(work->sigma);
         
-        if (work->sigma_inv) c_free(work->sigma_inv);
+        if (work->sigma_inv) qpalm_free(work->sigma_inv);
 
-        if (work->z) c_free(work->z);
+        if (work->z) qpalm_free(work->z);
 
-        if (work->Axys) c_free(work->Axys);
+        if (work->Axys) qpalm_free(work->Axys);
 
-        if (work->pri_res) c_free(work->pri_res);
+        if (work->pri_res) qpalm_free(work->pri_res);
 
-        if (work->pri_res_in) c_free(work->pri_res_in);
+        if (work->pri_res_in) qpalm_free(work->pri_res_in);
 
-        if (work->df) c_free(work->df);
+        if (work->df) qpalm_free(work->df);
 
-        if (work->x0) c_free(work->x0);
+        if (work->x0) qpalm_free(work->x0);
 
-        if (work->xx0) c_free(work->xx0);
+        if (work->xx0) qpalm_free(work->xx0);
 
-        if (work->dphi) c_free(work->dphi);
+        if (work->dphi) qpalm_free(work->dphi);
 
-        if (work->dphi_prev) c_free(work->dphi_prev);
+        if (work->dphi_prev) qpalm_free(work->dphi_prev);
 
-        if (work->sqrt_sigma) c_free(work->sqrt_sigma);
+        if (work->sqrt_sigma) qpalm_free(work->sqrt_sigma);
 
-        if (work->delta) c_free(work->delta);
+        if (work->delta) qpalm_free(work->delta);
 
-        if (work->alpha) c_free(work->alpha);
+        if (work->alpha) qpalm_free(work->alpha);
 
-        if (work->delta2) c_free(work->delta2);
+        if (work->delta2) qpalm_free(work->delta2);
 
-        if (work->delta_alpha) c_free(work->delta_alpha);
+        if (work->delta_alpha) qpalm_free(work->delta_alpha);
 
-        if (work->temp_2m) c_free(work->temp_2m);
+        if (work->temp_2m) qpalm_free(work->temp_2m);
 
-        if (work->s) c_free(work->s);
+        if (work->s) qpalm_free(work->s);
 
-        if (work->index_L) c_free(work->index_L);
+        if (work->index_L) qpalm_free(work->index_L);
 
-        if (work->index_P) c_free(work->index_P);
+        if (work->index_P) qpalm_free(work->index_P);
 
-        if (work->index_J) c_free(work->index_J);
+        if (work->index_J) qpalm_free(work->index_J);
 
-        if (work->delta_y) c_free(work->delta_y);
+        if (work->delta_y) qpalm_free(work->delta_y);
 
-        if (work->Atdelta_y) c_free(work->Atdelta_y);
+        if (work->Atdelta_y) qpalm_free(work->Atdelta_y);
 
-        if (work->delta_x) c_free(work->delta_x);
+        if (work->delta_x) qpalm_free(work->delta_x);
 
-        if (work->Qdelta_x) c_free(work->Qdelta_x);
+        if (work->Qdelta_x) qpalm_free(work->Qdelta_x);
 
-        if (work->Adelta_x) c_free(work->Adelta_x);
+        if (work->Adelta_x) qpalm_free(work->Adelta_x);
 
         // Free Settings
-        if (work->settings) c_free(work->settings);
+        if (work->settings) qpalm_free(work->settings);
 
         //Free chol struct
         if (work->solver) 
         {
-            if (work->solver->active_constraints) c_free(work->solver->active_constraints);
+            if (work->solver->active_constraints) qpalm_free(work->solver->active_constraints);
 
-            if (work->solver->active_constraints_old) c_free(work->solver->active_constraints_old);
+            if (work->solver->active_constraints_old) qpalm_free(work->solver->active_constraints_old);
 
-            if (work->solver->enter) c_free(work->solver->enter);
+            if (work->solver->enter) qpalm_free(work->solver->enter);
 
-            if (work->solver->leave) c_free(work->solver->leave);
+            if (work->solver->leave) qpalm_free(work->solver->leave);
 
 
             work->solver->sol_kkt = ladel_free(work->solver->sol_kkt);
@@ -881,28 +881,28 @@ void qpalm_cleanup(QPALMWorkspace *work)
             work->solver->first_elem_A = ladel_free(work->solver->first_elem_A);
 
 
-            c_free(work->solver);      
+            qpalm_free(work->solver);      
         }
         
         // Free solution
         if (work->solution) 
         {
-            if (work->solution->x) c_free(work->solution->x);
+            if (work->solution->x) qpalm_free(work->solution->x);
 
-            if (work->solution->y) c_free(work->solution->y);
-            c_free(work->solution);
+            if (work->solution->y) qpalm_free(work->solution->y);
+            qpalm_free(work->solution);
         }
 
         // Free timer
         # ifdef PROFILING
-        if (work->timer) c_free(work->timer);
+        if (work->timer) qpalm_free(work->timer);
         # endif /* ifdef PROFILING */
 
         // Free information
-        if (work->info) c_free(work->info);
+        if (work->info) qpalm_free(work->info);
 
         // Free work
-        c_free(work);
+        qpalm_free(work);
     }
 
 }

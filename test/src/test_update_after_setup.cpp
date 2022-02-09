@@ -15,14 +15,14 @@ static solver_common *c;
 static solver_common common;
 
 void update_after_setup_suite_setup(void) {
-    settings = (QPALMSettings *)c_malloc(sizeof(QPALMSettings));
+    settings = (QPALMSettings *)qpalm_malloc(sizeof(QPALMSettings));
     qpalm_set_default_settings(settings);
     settings->eps_abs = 1e-8;
     settings->eps_rel = 1e-8;
 
-    c_float* dummy = (c_float *)c_calloc(M, sizeof(c_float)); dummy[0] = 0; dummy[1] = 0;
-    c_int *Ai = (c_int *)c_calloc(ANZMAX, sizeof(c_int)); 
-    c_int *Ap = (c_int *)c_calloc(N+1, sizeof(c_int));
+    c_float* dummy = (c_float *)qpalm_calloc(M, sizeof(c_float)); dummy[0] = 0; dummy[1] = 0;
+    c_int *Ai = (c_int *)qpalm_calloc(ANZMAX, sizeof(c_int)); 
+    c_int *Ap = (c_int *)qpalm_calloc(N+1, sizeof(c_int));
     Ap[0] = 0; Ap[1] = 1; Ap[2] = 2; 
     Ai[0] = 0; Ai[1] = 1; 
 
@@ -37,8 +37,8 @@ void update_after_setup_suite_setup(void) {
     A.symmetry = UNSYMMETRIC;
     A.values = TRUE;
 
-    c_int *Qi = (c_int *)c_calloc(QNZMAX, sizeof(c_int)); 
-    c_int *Qp = (c_int *)c_calloc(N+1, sizeof(c_int));
+    c_int *Qi = (c_int *)qpalm_calloc(QNZMAX, sizeof(c_int)); 
+    c_int *Qp = (c_int *)qpalm_calloc(N+1, sizeof(c_int));
     Qp[0] = 0; Qp[1] = 1; Qp[2] = 2; 
     Qi[0] = 0; Qi[1] = 1; 
 
@@ -68,19 +68,19 @@ void update_after_setup_suite_setup(void) {
     // Setup workspace
     work = qpalm_setup(&data, settings);
 
-    c_free(dummy);
-    c_free(Ai);
-    c_free(Ap);
-    c_free(Qi);
-    c_free(Qp);
+    qpalm_free(dummy);
+    qpalm_free(Ai);
+    qpalm_free(Ap);
+    qpalm_free(Qi);
+    qpalm_free(Qp);
 
-    w = (c_float *)c_calloc(QNZMAX+ANZMAX, sizeof(c_float)); //double workspace
+    w = (c_float *)qpalm_calloc(QNZMAX+ANZMAX, sizeof(c_float)); //double workspace
 }
 
 void update_after_setup_suite_teardown(void) {
-    c_free(settings);
+    qpalm_free(settings);
     // Clean setup
-    c_free(w);
+    qpalm_free(w);
 }
 
 void update_after_setup_test_teardown(void) {

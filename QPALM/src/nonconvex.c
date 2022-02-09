@@ -35,7 +35,7 @@ static c_float min_root_third_order(c_float a, c_float b, c_float c, c_float d)
     {
         // Not a cubic polynomial, should not happen 
         # ifdef PRINTING
-        c_eprint("Not a cubic polynomial.");
+        qpalm_eprint("Not a cubic polynomial.");
         # endif /* ifdef PRINTING */
     }
     else if (d == 0)
@@ -44,7 +44,7 @@ static c_float min_root_third_order(c_float a, c_float b, c_float c, c_float d)
         if (di < 0)
         {
             # ifdef PRINTING
-            c_eprint("Imaginary roots. This should not happen.");
+            qpalm_eprint("Imaginary roots. This should not happen.");
             # endif /* ifdef PRINTING */
         }
         di_sqrt = c_sqrt(di);
@@ -65,7 +65,7 @@ static c_float min_root_third_order(c_float a, c_float b, c_float c, c_float d)
         if (di > 0)
         {
             # ifdef PRINTING
-            c_eprint("Imaginary roots. This should not happen.");
+            qpalm_eprint("Imaginary roots. This should not happen.");
             # endif /* ifdef PRINTING */
         }   
         else 
@@ -344,7 +344,7 @@ void set_settings_nonconvex(QPALMWorkspace *work, solver_common *c){
     }
     #else
     #ifdef PRINTING
-    c_print("Warning: nonconvex is not supported in this version of QPALM. Setting it to false.\n");
+    qpalm_print("Warning: nonconvex is not supported in this version of QPALM. Setting it to false.\n");
     work->settings->nonconvex = FALSE;
     #endif
     #endif /*COMPILE_NONCONVEX*/

@@ -20,7 +20,7 @@ c_int validate_data(const QPALMData *data) {
 
   if (!data) {
 # ifdef PRINTING
-    c_eprint("Missing data");
+    qpalm_eprint("Missing data");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
@@ -30,7 +30,7 @@ c_int validate_data(const QPALMData *data) {
   for (j = 0; j < data->m; j++) {
     if (data->bmin[j] > data->bmax[j]) {
 # ifdef PRINTING
-      c_eprint("Lower bound at index %d is greater than upper bound: %.4e > %.4e",
+      qpalm_eprint("Lower bound at index %d is greater than upper bound: %.4e > %.4e",
                (int)j, data->bmin[j], data->bmax[j]);
 # endif /* ifdef PRINTING */
       return FALSE;
@@ -44,175 +44,175 @@ c_int validate_settings(const QPALMSettings *settings) {
   
   if (!settings) {
 # ifdef PRINTING
-    c_eprint("Missing settings!");
+    qpalm_eprint("Missing settings!");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if (settings->max_iter <= 0) {
 # ifdef PRINTING
-    c_eprint("max_iter must be positive");
+    qpalm_eprint("max_iter must be positive");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if (settings->inner_max_iter <= 0) {
 # ifdef PRINTING
-    c_eprint("inner_max_iter must be positive");
+    qpalm_eprint("inner_max_iter must be positive");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if (settings->eps_abs < 0) {
 # ifdef PRINTING
-    c_eprint("eps_abs must be nonnegative");
+    qpalm_eprint("eps_abs must be nonnegative");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if (settings->eps_rel < 0) {
 # ifdef PRINTING
-    c_eprint("eps_rel must be nonnegative");
+    qpalm_eprint("eps_rel must be nonnegative");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if ((settings->eps_rel == 0) && (settings->eps_abs == 0)) {
 # ifdef PRINTING
-    c_eprint("at least one of eps_abs and eps_rel must be positive");
+    qpalm_eprint("at least one of eps_abs and eps_rel must be positive");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
     if (settings->eps_abs_in < 0) {
 # ifdef PRINTING
-    c_eprint("eps_abs_in must be nonnegative");
+    qpalm_eprint("eps_abs_in must be nonnegative");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if (settings->eps_rel_in < 0) {
 # ifdef PRINTING
-    c_eprint("eps_rel_in must be nonnegative");
+    qpalm_eprint("eps_rel_in must be nonnegative");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if ((settings->eps_rel_in == 0) && (settings->eps_abs_in == 0)) {
 # ifdef PRINTING
-    c_eprint("at least one of eps_abs_in and eps_rel_in must be positive");
+    qpalm_eprint("at least one of eps_abs_in and eps_rel_in must be positive");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if (settings->rho <= 0 || settings->rho >= 1) {
 # ifdef PRINTING
-    c_eprint("rho must be positive and smaller than 1");
+    qpalm_eprint("rho must be positive and smaller than 1");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if (settings->eps_prim_inf < 0) {
 # ifdef PRINTING
-    c_eprint("eps_prim_inf must be nonnegative");
+    qpalm_eprint("eps_prim_inf must be nonnegative");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if (settings->eps_dual_inf < 0) {
 # ifdef PRINTING
-    c_eprint("eps_dual_inf must be nonnegative");
+    qpalm_eprint("eps_dual_inf must be nonnegative");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if (settings->theta > 1) {
 # ifdef PRINTING
-    c_eprint("theta must be smaller than ot equal 1");
+    qpalm_eprint("theta must be smaller than ot equal 1");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
     if (settings->delta <= 1) {
 # ifdef PRINTING
-    c_eprint("delta must be greater than 1");
+    qpalm_eprint("delta must be greater than 1");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if (settings->sigma_max <= 0) {
 # ifdef PRINTING
-    c_eprint("sigma_max must be positive");
+    qpalm_eprint("sigma_max must be positive");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
    if ((settings->proximal != 0) && (settings->proximal != 1)) {
 # ifdef PRINTING
-    c_eprint("proximal must be either 0 or 1");
+    qpalm_eprint("proximal must be either 0 or 1");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
    if (settings->gamma_init <= 0) {
 # ifdef PRINTING
-    c_eprint("gamma_init must be positive");
+    qpalm_eprint("gamma_init must be positive");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
    if (settings->gamma_upd < 1) {
 # ifdef PRINTING
-    c_eprint("gamma update factor must be greater than or equal to 1");
+    qpalm_eprint("gamma update factor must be greater than or equal to 1");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
    if (settings->gamma_max < settings->gamma_init) {
 # ifdef PRINTING
-    c_eprint("gamma max must be greater than or equal to gamma");
+    qpalm_eprint("gamma max must be greater than or equal to gamma");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
    if (settings->scaling < 0) {
 # ifdef PRINTING
-    c_eprint("scaling must be greater than or equal to zero");
+    qpalm_eprint("scaling must be greater than or equal to zero");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if ((settings->warm_start != 0) && (settings->warm_start != 1)) {
 # ifdef PRINTING
-    c_eprint("warm_start must be either 0 or 1");
+    qpalm_eprint("warm_start must be either 0 or 1");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if ((settings->verbose != 0) && (settings->verbose != 1)) {
 # ifdef PRINTING
-    c_eprint("verbose must be either 0 or 1");
+    qpalm_eprint("verbose must be either 0 or 1");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if (settings->print_iter <= 0) {
 # ifdef PRINTING
-    c_eprint("print_iter must be positive");
+    qpalm_eprint("print_iter must be positive");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if (settings->reset_newton_iter <= 0) {
 # ifdef PRINTING
-    c_eprint("reset_newton_iter must be positive");
+    qpalm_eprint("reset_newton_iter must be positive");
 # endif /* ifdef PRINTING */
     return FALSE;
   }
 
   if ((settings->enable_dual_termination != 0) && (settings->enable_dual_termination != 1)) {
 # ifdef PRINTING
-    c_eprint("enable_dual_termination must be either 0 or 1");
+    qpalm_eprint("enable_dual_termination must be either 0 or 1");
 # endif /* ifdef PRINTING */
     return FALSE;
   }

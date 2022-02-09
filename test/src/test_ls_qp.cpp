@@ -15,14 +15,14 @@ static solver_common common;
 /* Problem to exercise the linesearch when all breakpoints are traversed. */
 
 void ls_qp_suite_setup(void) {
-    settings = (QPALMSettings *)c_malloc(sizeof(QPALMSettings));
+    settings = (QPALMSettings *)qpalm_malloc(sizeof(QPALMSettings));
     qpalm_set_default_settings(settings);
     settings->eps_abs = 1e-6;
     settings->eps_rel = 1e-6;
     settings->gamma_max = 1e3;
     settings->gamma_init = 1e1;
 
-    data = (QPALMData *)c_malloc(sizeof(QPALMData));
+    data = (QPALMData *)qpalm_malloc(sizeof(QPALMData));
     data->n = N;
     data->m = M;
     data->c = 0;
@@ -53,23 +53,23 @@ void ls_qp_suite_setup(void) {
     Qp[1] = 1;
     Qp[2] = 2;
 
-    data->q = (c_float *)c_calloc(N,sizeof(c_float));
-    data->bmin = (c_float *)c_calloc(M,sizeof(c_float));
-    data->bmax = (c_float *)c_calloc(M,sizeof(c_float));
+    data->q = (c_float *)qpalm_calloc(N,sizeof(c_float));
+    data->bmin = (c_float *)qpalm_calloc(M,sizeof(c_float));
+    data->bmax = (c_float *)qpalm_calloc(M,sizeof(c_float));
     data->bmin[0] = -2; data->bmin[1] = -2;
     data->bmax[0] = 2; data->bmax[1] = 2;
     data->q[0] = 2.5150105e+00; data->q[1] = 1.6259589e+01;
 }
 
 void ls_qp_suite_teardown(void) {
-    c_free(settings);
+    qpalm_free(settings);
     // Clean setup
     data->Q = ladel_sparse_free(data->Q);
     data->A = ladel_sparse_free(data->A);
-    c_free(data->q);
-    c_free(data->bmin);
-    c_free(data->bmax);
-    c_free(data);
+    qpalm_free(data->q);
+    qpalm_free(data->bmin);
+    qpalm_free(data->bmax);
+    qpalm_free(data);
 }
 
 void ls_qp_test_teardown(void) {
@@ -94,7 +94,7 @@ struct TestLSQP : ::testing::Test {
 
         mu_assert_long_eq(work->info->status_val, QPALM_SOLVED);
 
-        c_float *solution = (c_float *)c_calloc(N,sizeof(c_float));
+        c_float *solution = (c_float *)qpalm_calloc(N,sizeof(c_float));
         solution[0] = -2.0000000e+00;
         solution[1] = -2.0000000e+04;
         
@@ -103,7 +103,7 @@ struct TestLSQP : ::testing::Test {
             mu_assert_double_eq(work->solution->x[i], solution[i], 1e-5);
         }
 
-        c_free(solution);
+        qpalm_free(solution);
     }
 };
 

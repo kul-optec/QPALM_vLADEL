@@ -9,36 +9,36 @@ static QPALMData *data;
 
 void validate_suite_setup(void) {
 
-    settings = (QPALMSettings *)c_malloc(sizeof(QPALMSettings));
+    settings = (QPALMSettings *)qpalm_malloc(sizeof(QPALMSettings));
     qpalm_set_default_settings(settings);
-    data = (QPALMData *)c_malloc(sizeof(QPALMData));
+    data = (QPALMData *)qpalm_malloc(sizeof(QPALMData));
     data->m = M;
     data->c = 0;
 
-    data->bmin = (c_float *)c_calloc(M,sizeof(c_float));
+    data->bmin = (c_float *)qpalm_calloc(M,sizeof(c_float));
     data->bmin[0] = -1.0; data->bmin[1] = -1.0; data->bmin[2] = -1.0; 
-    data->bmax = (c_float *)c_calloc(M,sizeof(c_float));
+    data->bmax = (c_float *)qpalm_calloc(M,sizeof(c_float));
     data->bmax[0] = 1.0; data->bmax[1] = 1.0; data->bmax[2] = 1.0; 
 }
 
 void validate_suite_teardown(void) {
-    c_free(settings);
+    qpalm_free(settings);
     if (data) {
-        c_free(data->bmin);
-        c_free(data->bmax);
-        c_free(data);
+        qpalm_free(data->bmin);
+        qpalm_free(data->bmax);
+        qpalm_free(data);
     }
 }
 
 void validate_test_setup(void) {
     if (data==NULL) {
-        data = (QPALMData *)c_malloc(sizeof(QPALMData));
+        data = (QPALMData *)qpalm_malloc(sizeof(QPALMData));
         data->m = M;
-        data->bmin = (c_float *)c_calloc(M,sizeof(c_float));
-        data->bmax = (c_float *)c_calloc(M,sizeof(c_float));
+        data->bmin = (c_float *)qpalm_calloc(M,sizeof(c_float));
+        data->bmax = (c_float *)qpalm_calloc(M,sizeof(c_float));
     }
     if (settings == NULL) {
-        settings = (QPALMSettings *)c_malloc(sizeof(QPALMSettings));
+        settings = (QPALMSettings *)qpalm_malloc(sizeof(QPALMSettings));
     }
     
     qpalm_set_default_settings(settings);
@@ -64,9 +64,9 @@ TEST_F(TestValidate, test_correct_data) {
 }
 
 TEST_F(TestValidate, test_missing_data) {
-    c_free(data->bmin);
-    c_free(data->bmax);
-    c_free(data);
+    qpalm_free(data->bmin);
+    qpalm_free(data->bmax);
+    qpalm_free(data);
     data=NULL;
     mu_assert_false(validate_data(data));
 }
@@ -82,7 +82,7 @@ TEST_F(TestValidate, test_correct_settings) {
 }
 
 TEST_F(TestValidate, test_missing_settings) {
-    c_free(settings);
+    qpalm_free(settings);
     settings=NULL;
     mu_assert_false(validate_settings(settings));
 }

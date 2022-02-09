@@ -12,7 +12,7 @@ c_float* vec_copy(const c_float *a, size_t n) {
   c_float *b;
   size_t    i;
 
-  b = c_malloc(n * sizeof(c_float));
+  b = qpalm_malloc(n * sizeof(c_float));
 
   for (i = 0; i < n; i++) {
     b[i] = a[i];

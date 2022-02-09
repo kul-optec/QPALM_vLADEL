@@ -42,10 +42,10 @@ typedef ladel_int     c_int; /**< type for integer numbers */
  * @{
  */
 
-void *c_calloc(size_t num, size_t size);
-void *c_malloc(size_t size);
-void* c_realloc(void *ptr, size_t size);
-void c_free(void *ptr);
+QPALM_EXPORT void *qpalm_calloc(size_t num, size_t size);
+QPALM_EXPORT void *qpalm_malloc(size_t size);
+QPALM_EXPORT void* qpalm_realloc(void *ptr, size_t size);
+QPALM_EXPORT void qpalm_free(void *ptr);
 
 /**
  * @}
@@ -56,11 +56,10 @@ void c_free(void *ptr);
 # ifdef PRINTING
 
 // Print macro
-#  define c_print ladel_print
+#  define qpalm_print ladel_print
 
 // Print error macro
-#  define c_eprint(...) c_print("ERROR in %s: ", __FUNCTION__); c_print( \
-    __VA_ARGS__); c_print("\n");
+#  define qpalm_eprint(...) qpalm_print("ERROR in %s: ", __FUNCTION__); qpalm_print(__VA_ARGS__); qpalm_print("\n");
 
 # endif /* ifdef PRINTING */
 
