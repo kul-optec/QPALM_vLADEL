@@ -53,6 +53,8 @@ int main() {
     auto sol  = solver.get_solution();
     auto info = solver.get_info();
 
+    // Print the results
+    // -----------------
     std::cout << "Solver status: " << info.status << "\n"
               << "Iter:          " << info.iter << "\n"
               << "Iter Out:      " << info.iter_out << "\n";

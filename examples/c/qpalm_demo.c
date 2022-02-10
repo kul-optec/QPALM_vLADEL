@@ -47,8 +47,6 @@ int main() {
   data->bmin = constant_vector(-2, data->m);
   data->bmax = constant_vector(2, data->m);
 
-  solver_common common, *c;
-  c = &common;
   solver_sparse *A, *Q;
   A = ladel_sparse_alloc(M, N, ANZMAX, UNSYMMETRIC, TRUE, FALSE);
   Q = ladel_sparse_alloc(N, N, QNZMAX, UPPER, TRUE, FALSE);

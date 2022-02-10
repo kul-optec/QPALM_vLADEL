@@ -272,8 +272,6 @@ void qpalm_warm_start(QPALMWorkspace *work, const c_float *x_warm_start, const c
     
     size_t n = work->data->n;
     size_t m = work->data->m;
-    solver_common common, *c;
-    c = &common;
     
     if (x_warm_start != NULL) 
     {
@@ -491,14 +489,12 @@ void qpalm_solve(QPALMWorkspace *work)
     c_float current_time;
     #endif /* ifdef PROFILING */
     
-    size_t n = work->data->n;
     size_t m = work->data->m;
     c_int iter;
     c_int iter_out = 0;
     c_int prev_iter = 0; /* iteration number at which the previous subproblem finished*/
     c_float eps_k_abs = work->settings->eps_abs_in; 
     c_float eps_k_rel = work->settings->eps_rel_in; 
-    c_float eps_k;
     c_int no_change_in_active_constraints = 0;
 
     for (iter = 0; iter < work->settings->max_iter; iter++) 

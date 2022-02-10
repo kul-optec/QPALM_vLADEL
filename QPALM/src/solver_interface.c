@@ -72,6 +72,7 @@ void qpalm_set_factorization_method(QPALMWorkspace *work, solver_common *c)
 
 void mat_vec(solver_sparse *A, solver_dense *x, solver_dense *y, solver_common *c) 
 {
+    (void)c;
     ladel_int n = A->ncol;
     if (x!=y) {
       if (A->symmetry == UNSYMMETRIC)
@@ -91,6 +92,7 @@ void mat_vec(solver_sparse *A, solver_dense *x, solver_dense *y, solver_common *
 
 void mat_tpose_vec(solver_sparse *A, solver_dense *x, solver_dense *y, solver_common *c)
 {
+    (void)c;
     ladel_int m = A->nrow;
     if (x!=y) {
       if (A->symmetry == UNSYMMETRIC)
@@ -111,7 +113,7 @@ void mat_tpose_vec(solver_sparse *A, solver_dense *x, solver_dense *y, solver_co
 // TODO: incorporate the factorizations here also, and write a version of FACTORIZE_KKT using cholmod 
 void qpalm_form_kkt(QPALMWorkspace *work)
 {
-    solver_sparse *Q = work->data->Q, *A = work->data->A, *kkt = work->solver->kkt, *kkt_full = work->solver->kkt_full, *At = work->solver->At;
+    solver_sparse *Q = work->data->Q, *kkt = work->solver->kkt, *kkt_full = work->solver->kkt_full, *At = work->solver->At;
     ladel_int col, index, index_kkt, n = work->data->n, m = work->data->m, Qnz = Q->nzmax;
     c_float *sigma_inv = work->sigma_inv, *first_elem_A = work->solver->first_elem_A;
     c_int *first_row_A = work->solver->first_row_A;
@@ -195,7 +197,7 @@ void qpalm_reform_kkt(QPALMWorkspace *work)
 void kkt_update_entering_constraints(QPALMWorkspace *work, solver_common *c)
 {
     solver_sparse *kkt = work->solver->kkt, *At = work->solver->At;
-    ladel_int col, index, n = work->data->n, m = work->data->m;
+    ladel_int col, index, n = work->data->n;
     ladel_int *first_row_A = work->solver->first_row_A;
     ladel_double *sigma_inv = work->sigma_inv, *first_elem_A = work->solver->first_elem_A;
 
@@ -212,7 +214,7 @@ void kkt_update_entering_constraints(QPALMWorkspace *work, solver_common *c)
 
 void kkt_update_leaving_constraints(QPALMWorkspace *work, solver_common *c)
 {
-    ladel_int col, index, n = work->data->n, m = work->data->m;
+    ladel_int col, index, n = work->data->n;
     ladel_double *sigma_inv = work->sigma_inv;
     solver_sparse *kkt = work->solver->kkt;
 

@@ -51,6 +51,18 @@ QPALM_EXPORT void *qpalm_malloc(size_t size);
 QPALM_EXPORT void* qpalm_realloc(void *ptr, size_t size);
 QPALM_EXPORT void qpalm_free(void *ptr);
 
+/** Set the `calloc` function used by QPALM. */
+QPALM_EXPORT calloc_sig *qpalm_set_alloc_config_calloc(calloc_sig *calloc);
+/** Set the `malloc` function used by QPALM. */
+QPALM_EXPORT malloc_sig *qpalm_set_alloc_config_malloc(malloc_sig *malloc);
+/** Set the `realloc` function used by QPALM. */
+QPALM_EXPORT realloc_sig *qpalm_set_alloc_config_realloc(realloc_sig *realloc);
+/** Set the `free` function used by QPALM. */
+QPALM_EXPORT free_sig *qpalm_set_alloc_config_free(free_sig *free);
+
+/** Set the `printf` function used by QPALM. */
+QPALM_EXPORT printf_sig *qpalm_set_print_config_printf(printf_sig *printf);
+
 /**
  * @}
  */

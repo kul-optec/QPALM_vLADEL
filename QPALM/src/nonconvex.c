@@ -352,7 +352,7 @@ void set_settings_nonconvex(QPALMWorkspace *work, solver_common *c){
 
 c_float gershgorin_max(solver_sparse* M, c_float *center, c_float *radius){
     /* NB: Assume M is symmetric, so Gershgorin may be performed along the columns as well. */
-    c_float ub_eig;
+    c_float ub_eig = 0.0;
     c_float *Mx = M->x; c_int *Mi = M->i; c_int *Mp = M->p;
     c_int row, i, j, ncol = (c_int)M->ncol;
     
