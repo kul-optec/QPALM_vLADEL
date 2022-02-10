@@ -13,20 +13,42 @@
  *
  * \section installation Installation instructions
  *
- * Please see @ref installation-md for detailed instructions on how to install
- * QPALM and its various interfaces.
+ * \subsection python Python
  *
- * If you just need the Python interface, you can install it using
- * 
+ * The QPALM Python interface is available from [PyPI](https://pypi.org/project/qpalm),
+ * you can install it using:
  * \code{.sh}
  * python3 -m pip install qpalm
  * \endcode
+ *
+ * \subsection julia Julia
+ *
+ * In the Julia console, press `]` to enter the Pkg REPL and install QPALM using:
+ * \code{.sh}
+ * add QPALM
+ * \endcode
+ *
+ * \subsection matlab Matlab
+ *
+ * Pre-built Matlab binaries are available from the [releases page](https://github.com/tttapa/QPALM-minimal/releases/latest).
+ * Download the version for your system and extract it into the `~/Documents/MATLAB` folder.
+ *
+ * As a one-liner for Linux:
+ * \code{.sh}
+ * wget https://github.com/tttapa/QPALM-minimal/releases/download/0.0.0a2/qpalm-matlab-linux.tar.gz -O- | tar xz -C ~/Documents/MATLAB
+ * \endcode
+ *
+ * \subsection build-source Building QPALM from source
+ *
+ * For the full instructions to build QPALM from source, please see the
+ * @ref installation-md.
  * 
  * \section examples Code examples
- * \li For the mex interface of QPALM, check out @ref examples/matlab/qpalm_mex_demo.m and @ref examples/matlab/qpalm_mex_nonconvex_demo.m.
- * \li For the C-version of QPALM, check out @ref examples/c/qpalm_demo.c.
- * \li For the python interface of QPALM, check out @ref examples/python/qpalm_python_demo.py.
- * \li For the Julia interface of QPALM, please check back later <!-- TODO -->.
+ * \li Python interface: @ref examples/python/qpalm_python_demo.py
+ * \li Julia interface: @ref examples/julia/qpalm_julia_demo.jl
+ * \li C++ interface: @ref examples/cxx/qpalm_demo.cpp
+ * \li C API: @ref examples/c/qpalm_demo.c
+ * \li Matlab MEX interface: @ref examples/matlab/qpalm_mex_demo.m and @ref examples/matlab/qpalm_mex_nonconvex_demo.m
  *   
  * \section cite Citing QPALM
  * 

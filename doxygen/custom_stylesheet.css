@@ -52,9 +52,6 @@ div.contents > div.textblock > hr {
 .title {
     font-size: 2em;
 }
-* {
-    max-width: 100%;
-}
 span.mono {
     font-family: monospace;
 }

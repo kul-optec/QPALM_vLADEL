@@ -18,11 +18,22 @@ Examples are included as well: <https://tttapa.github.io/QPALM-minimal/Doxygen/e
 
 ## Installation
 
-To install the Python interface to QPALM, you can download pre-built binaries
-from [PyPI](https://pypi.org/project/qpalm/):
+### Python
+
+The QPALM Python interface is available from [PyPI](https://pypi.org/project/qpalm),
+you can install it using:
 ```sh
 python3 -m pip install qpalm
 ```
+
+### Julia
+
+In the Julia console, press `]` to enter the Pkg REPL and install QPALM using:
+```sh
+add QPALM
+```
+
+### Matlab
 
 To install the Matlab interface, download `qpalm-matlab-linux.tar.gz` or 
 `qpalm-matlab-windows.zip` from the 
@@ -32,6 +43,8 @@ As a one-liner for Linux:
 ```sh
 wget https://github.com/tttapa/QPALM-minimal/releases/download/0.0.0a2/qpalm-matlab-linux.tar.gz -O- | tar xz -C ~/Documents/MATLAB
 ```
+
+### Building QPALM from source
 
 For the full instructions to build QPALM from source, please see 
 <https://tttapa.github.io/QPALM-minimal/Doxygen/installation-md.html>

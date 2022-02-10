@@ -1,9 +1,15 @@
 # Installation instructions {#installation-md}
 
+These are the instructions for building QPALM from source. If you just want to
+install the pre-built binaries, please see the [main page](index.html).
+
 ## Prerequisites
 
 You'll need a C compiler, CMake, and Make or Ninja. 
-To compile the Matlab interface, you need Matlab and MEX as well.
+To compile the Matlab interface, you need Matlab and MEX as well. For the Python
+interface, you need the Python development files, which are not installed by
+default on some systems. For example, on Ubuntu, install the `python3-dev`
+package.
 
 ## Download
 
@@ -48,7 +54,6 @@ To uninstall QPALM, simply remove the `+qpalm` folder from where you installed i
 rm -r "~/Documents/MATLAB/+qpalm"
 ```
 
-
 ## Python installation
 
 QPALM is available on [PyPI](https://pypi.org/project/qpalm/), with binaries
@@ -84,7 +89,16 @@ pip install .
 
 ## Julia installation
 
-Work in progress ...
+Usually, you'll use tools like BinaryBuilder.jl instead of compiling it manually,
+but if you need to, you can:
+```sh
+cmake -B build -S QPALM \
+    -D CMAKE_BUILD_TYPE=Release \
+    -D QPALM_WITH_JULIA=On \
+    -D CMAKE_POSITION_INDEPENDENT_CODE=On
+cmake --build build --config Release -j
+cmake --install build --config Release --component julia_modules --prefix $PWD/staging-julia
+```
 
 ## C/C++ installation
 
