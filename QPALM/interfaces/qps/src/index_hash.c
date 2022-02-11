@@ -1,5 +1,9 @@
 #include "index_hash.h"
 
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 // create an empty list
 struct list* list_create(void)
 {

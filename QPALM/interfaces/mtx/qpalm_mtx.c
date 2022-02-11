@@ -18,7 +18,6 @@ solver_sparse* mtx_load_A(FILE *fp, size_t *n, size_t *m){
         fprintf(stderr, "Wrong file format. Expected second line to contain row col nnz.\n");
     };
     
-    solver_common c;
     solver_sparse *A;
     A = ladel_sparse_alloc(*m, *n, nnz, UNSYMMETRIC, TRUE, FALSE);
 
@@ -26,11 +25,11 @@ solver_sparse* mtx_load_A(FILE *fp, size_t *n, size_t *m){
     Ax = A->x; Ap = A->p; Ai = A->i;
     Ap[0] = 0;
 
-    size_t elem = 0, col = 1, prev_col = 1;
+    c_int elem = 0, col = 1, prev_col = 1;
     c_int row;
     c_float temp;
 
-    while (fscanf(fp, "%lu %lu %le", &row, &col, &temp) != EOF) {
+    while (fscanf(fp, "%" LADEL_PRIi " %" LADEL_PRIi " %le", &row, &col, &temp) != EOF) {
 
         Ai[elem] = --row;
         
@@ -72,7 +71,6 @@ solver_sparse* mtx_load_Q(FILE *fp, size_t n_check){
         fprintf(stderr, "Expected a square matrix of %lu by %lu but got a matrix of %lu by %lu\n", n_check, n_check, m, n);
     }
     
-    solver_common c;
     solver_sparse *Q;
     Q = ladel_sparse_alloc(n, n, nnz, UPPER, TRUE, FALSE);
 
@@ -80,11 +78,11 @@ solver_sparse* mtx_load_Q(FILE *fp, size_t n_check){
     Qx = Q->x; Qp = Q->p; Qi = Q->i;
     Qp[0] = 0;
 
-    size_t elem = 0, col = 1, prev_col = 1;
+    c_int elem = 0, col = 1, prev_col = 1;
     c_int row;
     c_float temp;
 
-    while (fscanf(fp, "%lu %lu %le", &row, &col, &temp) != EOF) {
+    while (fscanf(fp, "%" LADEL_PRIi " %" LADEL_PRIi " %le", &row, &col, &temp) != EOF) {
 
         Qi[elem] = --row;
         
@@ -216,7 +214,6 @@ int main(int argc, char*argv[]){
     qpalm_set_default_settings(settings);
 
     // Setup workspace
-    solver_common c;
     work = qpalm_setup(data, settings);
 
     // Solve Problem

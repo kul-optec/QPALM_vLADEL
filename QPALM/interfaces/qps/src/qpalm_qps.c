@@ -17,7 +17,7 @@ typedef struct {
 /* Print a sparse matrix so the output can be entered into matlab */
 void print_sparse_matlab(solver_sparse *M) {
     printf("M = sparse(%ld, %ld);", M->nrow, M->ncol);
-    size_t col, index = 0; 
+    c_int col, index = 0; 
     long int row;
     double *Mx = M->x;
     long int *Mi = M->i;
@@ -206,7 +206,6 @@ int get_sizes_and_check_format(FILE *fp, QPALMData *data, struct index_table **f
         data->bmin = qpalm_calloc(m, sizeof(c_float));
         data->bmax = qpalm_calloc(m, sizeof(c_float));    
 
-        solver_common c;
         data->A = ladel_sparse_alloc((c_int)m, (c_int)n, (c_int)Annz, UNSYMMETRIC, TRUE, FALSE);
         data->Q = ladel_sparse_alloc(n, n, Qnnz, LOWER, TRUE, FALSE);
     }
@@ -775,7 +774,6 @@ int main(int argc, char*argv[]){
        qpalm_set_default_settings(settings);
     }
 
-    solver_common c;
     QPALMWorkspace *work = qpalm_setup(data, settings);
 
     /* Solve Problem */
