@@ -37,9 +37,9 @@ dependencies = ["numpy", "scipy"]
 dynamic = ["version", "description"]
 
 [project.urls]
-Source = "https://github.com/tttapa/QPALM-minimal"
-Documentation = "https://tttapa.github.io/QPALM-minimal"
-Tracker = "https://github.com/tttapa/QPALM-minimal/issues"
+Source = "https://github.com/kul-optec/QPALM"
+Documentation = "https://kul-optec.github.io/QPALM"
+Tracker = "https://github.com/kul-optec/QPALM/issues"
 
 [tool.py-build-cmake.module]
 directory = "QPALM/interfaces/python"

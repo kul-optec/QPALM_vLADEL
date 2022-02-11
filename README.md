@@ -1,6 +1,6 @@
-[![Python Wheels](https://github.com/tttapa/QPALM-minimal/actions/workflows/wheel.yml/badge.svg)](https://github.com/tttapa/QPALM-minimal/actions/workflows/wheel.yml)
-[![Matlab Package](https://github.com/tttapa/QPALM-minimal/actions/workflows/matlab.yml/badge.svg)](https://github.com/tttapa/QPALM-minimal/actions/workflows/matlab.yml)
-[![Test Coverage](https://img.shields.io/endpoint?url=https://tttapa.github.io/QPALM-minimal/Coverage/shield.io.coverage.json)](https://tttapa.github.io/QPALM-minimal/Coverage/index.html)
+[![Python Wheels](https://github.com/kul-optec/QPALM/actions/workflows/wheel.yml/badge.svg)](https://github.com/kul-optec/QPALM/actions/workflows/wheel.yml)
+[![Matlab Package](https://github.com/kul-optec/QPALM/actions/workflows/matlab.yml/badge.svg)](https://github.com/kul-optec/QPALM/actions/workflows/matlab.yml)
+[![Test Coverage](https://img.shields.io/endpoint?url=https://kul-optec.github.io/QPALM/Coverage/shield.io.coverage.json)](https://kul-optec.github.io/QPALM/Coverage/index.html)
 
 # Proximal Augmented Lagrangian method for Quadratic Programs
 
@@ -13,8 +13,8 @@ subject to      l ≤ Ax ≤ u
 
 ## Documentation
 
-The documentation can be found at: <https://tttapa.github.io/QPALM-minimal/Doxygen>  
-Examples are included as well: <https://tttapa.github.io/QPALM-minimal/Doxygen/examples.html>
+The documentation can be found at: <https://kul-optec.github.io/QPALM/Doxygen>  
+Examples are included as well: <https://kul-optec.github.io/QPALM/Doxygen/examples.html>
 
 ## Installation
 
@@ -37,17 +37,17 @@ add QPALM
 
 To install the Matlab interface, download `qpalm-matlab-linux.tar.gz` or 
 `qpalm-matlab-windows.zip` from the 
-[releases page](https://github.com/tttapa/QPALM-minimal/releases/latest), and 
+[releases page](https://github.com/kul-optec/QPALM/releases/latest), and 
 extract it into the `~/Documents/MATLAB` folder.  
 As a one-liner for Linux:
 ```sh
-wget https://github.com/tttapa/QPALM-minimal/releases/download/0.0.0a2/qpalm-matlab-linux.tar.gz -O- | tar xz -C ~/Documents/MATLAB
+wget https://github.com/kul-optec/QPALM/releases/download/0.0.0a2/qpalm-matlab-linux.tar.gz -O- | tar xz -C ~/Documents/MATLAB
 ```
 
 ### Building QPALM from source
 
 For the full instructions to build QPALM from source, please see 
-<https://tttapa.github.io/QPALM-minimal/Doxygen/installation-md.html>
+<https://kul-optec.github.io/QPALM/Doxygen/installation-md.html>
 
 ## Supported platforms
 
@@ -90,8 +90,6 @@ will no longer be maintained.
 ## License
 
 QPALM is licensed under LGPL v3.0. Some modules are used in this software: 
-* LADEL: authored by Ben Hermans and licensed under [LGPL-v3](https://github.com/Benny44/LADEL/blob/master/LICENSE).
+* LADEL: authored by Ben Hermans and licensed under [LGPL-v3](LICENSE).
 * LOBPCG: the version of LOBPCG used here was written by Ben Hermans and licensed under the GNU Lesser General Public License v3.0, see [LOBPCG/LICENSE](https://github.com/Benny44/LOBPCG/blob/master/LICENSE).
 * LAPACK: authored by The University of Tennessee and The University of Tennessee Research Foundation, The University of California Berkeley, and The University of Colorado Denver, and licensed under BSD-3, see [here](https://github.com/Reference-LAPACK/lapack/blob/master/LICENSE).
-* Minunit: a minimal unit testing framework for C, modified from the version by David Siñuela Pastor and licensed under MIT, see [here](https://github.com/siu/minunit/blob/master/MIT-LICENSE.txt).
-

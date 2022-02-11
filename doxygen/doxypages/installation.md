@@ -13,11 +13,11 @@ package.
 
 ## Download
 
-Download QPALM from <https://github.com/tttapa/QPALM-minimal>:
+Download QPALM from <https://github.com/kul-optec/QPALM>:
 
 ```sh
-git clone https://github.com/tttapa/QPALM-minimal.git --single-branch --depth 1 --recursive
-cd QPALM-minimal
+git clone https://github.com/kul-optec/QPALM.git --single-branch --depth 1 --recursive
+cd QPALM
 ```
 If you already cloned it without the `--recursive` argument, use:
 ```sh

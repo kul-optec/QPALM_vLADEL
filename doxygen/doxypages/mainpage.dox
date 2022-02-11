@@ -30,12 +30,12 @@
  *
  * \subsection matlab Matlab
  *
- * Pre-built Matlab binaries are available from the [releases page](https://github.com/tttapa/QPALM-minimal/releases/latest).
+ * Pre-built Matlab binaries are available from the [releases page](https://github.com/kul-optec/QPALM/releases/latest).
  * Download the version for your system and extract it into the `~/Documents/MATLAB` folder.
  *
  * As a one-liner for Linux:
  * \code{.sh}
- * wget https://github.com/tttapa/QPALM-minimal/releases/download/0.0.0a2/qpalm-matlab-linux.tar.gz -O- | tar xz -C ~/Documents/MATLAB
+ * wget https://github.com/kul-optec/QPALM/releases/download/0.0.0a2/qpalm-matlab-linux.tar.gz -O- | tar xz -C ~/Documents/MATLAB
  * \endcode
  *
  * \subsection build-source Building QPALM from source
