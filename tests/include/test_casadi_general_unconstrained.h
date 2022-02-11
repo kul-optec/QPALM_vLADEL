@@ -1,1 +1,0 @@
-void suite_casadi_general_unconstrained(void);

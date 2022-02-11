@@ -1,1 +1,0 @@
-void suite_prim_inf_qp(void);

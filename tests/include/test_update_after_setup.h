@@ -1,1 +1,0 @@
-void suite_update_after_setup(void);

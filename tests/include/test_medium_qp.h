@@ -1,1 +1,0 @@
-void suite_medium_qp(void);
