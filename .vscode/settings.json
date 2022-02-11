@@ -5,6 +5,17 @@
         "VIRTUAL_ENV": "${workspaceFolder}/py-venv"
     },
     "cmake.configureSettings": {
-        "QPALM_WITH_PYTHON": true
-    }
+        "BUILD_SHARED_LIBS": false,
+        "CMAKE_POSITION_INDEPENDENT_CODE": true,
+        "QPALM_WITH_MEX": true,
+        "QPALM_WITH_PYTHON": true,
+        "QPALM_WITH_CXX": true,
+        "QPALM_WITH_JULIA": true,
+        "QPALM_WITH_COVERAGE": false,
+        "QPALM_WITH_MTX": true,
+        "QPALM_WITH_QPS": true,
+        "Python3_ROOT_DIR": "${workspaceFolder}/py-venv",
+        "Python3_FIND_REGISTRY": "NEVER",
+        "Python3_FIND_STRATEGY": "LOCATION",
+    },
 }
