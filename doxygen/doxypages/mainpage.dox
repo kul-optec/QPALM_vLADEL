@@ -35,7 +35,7 @@
  *
  * As a one-liner for Linux:
  * \code{.sh}
- * wget https://github.com/kul-optec/QPALM/releases/download/0.0.0a2/qpalm-matlab-linux.tar.gz -O- | tar xz -C ~/Documents/MATLAB
+ * wget https://github.com/kul-optec/QPALM/releases/download/1.0.0/qpalm-matlab-linux.tar.gz -O- | tar xz -C ~/Documents/MATLAB
  * \endcode
  *
  * \subsection build-source Building QPALM from source
