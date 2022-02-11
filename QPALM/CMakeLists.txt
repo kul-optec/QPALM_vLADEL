@@ -11,6 +11,8 @@ option(QPALM_WITH_CXX "Build the C++ interface" Off)
 option(QPALM_WITH_PYTHON "Build the Python interface" Off)
 option(QPALM_WITH_JULIA "Build the Julia interface" Off)
 option(QPALM_WITH_MEX "Build the MATLAB interface" Off)
+option(QPALM_WITH_MTX "Build the .mtx interface" Off)
+option(QPALM_WITH_QPS "Build the .qps interface" Off)
 
 include(cmake/GlobalCompileOptions.cmake)
 

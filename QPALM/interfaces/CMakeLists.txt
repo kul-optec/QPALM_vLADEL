@@ -17,3 +17,14 @@ endif()
 if (QPALM_WITH_MEX)
     add_subdirectory(mex)
 endif()
+
+# Utility for solving problems from .mtx files
+if (QPALM_WITH_MTX)
+    add_subdirectory(mtx)
+endif()
+
+# Utility for solving problems from .qps files
+if (QPALM_WITH_QPS)
+    add_subdirectory(qps)
+endif()
+
