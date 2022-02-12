@@ -1,72 +1,78 @@
-import qpalm as qp
-import numpy as np
 import scipy.sparse as sp
+import qpalm
 
-data = qp.QPALMData(3, 4)
+# %% Construct the matrices describing the problem
+"""
+      minimize    ½〈x, Qx〉+〈q, x〉+ c
+         x
+      subject to  bmin ≤ Ax ≤ bmax
+"""
+data = qpalm.Data(3, 4)
 
-row = np.array([0, 0, 1, 1])
-col = np.array([0, 1, 0, 1])
-values = np.array([1, -1, -1, 2])
-data.Q = sp.csc_matrix((values, (row, col)), shape=(3, 3))
+# Q is sparse and symmetric
+row = [0, 0, 1, 1, 2]
+col = [0, 1, 0, 1, 2]
+valuesQ = [1, -1, -1, 2, 1]
+data.Q = sp.csc_matrix((valuesQ, (row, col)), shape=(3, 3))
 
-data.q = np.array([-2, -6, 1])
-data.bmin = np.array([0.5, -10, -10, -10])
-data.bmax = np.array([0.5, 10, 10, 10])
+# q, bmin and bmax are dense vectors
+data.q = [-2, -6, 1]
+data.bmin = [0.5, -10, -10, -10]
+data.bmax = [0.5, 10, 10, 10]
 
-row = np.array([0, 1, 0, 2, 0, 3])
-col = np.array([0, 0, 1, 1, 2, 2])
-values = np.array([1, 1, 1, 1, 1, 1])
-data.A = sp.csc_matrix((values, (row, col)), shape=(4, 3))
+# A is sparse and rectangular
+row = [0, 1, 0, 2, 0, 3]
+col = [0, 0, 1, 1, 2, 2]
+valuesA = [1, 1, 1, 1, 1, 1]
+data.A = sp.csc_matrix((valuesA, (row, col)), shape=(4, 3))
 
-settings = qp.QPALMSettings()
-solver = qp.QPALMSolver(data, settings)
+# %% Configure the solver
+
+settings = qpalm.Settings()
+settings.eps_abs = 1e-8
+
+# %% Solve the problem
+
+solver = qpalm.Solver(data, settings)
 solver.solve()
-sol_x = solver.solution.x
-tol = 1e-5
-assert abs(sol_x[0] - 5.5) < tol
-assert abs(sol_x[1] - 5.0) < tol
-assert abs(sol_x[2] - (-10)) < tol
 
-# Warm start with solution to check whether the solver exits immediately
+# %% Print the results
+print("Status:     ", solver.info.status)
+print("Solution:   ", solver.solution.x)
+print("Multipliers:", solver.solution.y)
+
+# %% Warm start with solution 
 solver.warm_start(solver.solution.x, solver.solution.y)
 solver.solve()
-assert solver.info.iter == 0
+print(solver.solution.x)
 
-# Update functions
-# It is possible to update the bounds, the linear part of the cost (q) and the settings
+# %% Update functions
+
+# It is possible to update the settings, the bounds, the linear part of the 
+# cost (q) and the values of matrices Q and A
+
 settings.eps_abs = 1e-10
 settings.eps_rel = 0
-
 solver.update_settings(settings)
 solver.solve()
-sol_x = solver.solution.x
-strict_tol = 1e-10
-assert abs(sol_x[0] - 5.5) < strict_tol
-assert abs(sol_x[1] - 5.0) < strict_tol
-assert abs(sol_x[2] - (-10)) < strict_tol
+print(solver.solution.x)
 
-settings.eps_abs = 1e-4
-settings.eps_rel = 1e-4
-solver.update_settings(settings)
-
-data.bmin[3] = -15
+data.bmin = [0, 0, -15, 1]
 solver.update_bounds(bmin=data.bmin)
 solver.solve()
-sol_x = solver.solution.x
-assert abs(sol_x[0] - 8.5) < tol
-assert abs(sol_x[1] - 7) < tol
-assert abs(sol_x[2] - (-15)) < tol
+print(solver.solution.x)
 
-sol_x[0] = 0
-sol_x[1] = 0
-sol_x[2] = 0
-
-data.q[0] = 0
-data.q[1] = 0
-data.q[2] = 0
+data.q = [1, 0, -2]
 solver.update_q(data.q)
 solver.solve()
-sol_x = solver.solution.x
-assert abs(sol_x[0] - 0) < tol
-assert abs(sol_x[1] - 0) < tol
-assert abs(sol_x[2] - 0.5) < tol
+print(solver.solution.x)
+
+# Note that QPALM internally only uses the upper-triangular part of Q, so when
+# updating the values of Q, you have to pass the data of the upper-triangular
+# part only. 
+# If you need to update the sparsity pattern, create a new solver.
+Qup = sp.triu(data.Q)
+Qup.data[1] = -0.5
+solver.update_Q_A(Qup.data, valuesA)
+solver.solve()
+print(solver.solution.x)

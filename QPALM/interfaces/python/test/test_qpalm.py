@@ -1,11 +1,11 @@
 import numpy as np
 import scipy.sparse as sp
-import qpalm as qp
+import qpalm
 
 
 def test_simple_3x4():
 
-    data = qp.QPALMData(3, 4)
+    data = qpalm.Data(3, 4)
 
     row = np.array([0, 0, 1, 1])
     col = np.array([0, 1, 0, 1])
@@ -22,8 +22,8 @@ def test_simple_3x4():
     val = np.array([1, 1, 1, 1, 1, 1])
     data.A = sp.csc_matrix((val, (row, col)), shape=(4, 3))
 
-    settings = qp.QPALMSettings()
-    solver = qp.QPALMSolver(data, settings)
+    settings = qpalm.Settings()
+    solver = qpalm.Solver(data, settings)
     solver.solve()
     sol_x = solver.solution.x
     print(sol_x, solver.info.iter)
@@ -40,7 +40,7 @@ def test_simple_3x4():
 def test_solution_lifetime():
 
     def scope():
-        data = qp.QPALMData(3, 4)
+        data = qpalm.Data(3, 4)
         row = np.array([0, 0, 1, 1])
         col = np.array([0, 1, 0, 1])
         val = np.array([1, -1, -1, 2])
@@ -56,8 +56,8 @@ def test_solution_lifetime():
         val = np.array([1, 1, 1, 1, 1, 1])
         data.A = sp.csc_matrix((val, (row, col)), shape=(4, 3))
 
-        settings = qp.QPALMSettings()
-        solver = qp.QPALMSolver(data, settings)
+        settings = qpalm.Settings()
+        solver = qpalm.Solver(data, settings)
         solver.solve()
         sol_x = solver.solution.x
         return sol_x

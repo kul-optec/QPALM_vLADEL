@@ -15,9 +15,9 @@ int main() {
 
     // Define the problem
     // ------------------
-    qpalm::sp_index_t n   = 3; // Number of unknowns
-    qpalm::sp_index_t m   = 4; // Number of constraints
-    qpalm::QPALMData data = {n, m};
+    qpalm::sp_index_t n = 3; // Number of unknowns
+    qpalm::sp_index_t m = 4; // Number of constraints
+    qpalm::Data data    = {n, m};
     data.set_Q(make_sparse_matrix(n, n,
                                   {
                                       {0, 0, 1.0}, // row, col, value
@@ -41,11 +41,11 @@ int main() {
 
     // Configure the solver
     // --------------------
-    qpalm::QPALMSettings settings;
-    settings.eps_abs          = 1e-10;
-    settings.eps_rel          = 1e-10;
-    settings.max_iter         = 100;
-    qpalm::QPALMSolver solver = {data, settings};
+    qpalm::Settings settings;
+    settings.eps_abs     = 1e-10;
+    settings.eps_rel     = 1e-10;
+    settings.max_iter    = 100;
+    qpalm::Solver solver = {data, settings};
 
     // Solve the roblem
     // ----------------

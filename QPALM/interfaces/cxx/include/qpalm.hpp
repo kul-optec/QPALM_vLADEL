@@ -35,7 +35,7 @@ struct qpalm_workspace_cleaner {
  * @f}
  * @ingroup qpalm-cxx-grp
  */
-class QPALMData {
+class Data {
   public:
     /// Problem dimension
     /// (size of x and q, number rows and columns of Q, number of columns of A).
@@ -52,7 +52,7 @@ class QPALMData {
 
   public:
     /// Construct a problem of dimension n with m constraints.
-    QPALMData(index_t n, index_t m) : n{n}, m{m} {}
+    Data(index_t n, index_t m) : n{n}, m{m} {}
 
     /// Set the sparse Q matrix. Creates a copy.
     void set_Q(const sparse_mat_t &Q) {
@@ -88,10 +88,10 @@ class QPALMData {
  * Settings and parameters for the QPALM solver.
  * @ingroup qpalm-cxx-grp
  */
-struct QPALMSettings : ::QPALMSettings {
+struct Settings : ::QPALMSettings {
     /// Construct with default settings.
     /// @see    @ref qpalm_set_default_settings
-    QPALM_CXX_EXPORT QPALMSettings();
+    QPALM_CXX_EXPORT Settings();
 };
 
 /**
@@ -99,7 +99,7 @@ struct QPALMSettings : ::QPALMSettings {
  * @ingroup qpalm-cxx-grp
  */
 
-using ::QPALMInfo;
+using Info = ::QPALMInfo;
 
 /**
  * View on the solution returned by the solver.
@@ -107,7 +107,7 @@ using ::QPALMInfo;
  *         solver object is destroyed. Create a copy of @c x and @c y as type
  *         @c vec_t if you need the solution after the solver is gone.
  */
-struct QPALMSolutionView {
+struct SolutionView {
     const_borrowed_vec_t x{nullptr, 0};
     const_borrowed_vec_t y{nullptr, 0};
 };
@@ -118,27 +118,28 @@ struct QPALMSolutionView {
  * @see    @ref ::qpalm_solve
  * @ingroup qpalm-cxx-grp
  */
-class QPALMSolver {
+class Solver {
   public:
     /// Create a new solver for the problem defined by @p data and with the
     /// parameters defined by @p settings.
-    QPALM_CXX_EXPORT QPALMSolver(const QPALMData &data, const QPALMSettings &settings);
+    QPALM_CXX_EXPORT Solver(const Data &data, const Settings &settings);
 
     /// @see    @ref ::qpalm_update_settings
-    QPALM_CXX_EXPORT void update_settings(const QPALMSettings &settings);
+    QPALM_CXX_EXPORT void update_settings(const Settings &settings);
     /// @see    @ref ::qpalm_update_bounds
     QPALM_CXX_EXPORT void update_bounds(std::optional<const_ref_vec_t> bmin,
-                       std::optional<const_ref_vec_t> bmax);
+                                        std::optional<const_ref_vec_t> bmax);
     /// @see    @ref ::qpalm_update_q
     QPALM_CXX_EXPORT void update_q(const_ref_vec_t q);
     /// @see    @ref ::qpalm_update_Q_A
     /// @note   Updates only the values, sparsity pattern should remain the
     ///         same.
-    QPALM_CXX_EXPORT void update_Q_A(const_ref_vec_t Q_vals, const_ref_vec_t A_vals);
+    QPALM_CXX_EXPORT void update_Q_A(const_ref_vec_t Q_vals,
+                                     const_ref_vec_t A_vals);
 
     /// @see    @ref ::qpalm_warm_start
     QPALM_CXX_EXPORT void warm_start(std::optional<const_ref_vec_t> x,
-                    std::optional<const_ref_vec_t> y);
+                                     std::optional<const_ref_vec_t> y);
 
     /// Solve the problem. The solution will be available through
     /// @ref get_solution() and the solver information and statistics through
@@ -150,7 +151,7 @@ class QPALMSolver {
     /// @note   Returns a view that is only valid as long as the solver is not
     ///         destroyed.
     /// @see    @ref QPALMWorkspace::solution
-    QPALM_CXX_EXPORT QPALMSolutionView get_solution() const;
+    QPALM_CXX_EXPORT SolutionView get_solution() const;
     /// Get the solver information from the last call to @ref solve().
     /// @note   Returns a reference that is only valid as long as the solver is
     ///         not destroyed.
@@ -170,7 +171,9 @@ class QPALMSolver {
 
     /// Get a pointer to the underlying C workspace data structure.
     /// @see    @ref ::QPALMWorkspace
-    QPALM_CXX_EXPORT const ::QPALMWorkspace *get_c_work_ptr() const { return work.get(); }
+    QPALM_CXX_EXPORT const ::QPALMWorkspace *get_c_work_ptr() const {
+        return work.get();
+    }
 
   private:
     using workspace_ptr =
