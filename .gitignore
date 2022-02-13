@@ -4,3 +4,4 @@ py-venv
 dist
 __pycache__
 *.pyc
+products
