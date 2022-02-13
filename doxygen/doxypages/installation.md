@@ -89,8 +89,27 @@ pip install .
 
 ## Julia installation
 
-Usually, you'll use tools like BinaryBuilder.jl instead of compiling it manually,
-but if you need to, you can:
+First, build the binary JLL package using BinaryBuilder.jl, and deploy it 
+locally (to your `~/.julia/dev` folder):
+```sh
+julia QPALM/interfaces/julia/build_tarballs.jl $(gcc -print-multiarch) --deploy=local
+julia -e "using Pkg; Pkg.develop(path=\"$HOME/.julia/dev/QPALM_jll\")"
+```
+
+Then install the development version of QPALM.jl as well:
+```sh
+cd # wherever you want to download the source code
+git clone https://github.com/kul-optec/QPALM.jl.git
+julia -e "using Pkg; Pkg.develop(path=\"$PWD/QPALM.jl\")"
+```
+
+You can run the tests using:
+```sh
+julia QPALM.jl/test/runtests.jl
+```
+
+Usually, you'll use BinaryBuilder.jl instead of compiling it manually, but if
+you need to, you can:
 ```sh
 cmake -B build -S QPALM \
     -D CMAKE_BUILD_TYPE=Release \
@@ -98,6 +117,7 @@ cmake -B build -S QPALM \
     -D CMAKE_POSITION_INDEPENDENT_CODE=On
 cmake --build build --config Release -j
 cmake --install build --config Release --component julia_modules --prefix $PWD/staging-julia
+# staging-julia/lib/libqpalm_jll.so now exists
 ```
 
 ## C/C++ installation
