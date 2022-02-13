@@ -48,7 +48,7 @@ directory = "QPALM/interfaces/python"
 include = ["CMakeLists.txt", "LADEL", "QPALM"]
 
 [tool.py-build-cmake.cmake]
-build_type = "RelWithDebInfo"
+build_type = "Release"
 source_path = "QPALM"
 args = ["-Wdev"]
 build_args = ["-j"]
@@ -59,9 +59,17 @@ install_components = ["python_modules"]
 "QPALM_WITH_CXX:BOOL" = "On"
 "QPALM_WITH_PYTHON:BOOL" = "On"
 "QPALM_WITH_PY_STUBS:BOOL" = "On"
+"CMAKE_POSITION_INDEPENDENT_CODE:BOOL" = "On"
+
+[tool.py-build-cmake.linux.cmake]
+build_type = ""
+generator = "Ninja Multi-Config"
+config = ["Debug", "Release"]
 
 [tool.py-build-cmake.stubgen]
-args = ["-v"]
+packages = []
+files = ["qpalm/__init__.py"]
+args = ["-v", "--no-import"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
