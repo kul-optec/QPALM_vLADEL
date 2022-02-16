@@ -1,3 +1,6 @@
+# The definitive version of this file is maintained at:
+# https://github.com/JuliaPackaging/Yggdrasil/blob/master/Q/QPALM/build_tarballs.jl
+
 # Note that this script can accept some limited command-line arguments, run
 # `julia build_tarballs.jl --help` to see a usage message.
 using BinaryBuilder, Pkg
@@ -7,7 +10,7 @@ version = v"1.0.0"
 
 # Collection of sources required to complete build
 sources = [
-    GitSource("https://github.com/kul-optec/QPALM.git","394cdfd8aecc0538a8a5740a26b34f236cb80172"),
+    GitSource("https://github.com/kul-optec/QPALM.git","9bd94ef60ca5d82cd8d5f05ac7efd5a449e501c0"),
     GitSource("https://github.com/kul-optec/LADEL.git", "70ad69a621756e72b164dee302a826f9cc111c55"),
 ]
 
@@ -38,12 +41,12 @@ install_license LICENSE.AMD
 platforms = supported_platforms()
 
 # The products that we will ensure are always built
-products = Product[
+products = [
     LibraryProduct("libqpalm_jll", :libqpalm_jll),
 ]
 
 # Dependencies that must be installed before this package can be built
-dependencies = []
+dependencies = Dependency[]
 
 # Build the tarballs, and possibly a `build.jl` as well.
-build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies; julia_compat="1.6", preferred_gcc_version=v"10.2.0")
+build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies; julia_compat="1.6")
