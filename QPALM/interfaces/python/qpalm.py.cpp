@@ -83,24 +83,27 @@ PYBIND11_MODULE(MODULE_NAME, m) {
                 d.set_A(std::move(A));
             })
         .def_property(
-            "q", [](const qpalm::Data &d) -> qpalm::vec_t { return d.q; },
+            "q", [](qpalm::Data &d) -> qpalm::vec_t & { return d.q; },
             [](qpalm::Data &d, qpalm::vec_t q) {
                 check_dim(q, "q", d.n);
                 d.q = (std::move(q));
-            })
+            },
+            py::return_value_policy::reference_internal)
         .def_readwrite("c", &qpalm::Data::c)
         .def_property(
-            "bmin", [](const qpalm::Data &d) -> qpalm::vec_t { return d.bmin; },
+            "bmin", [](qpalm::Data &d) -> qpalm::vec_t & { return d.bmin; },
             [](qpalm::Data &d, qpalm::vec_t b) {
                 check_dim(b, "bmin", d.m);
                 d.bmin = std::move(b);
-            })
+            },
+            py::return_value_policy::reference_internal)
         .def_property(
-            "bmax", [](const qpalm::Data &d) -> qpalm::vec_t { return d.bmax; },
+            "bmax", [](qpalm::Data &d) -> qpalm::vec_t & { return d.bmax; },
             [](qpalm::Data &d, qpalm::vec_t b) {
                 check_dim(b, "bmax", d.m);
                 d.bmax = std::move(b);
-            })
+            },
+            py::return_value_policy::reference_internal)
         .def("_get_c_data_ptr", &qpalm::Data::get_c_data_ptr,
              "Return a pointer to the C data struct (of type ::QPALMData).",
              py::return_value_policy::reference_internal);
