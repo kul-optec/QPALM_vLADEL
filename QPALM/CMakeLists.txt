@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(QPALM VERSION 1.0.0)
+project(QPALM VERSION 1.0.1)
 set(PY_VERSION_SUFFIX "")
 
 # Options
