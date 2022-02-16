@@ -43,7 +43,7 @@ install(TARGETS _qpalm
 # Generate stubs for the Python module
 option(QPALM_WITH_PY_STUBS
     "Generate Python stub files (.pyi) for the Python module." On)
-if (QPALM_WITH_PY_STUBS)
+if (QPALM_WITH_PY_STUBS AND NOT CMAKE_CROSSCOMPILING)
     include(cmake/Pybind11Stubgen.cmake)
     pybind11_stubgen(_qpalm)
     pybind11_stubgen_install(_qpalm qpalm)
