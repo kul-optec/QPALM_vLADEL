@@ -132,7 +132,7 @@ cmake -B build -S QPALM \
     -D CMAKE_POSITION_INDEPENDENT_CODE=On
 cmake --build build --config Release -j
 cmake --install build --config Release --prefix /usr/local
-cmake --install build/QPALM/LADEL --prefix /usr/local
+cmake --install build/LADEL --prefix /usr/local
 ```
 
 If you just need the shared libraries, you can use:
