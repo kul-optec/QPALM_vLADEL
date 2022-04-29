@@ -39,9 +39,12 @@ To install the Matlab interface, download `qpalm-matlab-linux.tar.gz` or
 `qpalm-matlab-windows.zip` from the 
 [releases page](https://github.com/kul-optec/QPALM/releases/latest), and 
 extract it into the `~/Documents/MATLAB` folder.  
-As a one-liner for Linux:
-```sh
-wget https://github.com/kul-optec/QPALM/releases/download/1.0.0/qpalm-matlab-linux.tar.gz -O- | tar xz -C ~/Documents/MATLAB
+As a one-liner in the Matlab console:
+```matlab
+unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.0/qpalm-matlab-linux.zip', userpath)
+```
+```matlab
+unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.0/qpalm-matlab-windows.zip', userpath)
 ```
 
 ### C/C++/Fortran
