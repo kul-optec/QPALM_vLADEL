@@ -28,7 +28,7 @@ jobs:
           -D BUILD_SHARED_LIBS=On \
           -DCMAKE_POSITION_INDEPENDENT_CODE=On \
           -DQPALM_WITH_CXX=On \
-          -DQPALM_WITH_Fortran=On
+          -DQPALM_WITH_FORTRAN=On
     - name: Build Debug
       run: |
         cmake --build package --config Debug -j
