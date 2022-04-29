@@ -28,6 +28,9 @@
  * add QPALM
  * \endcode
  *
+ * \subsection c_cxx_fortran C/C++/Fortran
+ * Pre-built C, C++ and Fortran libraries for Linux are available from the [releases page](https://github.com/kul-optec/QPALM/releases).
+ *
  * \subsection matlab Matlab
  *
  * Pre-built Matlab binaries are available from the [releases page](https://github.com/kul-optec/QPALM/releases/latest).
@@ -49,6 +52,7 @@
  * \li C++ interface: @ref examples/cxx/qpalm_demo.cpp
  * \li C API: @ref examples/c/qpalm_demo.c
  * \li Matlab MEX interface: @ref examples/matlab/qpalm_mex_demo.m and @ref examples/matlab/qpalm_mex_nonconvex_demo.m
+ * <!-- \li Fortran interface: @ref examples/fortran/qpalm_fortran_demo.f90 -->
  *   
  * \section cite Citing QPALM
  * 
