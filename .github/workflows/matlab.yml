@@ -40,7 +40,8 @@ jobs:
           --prefix staging
     - name: Package
       run: |
-        zip -r qpalm-matlab-linux.zip staging/*
+        zip -r ../qpalm-matlab-linux.zip ./*
+      working-directory: staging
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
