@@ -782,7 +782,7 @@ int main(int argc, char*argv[]){
     printf("Iter: %ld\n", work->info->iter);
     // printf("Status: %s\n", work->info->status);
     // printf("Objective: %le\n", work->info->objective);
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
     printf("Runtime: %f seconds\n", work->info->run_time);
     // printf("Runtime: %f seconds\n", work->info->setup_time);
     #endif

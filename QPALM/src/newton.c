@@ -21,7 +21,7 @@ void newton_set_direction(QPALMWorkspace *work, solver_common *c) {
     
     if (work->solver->factorization_method == FACTORIZE_KKT)
     {
-        #ifdef USE_LADEL 
+        #ifdef QPALM_USE_LADEL 
         // NB FACTORIZE_KKT only defined with LADEL for now
         // TODO (optionally) extract the ladel functions and bury them, use cholmod also for kkt
         ladel_diag d;

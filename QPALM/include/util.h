@@ -51,7 +51,7 @@ void update_status(QPALMInfo *info,
 * Print Functions  *
 **********************/
 
-#ifdef PRINTING
+#ifdef QPALM_PRINTING
 
 /** 
  * Print the header with QPALM version number and fields.
@@ -71,14 +71,14 @@ void print_iteration(c_int iter, QPALMWorkspace *work);
  */
 void print_final_message(QPALMWorkspace *work);
 
-#endif //PRINTING
+#endif // QPALM_PRINTING
 
 
 /*********************************
 * Timer Structs and Functions * *
 *********************************/
 
-# ifdef PROFILING
+# ifdef QPALM_TIMING
 
 /*! \cond PRIVATE */
 
@@ -164,7 +164,7 @@ void qpalm_tic(QPALMTimer *t);
  */
 c_float qpalm_toc(QPALMTimer *t);
 
-# endif /* END #ifdef PROFILING */
+# endif /* END #ifdef QPALM_TIMING */
 
 
 # ifdef __cplusplus

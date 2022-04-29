@@ -2259,10 +2259,10 @@ INCLUDE_FILE_PATTERNS  =
 PREDEFINED             = DAMD \
                          SIMPLE_COL_COUNTS \
                          DLONG \
-                         PROFILING \
-                         USE_LADEL \
-                         COMPILE_NONCONVEX \
-                         PRINTING
+                         QPALM_TIMING \
+                         QPALM_USE_LADEL \
+                         QPALM_NONCONVEX \
+                         QPALM_PRINTING
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The

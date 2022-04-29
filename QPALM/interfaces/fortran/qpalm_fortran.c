@@ -180,7 +180,7 @@ void qpalm_fortran_c( f_int n,
     qpalm_print("Solver status: %s\n", work->info->status);
     qpalm_print("Iter: %d\n", (int) work->info->iter);
     qpalm_print("Iter Out: %d\n", (int) work->info->iter_out);
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
     qpalm_print("Setup time: %f\n", work->info->setup_time);
     qpalm_print("Solve time: %f\n", work->info->solve_time);
     qpalm_print("Run time: %f\n", work->info->run_time);

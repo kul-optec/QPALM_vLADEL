@@ -122,7 +122,7 @@ PYBIND11_MODULE(MODULE_NAME, m) {
         .def_readwrite("dua2_res_norm", &qpalm::Info::dua2_res_norm)
         .def_readwrite("objective", &qpalm::Info::objective)
         .def_readwrite("dual_objective", &qpalm::Info::dual_objective)
-#ifdef PROFILING
+#ifdef QPALM_TIMING
         .def_readwrite("setup_time", &qpalm::Info::setup_time)
         .def_readwrite("solve_time", &qpalm::Info::solve_time)
         .def_readwrite("run_time", &qpalm::Info::run_time)

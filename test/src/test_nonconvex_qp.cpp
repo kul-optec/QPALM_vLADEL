@@ -1,4 +1,4 @@
-#ifdef COMPILE_NONCONVEX
+#ifdef QPALM_NONCONVEX
 
 #include "minunit.h"
 #include "qpalm.h"
@@ -131,4 +131,4 @@ INSTANTIATE_TEST_SUITE_P(TestNonconvexQP, TestNonconvexQP,
                                            FACTORIZE_KKT,
                                            FACTORIZE_SCHUR));
 
-#endif // COMPILE_NONCONVEX
+#endif // QPALM_NONCONVEX

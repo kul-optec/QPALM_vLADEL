@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(QPALM VERSION 1.0.1)
+project(QPALM VERSION 1.1.0)
 set(PY_VERSION_SUFFIX "")
 
 # Options
@@ -41,21 +41,15 @@ add_library(qpalm-headers INTERFACE)
 target_include_directories(qpalm-headers
     INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
               $<INSTALL_INTERFACE:include>)
-target_compile_definitions(qpalm-headers INTERFACE USE_LADEL)
-if (QPALM_NONCONVEX)
-    target_compile_definitions(qpalm-headers INTERFACE COMPILE_NONCONVEX)
-endif()
-if (QPALM_TIMING)
-    target_compile_definitions(qpalm-headers INTERFACE PROFILING)
-endif()
-if (QPALM_PRINTING)
-    target_compile_definitions(qpalm-headers INTERFACE PRINTING)
-endif()
-target_compile_definitions(qpalm-headers 
-    INTERFACE QPALM_VERSION_STR=\"${QPALM_VERSION}${PY_VERSION_SUFFIX}\"
-              QPALM_VERSION_MAJOR=${QPALM_VERSION_MAJOR}
-              QPALM_VERSION_MINOR=${QPALM_VERSION_MINOR}
-              QPALM_VERSION_PATCH=${QPALM_VERSION_PATCH})
+target_compile_definitions(qpalm-headers INTERFACE
+    QPALM_USE_LADEL
+    $<$<BOOL:${QPALM_NONCONVEX}>:QPALM_NONCONVEX>
+    $<$<BOOL:${QPALM_TIMING}>:QPALM_TIMING>
+    $<$<BOOL:${QPALM_PRINTING}>:QPALM_PRINTING>
+    QPALM_VERSION_STR=\"${QPALM_VERSION}${PY_VERSION_SUFFIX}\"
+    QPALM_VERSION_MAJOR=${QPALM_VERSION_MAJOR}
+    QPALM_VERSION_MINOR=${QPALM_VERSION_MINOR}
+    QPALM_VERSION_PATCH=${QPALM_VERSION_PATCH})
 target_compile_features(qpalm-headers INTERFACE c_std_99)
 target_link_libraries(qpalm-headers INTERFACE LADEL::ladel)
 
