@@ -16,6 +16,9 @@ set_target_properties(qpalm_fortran PROPERTIES
 target_compile_definitions(qpalm_fortran PUBLIC
     $<$<BOOL:${QPALM_FORTRAN_SINGLE_PRECISION}>:QPALM_FORTRAN_SINGLE_PRECISION>
     $<$<BOOL:${QPALM_FORTRAN_64BIT_INDICES}>:QPALM_FORTRAN_64BIT_INDICES>)
+set_target_properties(qpalm_fortran PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
 add_library(QPALM::qpalm_fortran ALIAS qpalm_fortran)
 
 include(cmake/Install.cmake)

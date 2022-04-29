@@ -20,7 +20,7 @@ set_target_properties(qpalm-obj PROPERTIES
     CXX_VISIBILITY_PRESET hidden)
 set_target_properties(qpalm_cxx PROPERTIES
     VERSION ${PROJECT_VERSION}
-    SOVERSION ${PROJECT_VERSION_MAJOR})
+    SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
 add_library(${PROJECT_NAME}::qpalm_cxx ALIAS qpalm_cxx)
 
 include(cmake/Install.cmake)
