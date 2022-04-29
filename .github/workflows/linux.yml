@@ -27,7 +27,8 @@ jobs:
           -G "Ninja Multi-Config" \
           -D BUILD_SHARED_LIBS=On \
           -DCMAKE_POSITION_INDEPENDENT_CODE=On \
-          -DQPALM_WITH_CXX=On
+          -DQPALM_WITH_CXX=On \
+          -DQPALM_WITH_Fortran=On
     - name: Build Debug
       run: |
         cmake --build package --config Debug -j
@@ -73,6 +74,7 @@ jobs:
       run: |
         ./build-examples/c/qpalm_demo
         ./build-examples/cxx/qpalm_demo_cxx
+        ./build-examples/fortran/qpalm_demo_fortran
     - name: Build examples (Debug)
       run: |
         cmake -B build-examplesd -S examples -DCMAKE_BUILD_TYPE=Debug
@@ -81,6 +83,7 @@ jobs:
       run: |
         ./build-examplesd/c/qpalm_demo
         ./build-examplesd/cxx/qpalm_demo_cxx
+        ./build-examplesd/fortran/qpalm_demo_fortran
 
   release:
     if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
