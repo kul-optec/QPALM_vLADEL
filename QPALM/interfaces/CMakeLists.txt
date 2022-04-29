@@ -18,6 +18,11 @@ if (QPALM_WITH_MEX)
     add_subdirectory(mex)
 endif()
 
+# Fortran interface
+if (QPALM_WITH_FORTRAN)
+    add_subdirectory(fortran)
+endif()
+
 # Utility for solving problems from .mtx files
 if (QPALM_WITH_MTX)
     add_subdirectory(mtx)

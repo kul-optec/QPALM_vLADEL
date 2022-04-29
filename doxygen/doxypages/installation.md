@@ -120,9 +120,9 @@ cmake --install build --config Release --component julia_modules --prefix $PWD/s
 # staging-julia/lib/libqpalm_jll.so now exists
 ```
 
-## C/C++ installation
+## C/C++/Fortran installation
 
-To install the C and C++ libraries and headers, simply follow the standard 
+To install the C and C++ libraries and headers, simply follow the standard
 CMake configure, build, install instructions:
 
 ```sh
@@ -146,3 +146,6 @@ cmake --build build --config Release -j
 cmake --install build --config Release --component shlib --prefix /usr/local
 cmake --install build/LADEL --component shlib --prefix /usr/local
 ```
+
+To build the Fortran interface, simply add the option 
+`-D QPALM_WITH_FORTRAN=On` to the first CMake command.

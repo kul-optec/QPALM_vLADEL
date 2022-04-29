@@ -3,6 +3,7 @@ project(QPALM VERSION 1.0.1)
 set(PY_VERSION_SUFFIX "")
 
 # Options
+include(CMakeDependentOption)
 option(QPALM_WARNINGS_AS_ERRORS "Treat warnings as errors" Off)
 option(QPALM_NONCONVEX "Compile also for nonconvex QPs" On)
 option(QPALM_TIMING "Enable timing" On)
@@ -11,10 +12,22 @@ option(QPALM_WITH_CXX "Build the C++ interface" Off)
 option(QPALM_WITH_PYTHON "Build the Python interface" Off)
 option(QPALM_WITH_JULIA "Build the Julia interface" Off)
 option(QPALM_WITH_MEX "Build the MATLAB interface" Off)
+option(QPALM_WITH_FORTRAN "Build the Fortran interface" Off)
 option(QPALM_WITH_MTX "Build the .mtx interface" Off)
 option(QPALM_WITH_QPS "Build the .qps interface" Off)
 
+cmake_dependent_option(QPALM_FORTRAN_SINGLE_PRECISION 
+    "Use single-precision floating point for the Fortran interface" 
+    Off QPALM_WITH_FORTRAN Off)
+cmake_dependent_option(QPALM_FORTRAN_64BIT_INDICES
+    "Use 64-bit integers for indices in the Fortran interface" 
+    On QPALM_WITH_FORTRAN On)
+
 include(cmake/GlobalCompileOptions.cmake)
+
+if (QPALM_WITH_MEX AND LADEL_SINGLE_PRECISION)
+    message(FATAL_ERROR "The MEX interface is not available in single-precision")
+endif()
 
 # LADEL linear algebra C library
 function(add_ladel)
