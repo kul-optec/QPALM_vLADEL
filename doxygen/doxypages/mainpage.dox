@@ -50,9 +50,9 @@
  * \li Python interface: @ref examples/python/qpalm_python_demo.py
  * \li Julia interface: @ref examples/julia/qpalm_julia_demo.jl
  * \li C++ interface: @ref examples/cxx/qpalm_demo.cpp
+ * \li Fortran interface: @ref examples/fortran/qpalm_fortran_demo.f90
  * \li C API: @ref examples/c/qpalm_demo.c
  * \li Matlab MEX interface: @ref examples/matlab/qpalm_mex_demo.m and @ref examples/matlab/qpalm_mex_nonconvex_demo.m
- * <!-- \li Fortran interface: @ref examples/fortran/qpalm_fortran_demo.f90 -->
  *   
  * \section cite Citing QPALM
  * 

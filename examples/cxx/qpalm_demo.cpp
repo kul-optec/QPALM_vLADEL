@@ -9,7 +9,7 @@ static auto make_sparse_matrix(qpalm::sp_index_t rows, qpalm::sp_index_t cols,
     qpalm::sparse_mat_t M{rows, cols};
     M.setFromTriplets(begin(triplets), end(triplets));
     return M;
-};
+}
 
 int main() {
 

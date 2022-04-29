@@ -16,7 +16,6 @@
 /**
  * @example{lineno} "examples/c/qpalm_demo.c"
  */
-/* TODO: disabled for now because of Doxygen bug:
- *       https://github.com/doxygen/doxygen/issues/9298
+/**
  * @example{lineno} "examples/fortran/qpalm_fortran_demo.f90"
  */
