@@ -5,6 +5,8 @@ set(INSTALL_CMAKE_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/QPALM_cxx")
 # Add the qpalm library to the "export-set", install the library files
 install(TARGETS qpalm_cxx qpalm_warnings
     EXPORT QPALM_cxxTargets
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        COMPONENT shlib
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         COMPONENT shlib
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" 
