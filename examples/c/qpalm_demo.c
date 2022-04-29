@@ -12,7 +12,7 @@
 c_float* random_vector(c_int n) {
   c_float* X = qpalm_calloc(n, sizeof(c_float));
   for (int i = 0; i < n; i++) {
-    X[i] = (c_float) 10*rand()/RAND_MAX;
+    X[i] = (c_float) 10*rand()/(c_float) RAND_MAX;
   }
   return X;
 }

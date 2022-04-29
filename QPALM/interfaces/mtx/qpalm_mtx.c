@@ -27,7 +27,7 @@ solver_sparse* mtx_load_A(FILE *fp, size_t *n, size_t *m){
 
     c_int elem = 0, col = 1, prev_col = 1;
     c_int row;
-    c_float temp;
+    double temp;
 
     while (fscanf(fp, "%" LADEL_PRIi " %" LADEL_PRIi " %le", &row, &col, &temp) != EOF) {
 
@@ -80,7 +80,7 @@ solver_sparse* mtx_load_Q(FILE *fp, size_t n_check){
 
     c_int elem = 0, col = 1, prev_col = 1;
     c_int row;
-    c_float temp;
+    double temp;
 
     while (fscanf(fp, "%" LADEL_PRIi " %" LADEL_PRIi " %le", &row, &col, &temp) != EOF) {
 
@@ -122,7 +122,7 @@ c_float* mtx_load_dense(FILE* fp, size_t n_check) {
     }
     c_float *result = (c_float *) calloc(n, sizeof(c_float));
     size_t i;
-    c_float temp;
+    double temp;
     while (fscanf(fp, "%lu %*u %le", &i, &temp) != EOF) {
         if (temp > QPALM_INFTY) {
             temp = QPALM_INFTY;

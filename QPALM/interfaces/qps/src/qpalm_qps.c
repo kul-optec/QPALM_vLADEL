@@ -19,7 +19,7 @@ void print_sparse_matlab(solver_sparse *M) {
     printf("M = sparse(%ld, %ld);", M->nrow, M->ncol);
     c_int col, index = 0; 
     long int row;
-    double *Mx = M->x;
+    c_float *Mx = M->x;
     long int *Mi = M->i;
     long int *Mp = M->p;
 
@@ -33,7 +33,7 @@ void print_sparse_matlab(solver_sparse *M) {
     printf("\n");
 }
 
-void print_dense_vector_matlab(double* x, size_t len) {
+void print_dense_vector_matlab(c_float* x, size_t len) {
     size_t k;
     printf("x = zeros(%lu, 1);", len);
     for (k = 0; k < len; k++) {
@@ -76,7 +76,7 @@ int get_sizes_and_check_format(FILE *fp, QPALMData *data, struct index_table **f
     // char *file_copy = NULL;
     char NLGE[1], buf[20], buf2[20], objective[20];
     buf2[0] = '\0';
-    c_float temp, temp2;
+    double temp, temp2;
     char colchar[20], rowchar[20], prev_colchar[20], second_rowchar[20];
     prev_colchar[0] = '\0';
     second_rowchar[0] = '\0';
@@ -145,7 +145,7 @@ int get_sizes_and_check_format(FILE *fp, QPALMData *data, struct index_table **f
             *free_bounds = create_index_table(c_max((c_int) n/5,1));
 
         } else if (!strcmp(command, "RHS") || !strcmp(command, "RANGES")) {
-            c_float temp1, temp2;
+            double temp1, temp2;
             while(next_char == ' ') {
                 fgets(line, 100, fp);
                 temp_int = sscanf(line, "%s %s %le %s %le", buf, rowchar, &temp1, second_rowchar, &temp2);
@@ -219,7 +219,7 @@ void read_data(FILE* fp, QPALMData *data, struct index_table* row_index_table,
     char next_char;
     char NLGE[1], buf[20], objective[20];
     objective[0] = '\0';
-    c_float temp, temp2;
+    double temp, temp2;
     char colchar[20], rowchar[20], prev_colchar[20], second_rowchar[20];
     prev_colchar[0] = '\0';
     second_rowchar[0] = '\0';
@@ -599,7 +599,7 @@ void read_settings(QPALMSettings *settings, FILE* fp) {
     qpalm_set_default_settings(settings);
     
     char setting[100];
-    c_float temp;
+    double temp;
 
     int i;
     for(i = 0; i < 5; i++) {

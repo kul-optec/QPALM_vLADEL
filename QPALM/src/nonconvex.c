@@ -142,7 +142,7 @@ static int custom_rref(c_float D[3][3])
     return 2;
 }
 
-static c_float custom_eig(const c_float B[3][3], const c_float C[3][3], c_float x[3])
+static c_float custom_eig(c_float B[3][3], c_float C[3][3], c_float x[3])
 {
     c_float a, b, c, d;
     c_float xqx = B[0][0], xqw = B[0][1], xqp = B[0][2], wqw = B[1][1], wqp = B[1][2], pqp = B[2][2], xp = C[0][2], wp = C[1][2];
@@ -200,7 +200,7 @@ static c_float lobpcg(QPALMWorkspace *work, c_float *x, solver_common *c) {
         x = work->d; 
         /* Initialize eigenvector randomly. */
         for (i = 0; i < n; i++) {
-            x[i] = (c_float) rand()/RAND_MAX;
+            x[i] = (c_float) rand()/(c_float) RAND_MAX;
         }
         vec_self_mult_scalar(x, 1.0/vec_norm_two(x, n), n);
     } else {

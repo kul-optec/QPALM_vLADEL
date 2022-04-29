@@ -27,6 +27,12 @@ set(MSVC_WARNINGS
 )
 set(MSVC_LAX_WARNINGS ${MSVC_WARNINGS})
 
+set(INTEL_WARNINGS 
+    -Wall 
+    -Wextra
+)
+set(INTEL_LAX_WARNINGS ${INTEL_WARNINGS})
+
 if (QPALM_WARNINGS_AS_ERRORS)
     if (CMAKE_C_COMPILER_ID MATCHES "MSVC")
         list(APPEND MSVC_WARNINGS /WX)
@@ -54,8 +60,13 @@ elseif (CMAKE_C_COMPILER_ID MATCHES "MSVC")
         ${MSVC_WARNINGS})
     target_compile_options(qpalm_lax_warnings INTERFACE
         ${MSVC_LAX_WARNINGS})
+elseif (CMAKE_C_COMPILER_ID MATCHES "Intel")
+    target_compile_options(qpalm_warnings INTERFACE
+        ${INTEL_WARNINGS})
+    target_compile_options(qpalm_lax_warnings INTERFACE
+        ${INTEL_LAX_WARNINGS})
 else()
-    message(FATAL_ERROR "No known warnings for this compiler")
+    message(WARNING "No known warnings for this compiler")
 endif()
 add_library(${PROJECT_NAME}::qpalm_lax_warnings ALIAS qpalm_lax_warnings)
 add_library(${PROJECT_NAME}::qpalm_warnings ALIAS qpalm_warnings)
