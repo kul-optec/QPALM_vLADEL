@@ -57,7 +57,7 @@ rm -r "~/Documents/MATLAB/+qpalm"
 ## Python installation
 
 QPALM is available on [PyPI](https://pypi.org/project/qpalm/), with binaries
-for Windows and Linux (x86_64 and arm64). To install it use:
+for Windows and Linux (x86_64 and arm64). To install it, use:
 ```sh
 python3 -m pip install qpalm
 ```
@@ -147,5 +147,14 @@ cmake --install build --config Release --component shlib --prefix /usr/local
 cmake --install build/LADEL --component shlib --prefix /usr/local
 ```
 
-To build the Fortran interface, simply add the option 
+To build the Fortran interface as well, simply add the option 
 `-D QPALM_WITH_FORTRAN=On` to the first CMake command.
+
+For the C++ interface, you'll need to have the [Eigen](https://eigen.tuxfamily.org)
+library installed. You can find installation instructions in the scripts 
+provided by the QPALM repository (`scripts/install-eigen.{sh,ps1}`), or install
+it through your system's package manager, for example:
+
+```sh
+sudo apt install libeigen3-dev
+```
