@@ -1,6 +1,7 @@
 [![Python Wheels](https://github.com/kul-optec/QPALM/actions/workflows/wheel.yml/badge.svg)](https://github.com/kul-optec/QPALM/actions/workflows/wheel.yml)
 [![Matlab Package](https://github.com/kul-optec/QPALM/actions/workflows/matlab.yml/badge.svg)](https://github.com/kul-optec/QPALM/actions/workflows/matlab.yml)
 [![Test Coverage](https://img.shields.io/endpoint?url=https://kul-optec.github.io/QPALM/Coverage/shield.io.coverage.json)](https://kul-optec.github.io/QPALM/Coverage/index.html)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/qpalm?label=PyPI)](https://pypi.org/project/qpalm)
 
 # Proximal Augmented Lagrangian method for Quadratic Programs
 
@@ -41,10 +42,10 @@ To install the Matlab interface, download `qpalm-matlab-linux.zip` or
 extract it into the `~/Documents/MATLAB` folder.  
 As a one-liner in the Matlab console:
 ```matlab
-unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.0/qpalm-matlab-linux.zip', userpath)
+unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.1/qpalm-matlab-linux.zip', userpath)
 ```
 ```matlab
-unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.0/qpalm-matlab-windows.zip', userpath)
+unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.1/qpalm-matlab-windows.zip', userpath)
 ```
 
 ### C/C++/Fortran

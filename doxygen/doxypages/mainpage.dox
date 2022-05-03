@@ -38,10 +38,10 @@
  *
  * As a one-liner in the Matlab console:
  * \code{.m}
- * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.0/qpalm-matlab-linux.zip', userpath)
+ * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.1/qpalm-matlab-linux.zip', userpath)
  * \endcode
  * \code{.m}
- * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.0/qpalm-matlab-windows.zip', userpath)
+ * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.1/qpalm-matlab-windows.zip', userpath)
  * \endcode
  *
  * \subsection build-source Building QPALM from source
