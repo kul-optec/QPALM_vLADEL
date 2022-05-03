@@ -35,7 +35,7 @@ add QPALM
 
 ### Matlab
 
-To install the Matlab interface, download `qpalm-matlab-linux.tar.gz` or 
+To install the Matlab interface, download `qpalm-matlab-linux.zip` or 
 `qpalm-matlab-windows.zip` from the 
 [releases page](https://github.com/kul-optec/QPALM/releases/latest), and 
 extract it into the `~/Documents/MATLAB` folder.  
