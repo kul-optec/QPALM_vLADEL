@@ -181,7 +181,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: py-venv
-        key: ${{ runner.os }}-${{ matrix.full-python-version }}-${{ hashFiles('scripts/install-eigen.sh') }}
+        key: ${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('scripts/install-eigen.sh') }}
     - name: Install Python Dependencies 
       if: steps.cache-venv.outputs.cache-hit != 'true'
       run: |
