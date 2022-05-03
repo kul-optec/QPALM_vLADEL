@@ -162,9 +162,70 @@ jobs:
         python -m pip install pytest
         pytest -rP
 
+  build-macos:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10']
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v2
+      name: Install Python
+      with: 
+        python-version: ${{ matrix.python-version }}
+    - name: Cache Virtual Environment
+      id: cache-venv
+      uses: actions/cache@v2
+      with:
+        path: py-venv
+        key: ${{ runner.os }}-${{ matrix.full-python-version }}-${{ hashFiles('scripts/install-eigen.sh') }}
+    - name: Install Python Dependencies 
+      if: steps.cache-venv.outputs.cache-hit != 'true'
+      run: |
+        python -m venv py-venv
+        source ./py-venv/bin/activate
+        ./scripts/install-eigen.sh
+        python -m pip install build
+    - name: Build
+      run: |
+        source ./py-venv/bin/activate
+        CMAKE_PREFIX_PATH="$VIRTUAL_ENV:$CMAKE_PREFIX_PATH" \
+            python -m build . --wheel
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: qpalm-whl-${{ matrix.python-version }}-mac
+        path: dist/qpalm-*.whl
+
+  test-macos:
+    needs: build-macos
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10']
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v2
+      name: Install Python
+      with: 
+        python-version: ${{ matrix.python-version }}
+    - uses: actions/download-artifact@v2
+      with:
+        name: qpalm-whl-${{ matrix.python-version }}-mac
+        path: dist
+    - name: Install
+      run: python -m pip install --find-links=dist qpalm
+    - name: Test
+      run: |
+        python -m pip install pytest
+        pytest -rP
+
   release:
     if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
-    needs: [test-linux, test-windows]
+    needs: [test-linux, test-windows, test-macos]
     runs-on: ubuntu-latest
     container: python:${{ matrix.python-version }}-bullseye
     strategy:
@@ -183,6 +244,10 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: qpalm-whl-${{ matrix.python-version }}-win
+        path: dist
+    - uses: actions/download-artifact@v2
+      with:
+        name: qpalm-whl-${{ matrix.python-version }}-mac
         path: dist
     - name: Install qpalm
       run: pip install --find-links=dist qpalm
