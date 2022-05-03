@@ -40,17 +40,18 @@ jobs:
           --prefix staging
     - name: Package
       run: |
-        tar czf qpalm-matlab-linux.tar.gz -C staging .
+        zip -r ../qpalm-matlab-linux.zip ./*
+      working-directory: staging
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: qpalm-matlab-linux
-        path: qpalm-matlab-linux.tar.gz
+        path: qpalm-matlab-linux.zip
     - name: Release
       if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
       uses: softprops/action-gh-release@17cd0d34deddf848fc0e7d9be5202c148c270a0a
       with:
-        files: qpalm-matlab-linux.tar.gz
+        files: qpalm-matlab-linux.zip
 
   build-windows:
     runs-on: windows-latest

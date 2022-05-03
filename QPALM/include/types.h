@@ -84,7 +84,7 @@ typedef struct {
   c_float objective;      ///< objective function value
   c_float dual_objective; ///< dual objective function value (= NaN if enable_dual_termination is false)
 
-  #ifdef PROFILING
+  #ifdef QPALM_TIMING
   c_float setup_time;    ///< time taken for setup phase (seconds)
   c_float solve_time;    ///< time taken for solve phase (seconds)
   c_float run_time;      ///< total time (seconds)
@@ -307,9 +307,9 @@ typedef struct {
   QPALMSolution *solution; ///< problem solution
   QPALMInfo     *info;     ///< solver information
 
-  # ifdef PROFILING
+  # ifdef QPALM_TIMING
   QPALMTimer *timer;       ///< timer object
-  # endif // ifdef PROFILING
+  # endif // ifdef QPALM_TIMING
 
 } QPALMWorkspace;
 

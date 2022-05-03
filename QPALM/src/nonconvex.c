@@ -15,7 +15,7 @@
 #include "lin_alg.h"
 #include "util.h"
 
-#ifdef COMPILE_NONCONVEX
+#ifdef QPALM_NONCONVEX
 #include <math.h>
 
 /*TODO: make this a setting */
@@ -34,18 +34,18 @@ static c_float min_root_third_order(c_float a, c_float b, c_float c, c_float d)
     if (a == 0)
     {
         // Not a cubic polynomial, should not happen 
-        # ifdef PRINTING
+        # ifdef QPALM_PRINTING
         qpalm_eprint("Not a cubic polynomial.");
-        # endif /* ifdef PRINTING */
+        # endif /* ifdef QPALM_PRINTING */
     }
     else if (d == 0)
     {
         di = b*b - 4*a*c;
         if (di < 0)
         {
-            # ifdef PRINTING
+            # ifdef QPALM_PRINTING
             qpalm_eprint("Imaginary roots. This should not happen.");
-            # endif /* ifdef PRINTING */
+            # endif /* ifdef QPALM_PRINTING */
         }
         di_sqrt = c_sqrt(di);
         r[0] = (-b-di_sqrt)/(2*a);
@@ -64,9 +64,9 @@ static c_float min_root_third_order(c_float a, c_float b, c_float c, c_float d)
         re = b/3.0;
         if (di > 0)
         {
-            # ifdef PRINTING
+            # ifdef QPALM_PRINTING
             qpalm_eprint("Imaginary roots. This should not happen.");
-            # endif /* ifdef PRINTING */
+            # endif /* ifdef QPALM_PRINTING */
         }   
         else 
         {
@@ -325,11 +325,11 @@ static c_float lobpcg(QPALMWorkspace *work, c_float *x, solver_common *c) {
     return lambda;
 
 }
-#endif /*COMPILE_NONCONVEX*/
+#endif /*QPALM_NONCONVEX*/
 
 
 void set_settings_nonconvex(QPALMWorkspace *work, solver_common *c){
-    #ifdef COMPILE_NONCONVEX
+    #ifdef QPALM_NONCONVEX
     c_float lambda;
     lambda = lobpcg(work, NULL, c);
     if (lambda < 0) {
@@ -343,11 +343,11 @@ void set_settings_nonconvex(QPALMWorkspace *work, solver_common *c){
         work->settings->nonconvex = FALSE;
     }
     #else
-    #ifdef PRINTING
+    #ifdef QPALM_PRINTING
     qpalm_print("Warning: nonconvex is not supported in this version of QPALM. Setting it to false.\n");
     work->settings->nonconvex = FALSE;
     #endif
-    #endif /*COMPILE_NONCONVEX*/
+    #endif /*QPALM_NONCONVEX*/
 }
 
 c_float gershgorin_max(solver_sparse* M, c_float *center, c_float *radius){

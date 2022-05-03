@@ -87,7 +87,7 @@ int main() {
   // for (c_int i = 0; i < n; i++) {
   //   printf("Solution variable %.10f \n",work->x[i]);
   // }
-  #ifdef PROFILING
+  #ifdef QPALM_TIMING
   printf("Setup time: %f\n", work->info->setup_time);
   printf("Solve time: %f\n", work->info->solve_time);
   printf("Run time: %f\n", work->info->run_time);

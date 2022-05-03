@@ -92,7 +92,7 @@ void update_status(QPALMInfo *info, c_int status_val) {
       break;
     default:
       c_strcpy(info->status, "unrecognised status value");
-      #ifdef PRINTING
+      #ifdef QPALM_PRINTING
         qpalm_eprint("Unrecognised status value %ld", status_val);
       #endif
       break;
@@ -103,7 +103,7 @@ void update_status(QPALMInfo *info, c_int status_val) {
 * Print Functions  *
 **********************/
 
-#ifdef PRINTING
+#ifdef QPALM_PRINTING
 
 void print_header(void) {
     qpalm_print("\n                  QPALM Version " QPALM_VERSION_STR "                   \n\n");
@@ -183,7 +183,7 @@ void print_final_message(QPALMWorkspace *work) {
         qpalm_eprint("Unrecognised final status value %ld", work->info->status_val);
         return;
     }
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
     size_t characters_runtime;
     if (work->info->run_time > 1.0) {
       snprintf(buf, 80,"| runtime:         %4.2f seconds", work->info->run_time);
@@ -212,7 +212,7 @@ void print_final_message(QPALMWorkspace *work) {
 * Timer Functions *
 *******************/
 
-#ifdef PROFILING
+#ifdef QPALM_TIMING
 
 // Windows
 # ifdef _WIN32

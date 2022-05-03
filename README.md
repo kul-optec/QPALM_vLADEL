@@ -39,19 +39,26 @@ To install the Matlab interface, download `qpalm-matlab-linux.tar.gz` or
 `qpalm-matlab-windows.zip` from the 
 [releases page](https://github.com/kul-optec/QPALM/releases/latest), and 
 extract it into the `~/Documents/MATLAB` folder.  
-As a one-liner for Linux:
-```sh
-wget https://github.com/kul-optec/QPALM/releases/download/1.0.0/qpalm-matlab-linux.tar.gz -O- | tar xz -C ~/Documents/MATLAB
+As a one-liner in the Matlab console:
+```matlab
+unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.0/qpalm-matlab-linux.zip', userpath)
 ```
+```matlab
+unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.0/qpalm-matlab-windows.zip', userpath)
+```
+
+### C/C++/Fortran
+
+Pre-built C, C++ and Fortran libraries for Linux are available from the [releases page](https://github.com/kul-optec/QPALM/releases).
 
 ### Building QPALM from source
 
-For the full instructions to build QPALM from source, please see 
+For detailed instructions on how to build QPALM from source, please see 
 <https://kul-optec.github.io/QPALM/Doxygen/installation-md.html>
 
 ## Supported platforms
 
-QPALM is written in C, with interfaces for C++, Python, Julia and Matlab.  
+QPALM is written in C, with interfaces for C++, Python, Julia, Matlab and Fortran.  
 The code itself is portable across all popular platforms. Binaries are available
 for Linux on x86-64 and AArch64<sup>*</sup> and for Windows on x86-64.
 

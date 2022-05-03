@@ -72,18 +72,18 @@ QPALMWorkspace* qpalm_setup(const QPALMData *data, const QPALMSettings *settings
     // Validate data
     if (!validate_data(data)) 
     {
-        # ifdef PRINTING
+        # ifdef QPALM_PRINTING
         qpalm_eprint("Data validation returned failure");
-        # endif /* ifdef PRINTING */
+        # endif /* ifdef QPALM_PRINTING */
         return QPALM_NULL;
     }
 
     // Validate settings
     if (!validate_settings(settings)) 
     {
-        # ifdef PRINTING
+        # ifdef QPALM_PRINTING
         qpalm_eprint("Settings validation returned failure");
-        # endif /* ifdef PRINTING */
+        # endif /* ifdef QPALM_PRINTING */
         return QPALM_NULL;
     }
 
@@ -92,17 +92,17 @@ QPALMWorkspace* qpalm_setup(const QPALMData *data, const QPALMSettings *settings
 
     if (!work) 
     {
-        # ifdef PRINTING
+        # ifdef QPALM_PRINTING
         qpalm_eprint("allocating work failure");
-        # endif /* ifdef PRINTING */
+        # endif /* ifdef QPALM_PRINTING */
         return QPALM_NULL;
     }
 
     // Start and allocate directly timer
-    # ifdef PROFILING
+    # ifdef QPALM_TIMING
     work->timer = qpalm_malloc(sizeof(QPALMTimer));
     qpalm_tic(work->timer);
-    # endif /* ifdef PROFILING */
+    # endif /* ifdef QPALM_TIMING */
 
     // Copy settings
     work->settings = copy_settings(settings);
@@ -246,11 +246,11 @@ QPALMWorkspace* qpalm_setup(const QPALMData *data, const QPALMSettings *settings
     // Allocate and initialize information
     work->info                = qpalm_calloc(1, sizeof(QPALMInfo));
     update_status(work->info, QPALM_UNSOLVED);
-    # ifdef PROFILING
+    # ifdef QPALM_TIMING
     work->info->solve_time  = 0.0;                    // Solve time to zero
     work->info->run_time    = 0.0;                    // Total run time to zero
     work->info->setup_time  = qpalm_toc(work->timer); // Update timer information
-    # endif /* ifdef PROFILING */
+    # endif /* ifdef QPALM_TIMING */
 
     return work;
 }
@@ -261,12 +261,12 @@ void qpalm_warm_start(QPALMWorkspace *work, const c_float *x_warm_start, const c
     // If we have previously solved the problem, then reset the setup time
     if (work->info->status_val != QPALM_UNSOLVED) 
     {
-        #ifdef PROFILING
+        #ifdef QPALM_TIMING
         work->info->setup_time = 0;
-        #endif /* ifdef PROFILING */
+        #endif /* ifdef QPALM_TIMING */
         work->info->status_val = QPALM_UNSOLVED;
     }
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
     qpalm_tic(work->timer);
     #endif
     
@@ -295,9 +295,9 @@ void qpalm_warm_start(QPALMWorkspace *work, const c_float *x_warm_start, const c
     
     work->initialized = TRUE;
 
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
     work->info->setup_time += qpalm_toc(work->timer); // Start timer
-    #endif /* ifdef PROFILING */
+    #endif /* ifdef QPALM_TIMING */
 
 }
 
@@ -306,17 +306,17 @@ static void qpalm_initialize(QPALMWorkspace *work, solver_common **common1, solv
     // If we have previously solved the problem, then reset the setup time
     if (work->info->status_val != QPALM_UNSOLVED) 
     {
-        #ifdef PROFILING
+        #ifdef QPALM_TIMING
         work->info->setup_time = 0;
-        #endif /* ifdef PROFILING */
+        #endif /* ifdef QPALM_TIMING */
         work->info->status_val = QPALM_UNSOLVED;
     }
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
     qpalm_tic(work->timer);
     #endif
 
     // Print header
-    #ifdef PRINTING
+    #ifdef QPALM_PRINTING
     if (work->settings->verbose) 
     {
         print_header();
@@ -411,9 +411,9 @@ static void qpalm_initialize(QPALMWorkspace *work, solver_common **common1, solv
         work->info->dual_objective = QPALM_NULL;
     }
 
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
     work->info->setup_time += qpalm_toc(work->timer); // Start timer
-    #endif /* ifdef PROFILING */
+    #endif /* ifdef QPALM_TIMING */
 }
 
 static void qpalm_termination(QPALMWorkspace *work, solver_common* c, solver_common *c2, c_int iter, c_int iter_out)
@@ -448,17 +448,17 @@ static void qpalm_termination(QPALMWorkspace *work, solver_common* c, solver_com
     work->info->iter_out = iter_out;
 
     /* Update solve time and run time */
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
         work->info->solve_time = qpalm_toc(work->timer);
         work->info->run_time = work->info->setup_time +
                         work->info->solve_time;
-    #endif /* ifdef PROFILING */
+    #endif /* ifdef QPALM_TIMING */
     
     c = ladel_workspace_free(c);
     if (work->settings->enable_dual_termination) 
         c2 = ladel_workspace_free(c2);
 
-    #ifdef PRINTING
+    #ifdef QPALM_PRINTING
     if (work->settings->verbose) 
     {
         print_iteration(iter, work); 
@@ -475,7 +475,7 @@ static void qpalm_terminate_on_status(QPALMWorkspace *work, solver_common *c, so
 
 void qpalm_solve(QPALMWorkspace *work) 
 {
-	#if defined(PRINTING) && defined(_WIN32) && defined(_MSC_VER) && _MSC_VER < 1900
+	#if defined(QPALM_PRINTING) && defined(_WIN32) && defined(_MSC_VER) && _MSC_VER < 1900
 	unsigned int print_exponent_format = _set_output_format(_TWO_DIGIT_EXPONENT);
 	#endif
 
@@ -484,10 +484,10 @@ void qpalm_solve(QPALMWorkspace *work)
     qpalm_initialize(work, &c, &c2);
 
     // Start the timer for the solve routine
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
     qpalm_tic(work->timer); 
     c_float current_time;
-    #endif /* ifdef PROFILING */
+    #endif /* ifdef QPALM_TIMING */
     
     size_t m = work->data->m;
     c_int iter;
@@ -500,14 +500,14 @@ void qpalm_solve(QPALMWorkspace *work)
     for (iter = 0; iter < work->settings->max_iter; iter++) 
     {
         /* Check whether we passed the time limit */
-        #ifdef PROFILING
+        #ifdef QPALM_TIMING
         current_time = work->info->setup_time + qpalm_toc(work->timer); // Start timer
         if (current_time > work->settings->time_limit) 
         {
             qpalm_terminate_on_status(work, c, c2, iter, iter_out, QPALM_TIME_LIMIT_REACHED);
             return;
         }
-        #endif /* ifdef PROFILING */
+        #endif /* ifdef QPALM_TIMING */
 
         /*Perform the iteration */
         compute_residuals(work, c);
@@ -546,7 +546,7 @@ void qpalm_solve(QPALMWorkspace *work)
             iter_out++;
             prev_iter = iter;
 
-            #ifdef PRINTING
+            #ifdef QPALM_PRINTING
             if (work->settings->verbose && mod(iter, work->settings->print_iter) == 0) 
             {
                 qpalm_print("%4ld | ---------------------------------------------------\n", iter);
@@ -580,7 +580,7 @@ void qpalm_solve(QPALMWorkspace *work)
             if (mod(iter, work->settings->reset_newton_iter) == 0) work->solver->reset_newton = TRUE; 
             update_primal_iterate(work, c);
 
-            #ifdef PRINTING
+            #ifdef QPALM_PRINTING
             if (work->settings->verbose && mod(iter, work->settings->print_iter) == 0) 
             {
                 work->info->objective = compute_objective(work);
@@ -600,21 +600,21 @@ void qpalm_update_settings(QPALMWorkspace* work, const QPALMSettings *settings)
     // If we have previously solved the problem, then reset the setup time
     if (work->info->status_val != QPALM_UNSOLVED) 
     {
-        #ifdef PROFILING
+        #ifdef QPALM_TIMING
         work->info->setup_time = 0;
-        #endif /* ifdef PROFILING */
+        #endif /* ifdef QPALM_TIMING */
         work->info->status_val = QPALM_UNSOLVED;
     }
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
     qpalm_tic(work->timer); // Start timer
-    #endif /* ifdef PROFILING */
+    #endif /* ifdef QPALM_TIMING */
     
     // Validate settings
     if (!validate_settings(settings)) 
     {
-        # ifdef PRINTING
+        # ifdef QPALM_PRINTING
         qpalm_eprint("Settings validation returned failure");
-        # endif /* ifdef PRINTING */
+        # endif /* ifdef QPALM_PRINTING */
         update_status(work->info, QPALM_ERROR);
         return;
     }
@@ -623,9 +623,9 @@ void qpalm_update_settings(QPALMWorkspace* work, const QPALMSettings *settings)
     qpalm_free(work->settings);
     work->settings = copy_settings(settings);
     work->sqrt_delta = c_sqrt(work->settings->delta);
-    # ifdef PROFILING
+    # ifdef QPALM_TIMING
     work->info->setup_time += qpalm_toc(work->timer);
-    # endif /* ifdef PROFILING */
+    # endif /* ifdef QPALM_TIMING */
 }
 
 void qpalm_update_bounds(QPALMWorkspace *work, const c_float *bmin, const c_float *bmax) 
@@ -633,14 +633,14 @@ void qpalm_update_bounds(QPALMWorkspace *work, const c_float *bmin, const c_floa
     // If we have previously solved the problem, then reset the setup time
     if (work->info->status_val != QPALM_UNSOLVED) 
     {
-        #ifdef PROFILING
+        #ifdef QPALM_TIMING
         work->info->setup_time = 0;
-        #endif /* ifdef PROFILING */
+        #endif /* ifdef QPALM_TIMING */
         work->info->status_val = QPALM_UNSOLVED;
     }
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
     qpalm_tic(work->timer); // Start timer
-    #endif /* ifdef PROFILING */
+    #endif /* ifdef QPALM_TIMING */
 
     // Validate bounds
     size_t j;
@@ -651,10 +651,10 @@ void qpalm_update_bounds(QPALMWorkspace *work, const c_float *bmin, const c_floa
         {
             if (bmin[j] > bmax[j]) 
             {
-                # ifdef PRINTING
+                # ifdef QPALM_PRINTING
                 qpalm_eprint("Lower bound at index %d is greater than upper bound: %.4e > %.4e",
                         (int)j, work->data->bmin[j], work->data->bmax[j]);
-                # endif /* ifdef PRINTING */
+                # endif /* ifdef QPALM_PRINTING */
                 update_status(work->info, QPALM_ERROR);
                 return;
             }
@@ -670,9 +670,9 @@ void qpalm_update_bounds(QPALMWorkspace *work, const c_float *bmin, const c_floa
         prea_vec_copy(bmax, work->data->bmax, m);
     }     
     
-    # ifdef PROFILING
+    # ifdef QPALM_TIMING
     work->info->setup_time += qpalm_toc(work->timer);
-    # endif /* ifdef PROFILING */
+    # endif /* ifdef QPALM_TIMING */
 }
 
 void qpalm_update_q(QPALMWorkspace *work, const c_float *q) 
@@ -680,20 +680,20 @@ void qpalm_update_q(QPALMWorkspace *work, const c_float *q)
     // If we have previously solved the problem, then reset the setup time
     if (work->info->status_val != QPALM_UNSOLVED) 
     {
-        #ifdef PROFILING
+        #ifdef QPALM_TIMING
         work->info->setup_time = 0;
-        #endif /* ifdef PROFILING */
+        #endif /* ifdef QPALM_TIMING */
         work->info->status_val = QPALM_UNSOLVED;
     }
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
     qpalm_tic(work->timer); // Start timer
-    #endif /* ifdef PROFILING */
+    #endif /* ifdef QPALM_TIMING */
 
     size_t n = work->data->n;
     prea_vec_copy(q, work->data->q, n);    
-    # ifdef PROFILING
+    # ifdef QPALM_TIMING
     work->info->setup_time += qpalm_toc(work->timer);
-    # endif /* ifdef PROFILING */
+    # endif /* ifdef QPALM_TIMING */
 }
 
 void qpalm_update_Q_A(QPALMWorkspace *work, const c_float *Qx, const c_float *Ax)
@@ -702,22 +702,22 @@ void qpalm_update_Q_A(QPALMWorkspace *work, const c_float *Qx, const c_float *Ax
     // If we have previously solved the problem, then reset the setup time
     if (work->info->status_val != QPALM_UNSOLVED) 
     {
-        #ifdef PROFILING
+        #ifdef QPALM_TIMING
         work->info->setup_time = 0;
-        #endif /* ifdef PROFILING */
+        #endif /* ifdef QPALM_TIMING */
         work->info->status_val = QPALM_UNSOLVED;
     }
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
     qpalm_tic(work->timer); // Start timer
-    #endif /* ifdef PROFILING */
+    #endif /* ifdef QPALM_TIMING */
 
     ladel_sparse_matrix *Q = work->data->Q, *A = work->data->A;
     prea_vec_copy(Qx, Q->x, Q->nzmax);
     prea_vec_copy(Ax, A->x, A->nzmax);
     
-    # ifdef PROFILING
+    # ifdef QPALM_TIMING
     work->info->setup_time += qpalm_toc(work->timer);
-    # endif /* ifdef PROFILING */
+    # endif /* ifdef QPALM_TIMING */
 }
 
 void qpalm_cleanup(QPALMWorkspace *work) 
@@ -890,9 +890,9 @@ void qpalm_cleanup(QPALMWorkspace *work)
         }
 
         // Free timer
-        # ifdef PROFILING
+        # ifdef QPALM_TIMING
         if (work->timer) qpalm_free(work->timer);
-        # endif /* ifdef PROFILING */
+        # endif /* ifdef QPALM_TIMING */
 
         // Free information
         if (work->info) qpalm_free(work->info);

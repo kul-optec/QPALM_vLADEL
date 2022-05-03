@@ -252,7 +252,8 @@ span.keywordtype {
 span.keyword {
     color: #0000ff;
 }
-div.line a.code.hl_function {
+div.line a.code.hl_function,
+div.line a.code.hl_interface {
     color: #795e26;
 }
 div.line a.code.hl_define {

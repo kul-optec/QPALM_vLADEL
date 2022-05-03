@@ -29,7 +29,7 @@ void qpalm_fortran_c( f_int n,
   QPALMWorkspace *work; // Workspace
   QPALMData *data;      // QPALMData
   
-  #ifdef DEBUGGING
+  #ifdef QPALM_FORTRAN_DEBUG_PRINT
   qpalm_print("m = %li \n",m);
   qpalm_print("n = %li \n",n);
   #endif
@@ -62,7 +62,7 @@ void qpalm_fortran_c( f_int n,
   a_nzmax = a_ne; 
   a_symmetry = 0;
 
-  #ifdef DEBUGGING
+  #ifdef QPALM_FORTRAN_DEBUG_PRINT
   qpalm_print("nrow = %li \n",a_nrow);
   qpalm_print("ncol = %li \n",a_ncol);
   qpalm_print("nzmax = %li \n",a_nzmax);
@@ -73,7 +73,7 @@ void qpalm_fortran_c( f_int n,
 
   A = ladel_sparse_alloc( a_nrow, a_ncol, a_nzmax, a_symmetry, TRUE, FALSE );
 
-  #ifdef DEBUGGING
+  #ifdef QPALM_FORTRAN_DEBUG_PRINT
   qpalm_print("nrow = %li \n",A->nrow);
   qpalm_print("ncol = %li \n",A->ncol);
   qpalm_print("nzmax = %li \n",A->nzmax);
@@ -91,19 +91,19 @@ void qpalm_fortran_c( f_int n,
   // N.B. convert to 0-based indices
   for (int i = 0; i < n+1; i++) {
     Ap[i] = A_ptr[i]-1;
-    #ifdef DEBUGGING
+    #ifdef QPALM_FORTRAN_DEBUG_PRINT
     printf("A column pointer %i = %i \n",i, A->p[i]);
     #endif
   }
   for (int i = 0; i < a_ne; i++) {
     Ai[i] = A_row[i]-1;
-    #ifdef DEBUGGING
+    #ifdef QPALM_FORTRAN_DEBUG_PRINT
     printf("A row index %i = %i \n",i, A->i[i]);
     #endif
   }
   for (int i = 0; i < a_ne; i++) {
     Ax[i] = A_val[i];
-    #ifdef DEBUGGING
+    #ifdef QPALM_FORTRAN_DEBUG_PRINT
     printf("A value %i = %.10f \n",i, A->x[i]);
     #endif
   }
@@ -121,7 +121,7 @@ void qpalm_fortran_c( f_int n,
   q_nzmax = h_ne; 
   q_symmetry = 1;
 
-  #ifdef DEBUGGING
+  #ifdef QPALM_FORTRAN_DEBUG_PRINT
   printf("nrow = %li \n",q_nrow);
   printf("ncol = %li \n",q_ncol);
   printf("nzmax = %li \n",q_nzmax);
@@ -132,7 +132,7 @@ void qpalm_fortran_c( f_int n,
 
   Q = ladel_sparse_alloc( q_nrow, q_ncol, q_nzmax, q_symmetry, TRUE, FALSE );
 
-  #ifdef DEBUGGING
+  #ifdef QPALM_FORTRAN_DEBUG_PRINT
   printf("nrow = %li \n",Q->nrow);
   printf("ncol = %li \n",Q->ncol);
   printf("nzmax = %li \n",Q->nzmax);
@@ -150,19 +150,19 @@ void qpalm_fortran_c( f_int n,
   // N.B. convert to 0-based indices
   for (int i = 0; i < n+1; i++) {
     Qp[i] = H_ptr[i]-1;
-    #ifdef DEBUGGING
+    #ifdef QPALM_FORTRAN_DEBUG_PRINT
     printf("Q column pointer %i = %i \n",i, Q->p[i]);
     #endif
   }
   for (int i = 0; i < h_ne; i++) {
     Qi[i] = H_row[i]-1;
-    #ifdef DEBUGGING
+    #ifdef QPALM_FORTRAN_DEBUG_PRINT
     printf("Q row index %i = %i \n",i, Q->i[i]);
     #endif
   }
   for (int i = 0; i < h_ne; i++) {
     Qx[i] = H_val[i];
-    #ifdef DEBUGGING
+    #ifdef QPALM_FORTRAN_DEBUG_PRINT
     printf("Q value %i = %.10f \n",i, Q->x[i]);
     #endif
   }
@@ -180,7 +180,7 @@ void qpalm_fortran_c( f_int n,
     qpalm_print("Solver status: %s\n", work->info->status);
     qpalm_print("Iter: %d\n", (int) work->info->iter);
     qpalm_print("Iter Out: %d\n", (int) work->info->iter_out);
-    #ifdef PROFILING
+    #ifdef QPALM_TIMING
     qpalm_print("Setup time: %f\n", work->info->setup_time);
     qpalm_print("Solve time: %f\n", work->info->solve_time);
     qpalm_print("Run time: %f\n", work->info->run_time);

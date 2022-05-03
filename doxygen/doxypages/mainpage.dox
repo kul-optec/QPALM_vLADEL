@@ -36,9 +36,12 @@
  * Pre-built Matlab binaries are available from the [releases page](https://github.com/kul-optec/QPALM/releases/latest).
  * Download the version for your system and extract it into the `~/Documents/MATLAB` folder.
  *
- * As a one-liner for Linux:
- * \code{.sh}
- * wget https://github.com/kul-optec/QPALM/releases/download/1.0.0/qpalm-matlab-linux.tar.gz -O- | tar xz -C ~/Documents/MATLAB
+ * As a one-liner in the Matlab console:
+ * \code{.m}
+ * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.0/qpalm-matlab-linux.zip', userpath)
+ * \endcode
+ * \code{.m}
+ * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.0/qpalm-matlab-windows.zip', userpath)
  * \endcode
  *
  * \subsection build-source Building QPALM from source
@@ -50,9 +53,9 @@
  * \li Python interface: @ref examples/python/qpalm_python_demo.py
  * \li Julia interface: @ref examples/julia/qpalm_julia_demo.jl
  * \li C++ interface: @ref examples/cxx/qpalm_demo.cpp
+ * \li Fortran interface: @ref examples/fortran/qpalm_fortran_demo.f90
  * \li C API: @ref examples/c/qpalm_demo.c
  * \li Matlab MEX interface: @ref examples/matlab/qpalm_mex_demo.m and @ref examples/matlab/qpalm_mex_nonconvex_demo.m
- * <!-- \li Fortran interface: @ref examples/fortran/qpalm_fortran_demo.f90 -->
  *   
  * \section cite Citing QPALM
  * 

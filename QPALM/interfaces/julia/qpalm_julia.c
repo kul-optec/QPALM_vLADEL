@@ -1,4 +1,4 @@
-#ifdef USE_LADEL
+#ifdef QPALM_USE_LADEL
 #include "qpalm.h"
 
 QPALM_EXPORT QPALMData *qpalm_julia_set_data(c_int           n, 
@@ -33,4 +33,4 @@ QPALM_EXPORT QPALMData *qpalm_julia_set_data(c_int           n,
   } 
   return data;
 }
-#endif /* USE_LADEL */
+#endif /* QPALM_USE_LADEL */

@@ -9,7 +9,7 @@ static auto make_sparse_matrix(qpalm::sp_index_t rows, qpalm::sp_index_t cols,
     qpalm::sparse_mat_t M{rows, cols};
     M.setFromTriplets(begin(triplets), end(triplets));
     return M;
-};
+}
 
 int main() {
 
@@ -59,7 +59,7 @@ int main() {
               << "Iter:          " << info.iter << "\n"
               << "Iter Out:      " << info.iter_out << "\n";
 
-#ifdef PROFILING
+#ifdef QPALM_TIMING
     std::cout << "Setup time:    " << info.setup_time << "\n"
               << "Solve time:    " << info.solve_time << "\n"
               << "Run time:      " << info.run_time << "\n\n";
