@@ -73,7 +73,7 @@ jobs:
     - name: Set up QEMU
       if: ${{ matrix.platform != 'amd64' }}
       uses: docker/setup-qemu-action@v1
-    - name: Build
+    - name: Test
       run: |
         docker run --platform ${{ matrix.platform }} --rm -t -v$PWD:$PWD \
           --entrypoint $PWD/scripts/ci/test-wheel.sh \
@@ -217,7 +217,7 @@ jobs:
         name: qpalm-whl-${{ matrix.python-version }}-mac
         path: dist
     - name: Install
-      run: python -m pip install ./dist/qpalm-*.whl
+      run: python -m pip install --find-links=dist qpalm
     - name: Test
       run: |
         python -m pip install pytest
@@ -250,13 +250,13 @@ jobs:
         name: qpalm-whl-${{ matrix.python-version }}-mac
         path: dist
     - name: Install qpalm
-      run: pip install --find-links=dist qpalm
+      run: python -m pip install --find-links=dist qpalm
     - name: 'Check qpalm version'
       run: |
         [ "${{ github.event.release.tag_name }}" == "$(python -c 'from importlib.metadata import version as v; print(v("qpalm"))')" ]
       shell: bash
     - name: Install Twine
-      run: pip install twine
+      run: python -m pip install twine
     - name: Upload Wheel to PyPI
       run: python -m twine upload dist/qpalm-*.whl
       env:
