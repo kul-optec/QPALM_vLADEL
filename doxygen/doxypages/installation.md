@@ -57,14 +57,15 @@ rm -r "~/Documents/MATLAB/+qpalm"
 ## Python installation
 
 QPALM is available on [PyPI](https://pypi.org/project/qpalm/), with binaries
-for Windows and Linux (x86_64 and arm64). To install it, use:
+for Windows (x86_64), macOS (x86_64) and Linux (x86_64 and arm64).
+To install it, use:
 ```sh
 python3 -m pip install qpalm
 ```
 
 To build the Python bindings yourself, create a virtual environment:
 ```sh
-# Linux
+# Linux/macOS
 python3 -m venv py-venv
 . ./py-venv/bin/activate
 ```
@@ -75,7 +76,7 @@ python3 -m venv py-venv
 ```
 Then install [Eigen](https://eigen.tuxfamily.org):
 ```sh
-# Linux
+# Linux/macOS
 ./scripts/install-eigen.sh
 ```
 ```sh

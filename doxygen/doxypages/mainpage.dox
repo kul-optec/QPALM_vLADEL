@@ -29,7 +29,7 @@
  * \endcode
  *
  * \subsection c_cxx_fortran C/C++/Fortran
- * Pre-built C, C++ and Fortran libraries for Linux are available from the [releases page](https://github.com/kul-optec/QPALM/releases).
+ * Pre-built C, C++ and Fortran libraries are available from the [releases page](https://github.com/kul-optec/QPALM/releases).
  *
  * \subsection matlab Matlab
  *
@@ -38,10 +38,13 @@
  *
  * As a one-liner in the Matlab console:
  * \code{.m}
- * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.1/qpalm-matlab-linux.zip', userpath)
+ * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.2/qpalm-matlab-linux.zip', userpath)
  * \endcode
  * \code{.m}
- * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.1/qpalm-matlab-windows.zip', userpath)
+ * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.2/qpalm-matlab-windows.zip', userpath)
+ * \endcode
+ * \code{.m}
+ * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.2/qpalm-matlab-macos.zip', userpath)
  * \endcode
  *
  * \subsection build-source Building QPALM from source
