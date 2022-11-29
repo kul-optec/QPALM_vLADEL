@@ -65,7 +65,7 @@ jobs:
               -D CMAKE_CXX_COMPILER="$staging/x-tools/$host/bin/$host-g++" \
               -D CMAKE_Fortran_COMPILER="$staging/x-tools/$host/bin/$host-gfortran" \
               -D USE_GLOBAL_PYBIND11=On \
-              -D CMAKE_FIND_ROOT_PATH="$staging/pybind11;$staging/eigen;$staging/casadi"
+              -D CMAKE_FIND_ROOT_PATH="$staging/pybind11;$staging/eigen"
           $pbc_cli -B native-build build -- -t ${{ env.C_EXTENSIONS }}
           $pbc_cli -B native-build install --component python_stubs -- --prefix "$PWD/staging/python"
           tar cf stubs.tar -C "$PWD/staging" python
@@ -144,7 +144,7 @@ jobs:
           config = ["Debug", "Release"]
           generator = "Ninja Multi-Config"
           [cmake.options]
-          CMAKE_FIND_ROOT_PATH = "$staging/pybind11;$staging/eigen;$staging/casadi"
+          CMAKE_FIND_ROOT_PATH = "$staging/pybind11;$staging/eigen"
           USE_GLOBAL_PYBIND11 = "On"
           EOF
           python${{ matrix.python-version }} -m build -w . \
@@ -203,7 +203,7 @@ jobs:
           config = ["Debug"]
           generator = "Ninja Multi-Config"
           [cmake.options]
-          CMAKE_FIND_ROOT_PATH = "$staging/pybind11;$staging/eigen;$staging/casadi"
+          CMAKE_FIND_ROOT_PATH = "$staging/pybind11;$staging/eigen"
           USE_GLOBAL_PYBIND11 = "On"
           EOF
           python${{ env.PYTHON_VERSION }} -m build . \
@@ -260,7 +260,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: py-venv
-          key: ${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/install-eigen.ps1', 'scripts/install-casadi-static.ps1') }}
+          key: ${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/install-eigen.ps1') }}
       - name: Install Python dependencies
         if: steps.cache-venv.outputs.cache-hit != 'true'
         shell: powershell
@@ -269,7 +269,6 @@ jobs:
           ./py-venv/Scripts/Activate.ps1
           python -m pip install -U pip build cmake ninja
           ./scripts/install-eigen.ps1
-          ./scripts/install-casadi-static.ps1
         env:
           CXXFLAGS: "/bigobj"
           CFLAGS: "/bigobj"
@@ -348,7 +347,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: py-venv
-          key: ${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/install-eigen.sh', 'scripts/install-casadi-static.sh') }}
+          key: ${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/install-eigen.sh') }}
       - name: Install Python dependencies 
         if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
@@ -356,7 +355,6 @@ jobs:
           source ./py-venv/bin/activate
           python -m pip install -U pip build cmake ninja
           ./scripts/install-eigen.sh
-          ./scripts/install-casadi-static.sh
       - name: Build
         run: |
           source ./py-venv/bin/activate
