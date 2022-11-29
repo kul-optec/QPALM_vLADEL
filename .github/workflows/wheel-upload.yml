@@ -11,7 +11,7 @@ on:
     types: ['released', 'prereleased']
 
 env:
-  PACKAGE_VERSION: '1.1.3b1'
+  PACKAGE_VERSION: '1.1.3b2'
   PACKAGE_NAME: qpalm
   MODULE_NAME: qpalm
   C_EXTENSIONS: _qpalm
