@@ -67,8 +67,8 @@ jobs:
               -D USE_GLOBAL_PYBIND11=On \
               -D CMAKE_FIND_ROOT_PATH="$staging/pybind11;$staging/eigen"
           $pbc_cli -B native-build build -- -t ${{ env.C_EXTENSIONS }}
-          $pbc_cli -B native-build install --component python_stubs -- --prefix "$PWD/staging/python"
-          tar cf stubs.tar -C "$PWD/staging" python
+          $pbc_cli -B native-build install --component python_stubs -- --prefix "$PWD/staging/QPALM/interfaces/python"
+          tar cf stubs.tar -C "$PWD/staging" QPALM/interfaces/python
       # Upload
       - name: Upload stubs
         uses: actions/upload-artifact@v3
