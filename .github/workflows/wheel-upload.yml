@@ -1,4 +1,4 @@
-name: Python Wheels
+name: Python upload Wheels
 
 on:
   workflow_dispatch:
