@@ -16,7 +16,7 @@ typedef struct {
 
 /* Print a sparse matrix so the output can be entered into matlab */
 void print_sparse_matlab(solver_sparse *M) {
-    printf("M = sparse(%ld, %ld);", M->nrow, M->ncol);
+    printf("M = sparse(%" LADEL_PRIi ", %" LADEL_PRIi ");", M->nrow, M->ncol);
     c_int col, index = 0; 
     long int row;
     c_float *Mx = M->x;
@@ -26,7 +26,7 @@ void print_sparse_matlab(solver_sparse *M) {
 
     for (col = 1; col <= M->ncol; col++) {
         for (row = Mp[col-1]; row < Mp[col]; row++) {
-            printf("M(%ld, %ld) = %.16le;", Mi[index]+1, col, Mx[index]);
+            printf("M(%" LADEL_PRIi ", %" LADEL_PRIi ") = %.16le;", Mi[index]+1, col, Mx[index]);
             index++;
         }
     }
@@ -727,7 +727,7 @@ int main(int argc, char*argv[]){
         get_sizes_and_check_format(fp, data, &free_bounds, free_bounds_list, &opts);
     }
 
-    // printf("Annz = %ld, m = %ld, n = %ld\n", data->A->nzmax, data->A->nrow, data->A->ncol);
+    // printf("Annz = %" LADEL_PRIi ", m = %" LADEL_PRIi ", n = %" LADEL_PRIi "\n", data->A->nzmax, data->A->nrow, data->A->ncol);
 
     /* Go through file a second time to read in the data*/
     if (file_copy == NULL) {
@@ -779,7 +779,7 @@ int main(int argc, char*argv[]){
     /* Solve Problem */
     qpalm_solve(work);
     
-    printf("Iter: %ld\n", work->info->iter);
+    printf("Iter: %" LADEL_PRIi "\n", work->info->iter);
     // printf("Status: %s\n", work->info->status);
     // printf("Objective: %le\n", work->info->objective);
     #ifdef QPALM_TIMING

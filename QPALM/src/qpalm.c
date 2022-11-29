@@ -549,7 +549,7 @@ void qpalm_solve(QPALMWorkspace *work)
             #ifdef QPALM_PRINTING
             if (work->settings->verbose && mod(iter, work->settings->print_iter) == 0) 
             {
-                qpalm_print("%4ld | ---------------------------------------------------\n", iter);
+                qpalm_print("%4" LADEL_PRIi " | ---------------------------------------------------\n", iter);
             }
             #endif    
         } 

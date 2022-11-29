@@ -93,7 +93,7 @@ void update_status(QPALMInfo *info, c_int status_val) {
     default:
       c_strcpy(info->status, "unrecognised status value");
       #ifdef QPALM_PRINTING
-        qpalm_eprint("Unrecognised status value %ld", status_val);
+        qpalm_eprint("Unrecognised status value %" LADEL_PRIi, status_val);
       #endif
       break;
     }
@@ -112,7 +112,7 @@ void print_header(void) {
 }
 
 void print_iteration(c_int iter, QPALMWorkspace *work) {
-    qpalm_print("%4ld | %.4e | %.4e | %.4e | %.4e \n", iter,
+    qpalm_print("%4" LADEL_PRIi " | %.4e | %.4e | %.4e | %.4e \n", iter,
                                                     work->info->pri_res_norm,
                                                     work->info->dua_res_norm,
                                                     work->tau,
@@ -180,7 +180,7 @@ void print_final_message(QPALMWorkspace *work) {
         break;
       default:
         c_strcpy(work->info->status, "unrecognised status value");
-        qpalm_eprint("Unrecognised final status value %ld", work->info->status_val);
+        qpalm_eprint("Unrecognised final status value %" LADEL_PRIi, work->info->status_val);
         return;
     }
     #ifdef QPALM_TIMING

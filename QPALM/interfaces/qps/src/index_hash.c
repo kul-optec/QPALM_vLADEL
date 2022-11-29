@@ -67,7 +67,7 @@ void free_list(struct list* list) {
 void print_list(struct list* list) {
     struct node* node = list->first;
     while (node != NULL) {
-        printf("Key: %s, index: %ld\n", node->key, node->index);
+        printf("Key: %s, index: %" LADEL_PRIi "\n", node->key, node->index);
         node = node->next;
     }
 }
@@ -136,7 +136,7 @@ void print_table(struct index_table *t, size_t size){
         list = t->list[pos];
         temp = list;
         while (temp) {
-            printf("Entry: %s, %ld\n", temp->key, temp->index);
+            printf("Entry: %s, %" LADEL_PRIi "\n", temp->key, temp->index);
             temp = temp->next;
         }
     }
