@@ -72,11 +72,23 @@ class Data {
 
     /// Get a view on the Q matrix of the problem.
     sparse_mat_view_t get_Q() const {
-        return {Q->nrow, Q->ncol, Q->nzmax, Q->p, Q->i, Q->x, Q->nz};
+        return {static_cast<index_t>(Q->nrow),
+                static_cast<index_t>(Q->ncol),
+                static_cast<index_t>(Q->nzmax),
+                Q->p,
+                Q->i,
+                Q->x,
+                Q->nz};
     }
     /// Get a view on the A matrix of the problem.
     sparse_mat_view_t get_A() const {
-        return {A->nrow, A->ncol, A->nzmax, A->p, A->i, A->x, A->nz};
+        return {static_cast<index_t>(A->nrow),
+                static_cast<index_t>(A->ncol),
+                static_cast<index_t>(A->nzmax),
+                A->p,
+                A->i,
+                A->x,
+                A->nz};
     }
 
   private:
