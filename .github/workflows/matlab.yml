@@ -1,7 +1,12 @@
 name: Matlab Package
 
 on:
+  workflow_dispatch:
   push:
+    tags-ignore:
+      - '**'
+    branches:
+      - '**'
   release:
     types: ['released', 'prereleased']
 

@@ -1,7 +1,12 @@
 name: Windows Binaries
 
 on:
+  workflow_dispatch:
   push:
+    tags-ignore:
+      - '**'
+    branches:
+      - '**'
   release:
     types: ['released', 'prereleased']
 
