@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 set(PY_FULL_VERSION ${PROJECT_VERSION}${PY_VERSION_SUFFIX})
+set(PY_BUILD_CMAKE_MODULE_NAME "qpalm" CACHE STRING "Python module name")
+set(PY_BUILD_CMAKE_PACKAGE_NAME "qpalm" CACHE STRING "Python package name")
 
 # Make sure that the Python and CMake versions match
 if (DEFINED VERIFY_VERSION)
@@ -38,7 +40,22 @@ endif()
 install(TARGETS _qpalm
         EXCLUDE_FROM_ALL
         COMPONENT python_modules
-        DESTINATION qpalm)
+        DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME})
+
+# Strip and install debug information
+set(DEBUG_FILE "$<TARGET_FILE_NAME:_qpalm>.debug")
+if (CMAKE_STRIP AND CMAKE_OBJCOPY)
+    add_custom_command(TARGET _qpalm POST_BUILD
+        COMMAND "${CMAKE_STRIP}" "--only-keep-debug" "$<TARGET_FILE:_qpalm>" "-o" "${DEBUG_FILE}"
+        COMMAND "${CMAKE_STRIP}" "--strip-debug" "$<TARGET_FILE:_qpalm>"
+        COMMAND "${CMAKE_OBJCOPY}" "--add-gnu-debuglink=${DEBUG_FILE}" "$<TARGET_FILE:_qpalm>"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${DEBUG_FILE}"
+        EXCLUDE_FROM_ALL
+        CONFIGURATIONS Debug RelWithDebInfo
+        COMPONENT python_modules_debug
+        DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME})
+endif()
 
 # Generate stubs for the Python module
 option(QPALM_WITH_PY_STUBS
@@ -46,5 +63,5 @@ option(QPALM_WITH_PY_STUBS
 if (QPALM_WITH_PY_STUBS AND NOT CMAKE_CROSSCOMPILING)
     include(cmake/Pybind11Stubgen.cmake)
     pybind11_stubgen(_qpalm)
-    pybind11_stubgen_install(_qpalm qpalm)
+    pybind11_stubgen_install(_qpalm ${PY_BUILD_CMAKE_MODULE_NAME})
 endif()

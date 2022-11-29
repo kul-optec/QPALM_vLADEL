@@ -2,6 +2,7 @@ build
 .*cache
 py-venv
 dist
+dist-debug
 __pycache__
 *.pyc
 products
