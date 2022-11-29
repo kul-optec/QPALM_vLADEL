@@ -75,7 +75,11 @@ QPALM_EXPORT printf_sig *qpalm_set_print_config_printf(printf_sig *printf);
 #  define qpalm_print ladel_print
 
 // Print error macro
-#  define qpalm_eprint(...) qpalm_print("ERROR in %s: ", __FUNCTION__); qpalm_print(__VA_ARGS__); qpalm_print("\n");
+#  ifdef __GNUC__
+#    define qpalm_eprint(...) __extension__ ({ qpalm_print("ERROR in %s: ", __FUNCTION__); qpalm_print(__VA_ARGS__); qpalm_print("\n"); })
+#  else
+#    define qpalm_eprint(...) do { qpalm_print("ERROR in %s: ", __FUNCTION__); qpalm_print(__VA_ARGS__); qpalm_print("\n"); } while (0)
+#  endif
 
 # endif /* ifdef QPALM_PRINTING */
 
