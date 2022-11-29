@@ -22,7 +22,7 @@ include(cmake/QueryPythonForPybind11.cmake)
 find_pybind11_python_first()
 
 # Compile the example Python module
-Python3_add_library(_qpalm MODULE "qpalm.py.cpp")
+pybind11_add_module(_qpalm MODULE "qpalm.py.cpp")
 target_compile_features(_qpalm PRIVATE cxx_std_17)
 target_link_libraries(_qpalm PRIVATE qpalm_warnings)
 target_link_libraries(_qpalm PRIVATE pybind11::pybind11 qpalm qpalm_cxx)
