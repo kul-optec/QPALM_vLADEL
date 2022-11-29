@@ -2,6 +2,11 @@ name: Python upload Wheels
 
 on:
   workflow_dispatch:
+  push:
+    tags-ignore:
+      - '**'
+    branches:
+      - '**'
   release:
     types: ['released', 'prereleased']
 
