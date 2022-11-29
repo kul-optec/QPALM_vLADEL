@@ -9,7 +9,7 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: recursive
     - name: Set up MATLAB
@@ -43,20 +43,20 @@ jobs:
         zip -r ../qpalm-matlab-linux.zip ./*
       working-directory: staging
     - name: Upload
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: qpalm-matlab-linux
         path: qpalm-matlab-linux.zip
     - name: Release
       if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
-      uses: softprops/action-gh-release@17cd0d34deddf848fc0e7d9be5202c148c270a0a
+      uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
       with:
         files: qpalm-matlab-linux.zip
         
   build-macos:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: recursive
     - name: Set up MATLAB
@@ -88,20 +88,20 @@ jobs:
         zip -r ../qpalm-matlab-macos.zip ./*
       working-directory: staging
     - name: Upload
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: qpalm-matlab-macos
         path: qpalm-matlab-macos.zip
     - name: Release
       if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
-      uses: softprops/action-gh-release@17cd0d34deddf848fc0e7d9be5202c148c270a0a
+      uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
       with:
         files: qpalm-matlab-macos.zip
 
   build-windows:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: recursive
     - name: Set up MATLAB
@@ -133,12 +133,12 @@ jobs:
       run: |
         Compress-Archive -Path staging\* qpalm-matlab-windows.zip
     - name: Upload
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: qpalm-matlab-windows
         path: qpalm-matlab-windows.zip
     - name: Release
       if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
-      uses: softprops/action-gh-release@17cd0d34deddf848fc0e7d9be5202c148c270a0a
+      uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
       with:
         files: qpalm-matlab-windows.zip

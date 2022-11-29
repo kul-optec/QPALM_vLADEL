@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-2022
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: recursive
     - name: Install Eigen
@@ -44,7 +44,7 @@ jobs:
           -G "ZIP"
       working-directory: package
     - name: Upload
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: qpalm-windows
         path: package/QPALM-*-win64.zip
@@ -54,7 +54,7 @@ jobs:
     runs-on: windows-2022
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: recursive
     - name: Install Eigen
@@ -63,7 +63,7 @@ jobs:
       env:
         VIRTUAL_ENV: Eigen-install
     - name: Download
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: qpalm-windows
         path: package
@@ -107,11 +107,11 @@ jobs:
 
     steps:
     - name: Download
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: qpalm-windows
         path: package
     - name: Release
-      uses: softprops/action-gh-release@17cd0d34deddf848fc0e7d9be5202c148c270a0a
+      uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
       with:
         files: package/QPALM-*-win64.zip

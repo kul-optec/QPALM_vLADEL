@@ -10,7 +10,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: recursive
     - name: Install Ninja
@@ -40,7 +40,7 @@ jobs:
           -D CPACK_INSTALL_CMAKE_PROJECTS=".;QPALM;ALL;/;LADEL;LADEL;ALL;/"
       working-directory: package
     - name: Upload
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: qpalm-macos
         path: package/QPALM-*.tar.gz
@@ -50,7 +50,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: recursive
     - name: Install Ninja
@@ -58,7 +58,7 @@ jobs:
     - name: Install Eigen
       run: sudo VIRTUAL_ENV=/opt/local ./scripts/install-eigen.sh RelWithDebInfo
     - name: Download
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: qpalm-macos
         path: package
@@ -100,11 +100,11 @@ jobs:
 
     steps:
     - name: Download
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: qpalm-macos
         path: package
     - name: Release
-      uses: softprops/action-gh-release@17cd0d34deddf848fc0e7d9be5202c148c270a0a
+      uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
       with:
         files: package/QPALM-*.tar.gz
