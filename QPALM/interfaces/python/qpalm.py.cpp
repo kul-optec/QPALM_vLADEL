@@ -49,6 +49,12 @@ static int print_wrap(const char *fmt, ...) LADEL_ATTR_PRINTF_LIKE;
 PYBIND11_MODULE(MODULE_NAME, m) {
     m.doc()               = "C and C++ implementation of QPALM";
     m.attr("__version__") = VERSION_INFO;
+    m.attr("build_time")  = __DATE__ " - " __TIME__;
+#ifdef NDEBUG
+    m.attr("debug") = false;
+#else
+    m.attr("debug") = true;
+#endif
 
     ladel_set_alloc_config_calloc(&PyMem_Calloc);
     ladel_set_alloc_config_malloc(&PyMem_Malloc);
