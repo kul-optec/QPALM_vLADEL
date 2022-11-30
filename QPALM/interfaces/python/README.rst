@@ -1,9 +1,8 @@
 Proximal Augmented Lagrangian method for Quadratic Programs
 ===========================================================
+| QPALM is a numerical optimization package that finds stationary points of (possibly **nonconvex**) quadratic programs, that is
 
-QPALM is a numerical optimization package that finds stationary points of (possibly **nonconvex**) quadratic programs, that is
-
-..math::
+.. math::
 
         \begin{aligned}
             & \underset{x}{\textbf{minimize}}
@@ -14,7 +13,6 @@ QPALM is a numerical optimization package that finds stationary points of (possi
 
 Documentation
 -------------
-
 | The documentation can be found at: `<https://kul-optec.github.io/QPALM/Doxygen>`_  
 | Examples are included as well: `<https://kul-optec.github.io/QPALM/Doxygen/examples.html>`_
 
@@ -23,9 +21,7 @@ Installation
 
 Python
 ^^^^^^
-
-The QPALM Python interface is available from `PyPI <https://pypi.org/project/qpalm>`_,
-you can install it using:
+| The QPALM Python interface is available from `PyPI <https://pypi.org/project/qpalm>`_, you can install it using:
 
 .. code-block:: sh
 
@@ -34,31 +30,22 @@ you can install it using:
 
 Julia, Matlab, C/C++/Fortran
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Installation instructions for the Julia, Matlab, C, C++ and Fortran interfaces,
-as well as instructions for building QPALM from source, can be found on
-`GitHub <https://github.com/kul-optec/QPALM/>`_.
+| Installation instructions for the Julia, Matlab, C, C++ and Fortran interfaces, as well as instructions for building QPALM from source, can be found on `GitHub <https://github.com/kul-optec/QPALM/>`_.
 
 Supported platforms
 -------------------
-
-QPALM is written in C, with interfaces for C++, Python, Julia, Matlab and Fortran.  
-The code itself is portable across all major platforms. Binaries are available
-for Linux on x86-64, AArch64, ARMv7 and ARMv6, for macOS on x86-64 and ARM64,
-and for Windows on x86-64.
+| QPALM is written in C, with interfaces for C++, Python, Julia, Matlab and Fortran. The code itself is portable across all major platforms. Binaries are available for Linux on x86-64, AArch64, ARMv7 and ARMv6, for macOS on x86-64 and ARM64, and for Windows on x86-64.
 
 Benchmarks
 ----------
+| Check out the papers below for detailed benchmark tests comparing QPALM with state-of-the-art solvers.
 
-Check out the papers below for detailed benchmark tests comparing QPALM with state-of-the-art solvers.
-
- * `QPALM: A Newton-type Proximal Augmented Lagrangian Method for Quadratic Programs <https://arxiv.org/abs/1911.02934>`_.
- * `QPALM: A Proximal Augmented Lagrangian Method for Nonconvex Quadratic Programs <https://arxiv.org/abs/2010.02653>`_.
+* `QPALM: A Newton-type Proximal Augmented Lagrangian Method for Quadratic Programs <https://arxiv.org/abs/1911.02934>`_.
+* `QPALM: A Proximal Augmented Lagrangian Method for Nonconvex Quadratic Programs <https://arxiv.org/abs/2010.02653>`_.
 
 Citing
 ------
-
-If you use QPALM in your research, please cite the following paper:
+| If you use QPALM in your research, please cite the following paper:
 
 .. code-block:: bib
 
