@@ -1,8 +1,10 @@
 build
 .*cache
-py-venv
-dist
-dist-debug
+/py*-venv
+/dist
+/dist-debug
+/package
+/staging
 __pycache__
 *.pyc
 products
