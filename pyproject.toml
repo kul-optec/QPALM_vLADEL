@@ -56,7 +56,7 @@ Tracker = "https://github.com/kul-optec/QPALM/issues"
 directory = "QPALM/interfaces/python"
 
 [tool.py-build-cmake.sdist]
-include = ["CMakeLists.txt", "LADEL", "QPALM"]
+include = ["CMakeLists.txt", "LADEL", "QPALM", "README.md"]
 
 [tool.py-build-cmake.cmake]
 minimum_version = "3.20"
