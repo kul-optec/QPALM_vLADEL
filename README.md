@@ -1,16 +1,22 @@
-[![Python Wheels](https://github.com/kul-optec/QPALM/actions/workflows/wheel.yml/badge.svg)](https://github.com/kul-optec/QPALM/actions/workflows/wheel.yml)
+[![Python Wheels tests](https://github.com/kul-optec/QPALM/actions/workflows/wheel-short-test.yml/badge.svg)](https://github.com/kul-optec/QPALM/actions/workflows/wheel-short-test.yml)
 [![Matlab Package](https://github.com/kul-optec/QPALM/actions/workflows/matlab.yml/badge.svg)](https://github.com/kul-optec/QPALM/actions/workflows/matlab.yml)
 [![Test Coverage](https://img.shields.io/endpoint?url=https://kul-optec.github.io/QPALM/Coverage/shield.io.coverage.json)](https://kul-optec.github.io/QPALM/Coverage/index.html)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/qpalm?label=PyPI)](https://pypi.org/project/qpalm)
 
 # Proximal Augmented Lagrangian method for Quadratic Programs
 
-QPALM is a numerical optimization package that finds stationary points of (possibly **nonconvex**) quadratic programs, that is 
-```
-minimize        ½ xᵀQx + qᵀx
+QPALM is a numerical optimization package that finds stationary points of (possibly **nonconvex**) quadratic programs, that is
 
-subject to      l ≤ Ax ≤ u
-```
+$$
+    \begin{equation}
+        \begin{aligned}
+            & \underset{x}{\textbf{minimize}}
+            & & \tfrac12 x^\top Q x + q^\top x\\
+            & \textbf{subject to}
+            & & b_l \le Ax \le b_u \\
+        \end{aligned}
+    \end{equation}
+$$
 
 ## Documentation
 
