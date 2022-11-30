@@ -1,6 +1,6 @@
 """Proximal Augmented Lagrangian method for Quadratic Programs"""
 
-__version__ = '1.1.4a1'
+__version__ = '1.1.4'
 
 import os
 import typing
