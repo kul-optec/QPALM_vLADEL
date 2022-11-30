@@ -13,7 +13,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-
+    env:
+      HOST: 'x86_64-centos7-linux-gnu'
+      TOOLS_VERSION: '0.0.7'
+      TOOLS_URL: 'https://github.com/tttapa/cross-python/releases/download'
     steps:
     - uses: actions/checkout@v3
       with:
@@ -24,16 +27,27 @@ jobs:
         unzip ninja-linux.zip
         sudo mv ninja /usr/bin
       working-directory: /tmp
-    - name: Install Eigen
-      run: sudo VIRTUAL_ENV=/usr/local ./scripts/install-eigen.sh RelWithDebInfo
+    - name: Download toolchain
+      if: steps.cache-tools.outputs.cache-hit != 'true'
+      run: wget "${{ env.TOOLS_URL }}/${{ env.TOOLS_VERSION }}/full-${{ env.HOST }}.tar.xz" -O- | sudo tar xJ -C /opt
     - name: Configure
       run: |
+        host="${{ env.HOST }}"
+        staging="/opt/$host"
         cmake -B package -S QPALM \
           -G "Ninja Multi-Config" \
           -D BUILD_SHARED_LIBS=On \
           -DCMAKE_POSITION_INDEPENDENT_CODE=On \
           -DQPALM_WITH_CXX=On \
-          -DQPALM_WITH_FORTRAN=On
+          -DQPALM_WITH_FORTRAN=On \
+          -D CMAKE_C_COMPILER="$staging/x-tools/$host/bin/$host-gcc" \
+          -D CMAKE_CXX_COMPILER="$staging/x-tools/$host/bin/$host-g++" \
+          -D CMAKE_Fortran_COMPILER="$staging/x-tools/$host/bin/$host-gfortran" \
+          -D CMAKE_FIND_ROOT_PATH="$staging/eigen"
+      env:
+        CXXFLAGS: "-march=skylake -static-libstdc++ -static-libgcc"
+        LDFLAGS: "-static-libstdc++ -static-libgcc"
+        CFLAGS: "-march=skylake -static-libgcc"
     - name: Build Debug
       run: |
         cmake --build package --config Debug -j
