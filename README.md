@@ -13,7 +13,7 @@ $$
             & \underset{x}{\textbf{minimize}}
             & & \tfrac12 x^\top Q x + q^\top x\\
             & \textbf{subject to}
-            & & b_l \le Ax \le b_u \\
+            & & b_\mathrm{min} \le Ax \le b_\mathrm{max} \\
         \end{aligned}
     \end{equation}
 $$
