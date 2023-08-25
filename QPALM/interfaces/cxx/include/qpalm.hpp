@@ -4,6 +4,7 @@
 
 #include <types.h> // ::QPALMData, ::QPALMSettings, ::QPALMSolution, ::QPALMInfo
 
+#include <cassert>
 #include <optional>
 
 /**

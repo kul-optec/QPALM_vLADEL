@@ -3,6 +3,7 @@
 #include <ladel_global.h> // ladel_sparse_free etc.
 
 #include <algorithm> // copy_n
+#include <cassert>
 
 namespace qpalm {
 
