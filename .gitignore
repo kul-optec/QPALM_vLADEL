@@ -1,6 +1,7 @@
 build
 .*cache
 /py*-venv
+.venv*
 /dist
 /dist-debug
 /package

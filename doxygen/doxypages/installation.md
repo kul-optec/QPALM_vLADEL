@@ -66,13 +66,13 @@ python3 -m pip install qpalm
 To build the Python bindings yourself, create a virtual environment:
 ```sh
 # Linux/macOS
-python3 -m venv py-venv
-. ./py-venv/bin/activate
+python3 -m venv .venv
+. ./.venv/bin/activate
 ```
 ```sh
 # Windows
-python3 -m venv py-venv
-./py-venv/Scripts/Activate.ps1
+python3 -m venv .venv
+./.venv/Scripts/Activate.ps1
 ```
 Then install [Eigen](https://eigen.tuxfamily.org):
 ```sh
