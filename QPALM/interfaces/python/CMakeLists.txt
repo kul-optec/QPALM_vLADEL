@@ -32,8 +32,17 @@ target_compile_definitions(_qpalm PRIVATE
 set_target_properties(_qpalm PROPERTIES 
     CXX_VISIBILITY_PRESET hidden
     C_VISIBILITY_PRESET hidden)
-if (NOT WIN32 AND NOT APPLE)
+if (CMAKE_SYSTEM_NAME MATCHES "Linux")
     target_link_options(_qpalm PRIVATE "LINKER:--exclude-libs,ALL")
+endif()
+set(QPALM_PYTHON_DEBUG_CONFIG "Debug" CACHE STRING "")
+set_property(CACHE QPALM_PYTHON_DEBUG_CONFIG PROPERTY STRINGS
+    ${CMAKE_CONFIGURATION_TYPES})
+if (QPALM_PYTHON_DEBUG_CONFIG)
+    string(TOUPPER ${QPALM_PYTHON_DEBUG_CONFIG} QPALM_PYTHON_DEBUG_CONFIG_UP)
+    set_target_properties(_qpalm PROPERTIES
+        ${QPALM_PYTHON_DEBUG_CONFIG_UP}_POSTFIX "_d"
+        PDB_NAME_${QPALM_PYTHON_DEBUG_CONFIG_UP} "_qpalm_d")
 endif()
 
 # Install the Python module

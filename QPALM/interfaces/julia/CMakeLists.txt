@@ -7,7 +7,7 @@ target_compile_definitions(qpalm_jll
     INTERFACE QPALM_IMPORTS)
 target_link_libraries(qpalm_jll PUBLIC qpalm-obj)
 target_link_libraries(qpalm_jll PRIVATE qpalm_lax_warnings)
-if (NOT WIN32 AND NOT APPLE) # Make sure LADEL is included privately
+if (CMAKE_SYSTEM_NAME MATCHES "Linux") # Make sure LADEL is included privately
     # target_link_options(qpalm_jll PRIVATE 
     #     "LINKER:--exclude-libs,$<TARGET_FILE_BASE_NAME:ladel>")
     target_link_options(qpalm_jll PRIVATE 

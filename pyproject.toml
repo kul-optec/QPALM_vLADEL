@@ -1,9 +1,8 @@
 [build-system]
 requires = [
-    "py-build-cmake~=0.1.1",
-    "pybind11~=2.10",
+    "py-build-cmake~=0.2.0a5",
+    "pybind11>=2.10.1,!=2.10.2,!=2.10.3,!=2.10.4",
     "pybind11-stubgen",
-    "mypy",
 ]
 build-backend = "py_build_cmake.build"
 
@@ -41,7 +40,7 @@ classifiers = [
     "Operating System :: MacOS",
     "Typing :: Typed",
 ]
-dependencies = ["numpy~=1.19", "scipy~=1.6"]
+dependencies = ["numpy>=1.19,<2", "scipy>=1.6,<2"]
 dynamic = ["version", "description"]
 
 [project.optional-dependencies]
@@ -79,12 +78,28 @@ generator = "Ninja Multi-Config"
 config = ["Debug", "Release"]
 generator = "Ninja Multi-Config"
 [tool.py-build-cmake.windows.cmake]
-config = ["Release"]
+config = ["RelWithDebInfo", "Release"]
+[tool.py-build-cmake.windows.cmake.options]
+CMAKE_CXX_FLAGS_RELWITHDEBINFO = "/Zi /Ob0 /Od /RTC1"
+CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO = "/INCREMENTAL:NO /DEBUG:FULL /OPT:REF"
+ALPAQA_PYTHON_DEBUG_CONFIG = "RelWithDebInfo"
 
 [tool.py-build-cmake.stubgen]
 packages = []
 files = ["qpalm/__init__.py"]
 args = ["-v", "--no-import"]
+
+[tool.cibuildwheel]
+build-verbosity = 1
+environment = { PY_BUILD_CMAKE_VERBOSE="1" }
+test-command = "pytest {package}/python/test"
+test-extras = ["test"]
+
+[tool.cibuildwheel.macos]
+archs = ["universal2"]
+
+[tool.cibuildwheel.windows]
+archs = ["AMD64", "x86", "ARM64"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
