@@ -2,18 +2,12 @@ name: Python upload Wheels
 
 on:
   workflow_dispatch:
-  push:
-    tags-ignore:
-      - '**'
-    branches:
-      - '**'
   release:
     types: ['released', 'prereleased']
 
 env:
   PACKAGE_VERSION: '1.1.5.dev0'
   PACKAGE_NAME: qpalm
-  MODULE_NAME: qpalm
   C_EXTENSIONS: _qpalm
   TWINE_REPOSITORY: pypi
 
@@ -24,7 +18,7 @@ jobs:
       image: ubuntu:jammy
     env:
       HOST: 'x86_64-centos7-linux-gnu'
-      PYTHON_VERSION: '3.10'
+      PYTHON_VERSION: '3.11'
       CMAKE_C_COMPILER_LAUNCHER: ccache
       CMAKE_CXX_COMPILER_LAUNCHER: ccache
       CCACHE_DIR: /root/.ccache
@@ -53,7 +47,7 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ env.HOST }}-ccache
       # Pip install dependencies
       - name: Install Python dependencies
-        run: python${{ env.PYTHON_VERSION }} -m pip install -U pip build pybind11-stubgen py-build-cmake~=0.1.0
+        run: python${{ env.PYTHON_VERSION }} -m pip install -U pip build pybind11-stubgen py-build-cmake~=0.2.0a5
       # Build
       - name: Native build
         run: |
@@ -65,7 +59,7 @@ jobs:
               -D CMAKE_CXX_COMPILER="$staging/x-tools/$host/bin/$host-g++" \
               -D CMAKE_Fortran_COMPILER="$staging/x-tools/$host/bin/$host-gfortran" \
               -D USE_GLOBAL_PYBIND11=On \
-              -D CMAKE_FIND_ROOT_PATH="$staging/pybind11;$staging/eigen"
+              -D CMAKE_FIND_ROOT_PATH="$staging/pybind11;$staging/eigen-master"
           $pbc_cli -B native-build build -- -t ${{ env.C_EXTENSIONS }}
           $pbc_cli -B native-build install --component python_stubs -- --prefix "$PWD/staging/QPALM/interfaces/python"
           tar cf stubs.tar -C "$PWD/staging" QPALM/interfaces/python
@@ -74,6 +68,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: stubs
+          retention-days: 1
           path: stubs.tar
 
   build-linux:
@@ -84,15 +79,22 @@ jobs:
     strategy:
       matrix:
         pypy: ['', pypy]
-        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
         host: [x86_64-centos7-linux-gnu, armv7-neon-linux-gnueabihf, armv6-rpi-linux-gnueabihf, aarch64-rpi3-linux-gnu]
+        include:
+          - python-version: '3.7'
+            pypy-version: '7.3.9'
+          - python-version: '3.8'
+            pypy-version: '7.3.11'
+          - python-version: '3.9'
+            pypy-version: '7.3.12'
+          - python-version: '3.10'
+            pypy-version: '7.3.12'
         exclude:
           - pypy: pypy
-            python-version: '3.7'
-          - pypy: pypy
-            python-version: '3.10'
-          - pypy: pypy
             python-version: '3.11'
+          - pypy: pypy
+            python-version: '3.12'
           - pypy: pypy
             host: armv7-neon-linux-gnueabihf
           - pypy: pypy
@@ -115,6 +117,7 @@ jobs:
           host: ${{ matrix.host }}
           python-version: ${{ matrix.python-version }}
           pypy: ${{ matrix.pypy }}
+          pypy-version: ${{ matrix.pypy-version }}
       # Ccache
       - name: Prepare ccache directory
         run: mkdir -p "${{ env.CCACHE_DIR }}"
@@ -144,15 +147,15 @@ jobs:
           config = ["Debug", "Release"]
           generator = "Ninja Multi-Config"
           [cmake.options]
-          CMAKE_FIND_ROOT_PATH = "$staging/pybind11;$staging/eigen"
+          CMAKE_FIND_ROOT_PATH = "$staging/pybind11;$staging/eigen-master"
           USE_GLOBAL_PYBIND11 = "On"
           EOF
           python${{ matrix.python-version }} -m build -w . \
               -C--cross="$PWD/ninja-debug-release.cross.toml" \
-              -C--cross="$staging/cmake/$host.py-build-cmake.cross.toml"
+              -C--cross="$staging/$host.py-build-cmake.cross.toml"
           python${{ matrix.python-version }} -m build -w QPALM/interfaces/python/qpalm-debug \
               -C--cross="$PWD/ninja-debug-release.cross.toml" \
-              -C--cross="$staging/cmake/$host.py-build-cmake.cross.toml" \
+              -C--cross="$staging/$host.py-build-cmake.cross.toml" \
               -o dist-debug
         env:
           CFLAGS: '-static-libgcc'
@@ -161,12 +164,14 @@ jobs:
       - name: Upload Wheels
         uses: actions/upload-artifact@v3
         with:
-          name: whl-${{ matrix.pypy }}${{ matrix.python-version }}-linux
+          name: whl-linux
+          retention-days: 1
           path: dist/*.whl
       - name: Upload debug Wheels
         uses: actions/upload-artifact@v3
         with:
-          name: whl-${{ matrix.pypy }}${{ matrix.python-version }}-debug-linux
+          name: whl-debug-linux
+          retention-days: 1
           path: dist-debug/*.whl
 
   build-linux-src:
@@ -175,7 +180,7 @@ jobs:
       image: ubuntu:jammy
     env:
       HOST: 'x86_64-centos7-linux-gnu'
-      PYTHON_VERSION: '3.10'
+      PYTHON_VERSION: '3.11'
     steps:
       # Git clone
       - name: Install git
@@ -203,12 +208,12 @@ jobs:
           config = ["Debug"]
           generator = "Ninja Multi-Config"
           [cmake.options]
-          CMAKE_FIND_ROOT_PATH = "$staging/pybind11;$staging/eigen"
+          CMAKE_FIND_ROOT_PATH = "$staging/pybind11;$staging/eigen-master"
           USE_GLOBAL_PYBIND11 = "On"
           EOF
           python${{ env.PYTHON_VERSION }} -m build . \
               -C--cross="$PWD/ninja-debug.cross.toml" \
-              -C--cross="$staging/cmake/$host.py-build-cmake.cross.toml"
+              -C--cross="$staging/$host.py-build-cmake.cross.toml"
         env:
           CFLAGS: '-static-libgcc'
           CXXFLAGS: '-static-libgcc -static-libstdc++'
@@ -217,6 +222,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: src-dist
+          retention-days: 1
           path: dist/*.tar.gz
 
   test-linux:
@@ -225,93 +231,88 @@ jobs:
     container: python:${{ matrix.python-version }}-bullseye
     strategy:
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10']
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-      - uses: actions/download-artifact@v3
-        with:
-          name: whl-${{ matrix.python-version }}-linux
-          path: dist
-      - name: Test
-        run: |
-          python3 -m pip install -U pip pytest cmake ninja
-          python3 -m pip install --find-links=dist ${PACKAGE_NAME}==${PACKAGE_VERSION}
-          pytest -rP
-
-
-  build-windows:
-    runs-on: windows-2022
-    strategy:
-      matrix:
         python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - uses: actions/setup-python@v4
-        name: Install Python
-        id: python
-        with: 
-          python-version: ${{ matrix.python-version }}
-      - name: Cache Virtual Environment
-        id: cache-venv
-        uses: actions/cache@v3
+      - uses: actions/download-artifact@v3
         with:
-          path: py-venv
-          key: ${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/install-eigen.ps1') }}
-      - name: Install Python dependencies
-        if: steps.cache-venv.outputs.cache-hit != 'true'
-        shell: powershell
+          name: whl-linux
+          path: dist
+      - name: Test
         run: |
-          python -m venv py-venv
-          ./py-venv/Scripts/Activate.ps1
-          python -m pip install -U pip build cmake ninja
-          ./scripts/install-eigen.ps1
-        env:
-          CXXFLAGS: "/bigobj"
-          CFLAGS: "/bigobj"
-      - name: Build
-        shell: powershell
-        run: |
-          ./py-venv/Scripts/Activate.ps1
-          $Env:CMAKE_PREFIX_PATH = $Env:VIRTUAL_ENV + ";" + $Env:CMAKE_PREFIX_PATH
-          python -m build -w .
-        env:
-          CXXFLAGS: "/bigobj"
-          CFLAGS: "/bigobj"
-          PYTHONUTF8: 1
-      - name: Upload
-        uses: actions/upload-artifact@v3
-        with:
-          name: whl-${{ matrix.python-version }}-windows
-          path: dist/*.whl
+          python3 -m pip install -U pip cmake ninja
+          python3 -m pip install --find-links=dist "${PACKAGE_NAME}[test]==${PACKAGE_VERSION}"
+          pytest -rP
 
-  test-windows:
-    needs: [build-windows]
+
+  build-windows:
+    needs: [generate-stubs]
     runs-on: windows-2022
     strategy:
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10']
+        arch: ['AMD64', 'ARM64', 'x86']
+        python-id: ['cp38-*', 'cp39-*', 'cp310-*', 'cp311-*']
+        include:
+          - arch: 'AMD64'
+            python-id: 'pp37-*'
+          - arch: 'AMD64'
+            python-id: 'pp38-*'
+          - arch: 'AMD64'
+            python-id: 'pp39-*'
+          - arch: 'AMD64'
+            python-id: 'pp310-*'
+        exclude:
+          - arch: 'ARM64'
+            python-id: 'cp38-*'
+    env:
+      CXXFLAGS: "/bigobj"
+      CFLAGS: "/bigobj"
+      PYTHONUTF8: 1
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - uses: actions/setup-python@v4
-        name: Install Python
+      - name: Cache dependencies
+        id: cache-dep
+        uses: actions/cache@v3
         with:
-          python-version: ${{ matrix.python-version }}
-      - uses: actions/download-artifact@v3
-        with:
-          name: whl-${{ matrix.python-version }}-windows
-          path: dist
-      - name: Test
+          path: deps
+          key: deps-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('scripts/install-eigen.ps1') }}
+      - name: Install Python dependencies
+        if: steps.cache-dep.outputs.cache-hit != 'true'
         shell: powershell
         run: |
-          python3 -m pip install -U pip pytest cmake
-          python3 -m pip install --find-links=dist $Env:PACKAGE_NAME==$Env:PACKAGE_VERSION
-          pytest -rP
+          mkdir $env:VIRTUAL_ENV
+          ./scripts/install-eigen.ps1
+        env:
+          VIRTUAL_ENV: ${{ github.workspace }}/deps
+          CMAKE_TOOLCHAIN_FILE: ${{ github.workspace }}/scripts/toolchains/Win-${{ matrix.arch }}.cmake
+      # Download stubs
+      - name: Download stubs
+        if: ${{ matrix.arch == 'ARM64' }}
+        uses: actions/download-artifact@v3
+        with:
+          name: stubs
+      - name: Extract stubs
+        if: ${{ matrix.arch == 'ARM64' }}
+        run: tar xf stubs.tar
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.14.1
+        with:
+          output-dir: dist
+        env:
+          CIBW_BUILD: ${{ matrix.python-id }}
+          CIBW_ARCHS: ${{ matrix.arch }}
+          CIBW_TEST_SKIP: "*-{win32,win_arm64} pp*" # no SciPy binaries
+          CMAKE_PREFIX_PATH: ${{ github.workspace }}/deps
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: whl-windows
+          retention-days: 1
+          path: dist/*.whl
 
 
   build-macos:
@@ -360,12 +361,14 @@ jobs:
           source ./py-venv/bin/activate
           CMAKE_PREFIX_PATH="$VIRTUAL_ENV:$CMAKE_PREFIX_PATH" \
           _PYTHON_HOST_PLATFORM='macosx-10.9-universal2' \
+          MACOSX_DEPLOYMENT_TARGET="10.9" \
           ARCHFLAGS='-arch arm64 -arch x86_64' \
               python -m build -w .
       - name: Upload
         uses: actions/upload-artifact@v3
         with:
-          name: whl-${{ matrix.python-version }}-macos
+          name: whl-macos
+          retention-days: 1
           path: dist/*.whl
 
   test-macos:
@@ -373,7 +376,7 @@ jobs:
     runs-on: macos-12
     strategy:
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10']
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
     steps:
       - uses: actions/checkout@v3
         with:
@@ -384,73 +387,62 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - uses: actions/download-artifact@v3
         with:
-          name: whl-${{ matrix.python-version }}-macos
+          name: whl-macos
           path: dist
       - name: Test
         run: |
-          python3 -m pip install -U pip pytest cmake ninja
-          python3 -m pip install --find-links=dist ${PACKAGE_NAME}==${PACKAGE_VERSION}
+          python3 -m pip install -U pip
+          python3 -m pip install --find-links=dist "${PACKAGE_NAME}[test]==${PACKAGE_VERSION}"
           pytest -rP
 
 
-  release:
+  check-release:
     if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
-    needs: [test-linux, build-linux-src, test-windows, test-macos]
+    needs: [test-linux, build-linux-src, build-windows, test-macos]
     runs-on: ubuntu-latest
-    container: ${{ matrix.container }}:${{ matrix.python-version }}-bullseye
-    strategy:
-      matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
-        pypy: ['']
-        container: ['python']
-        include:
-          - python-version: '3.8'
-            pypy: 'pypy'
-            container: 'pypy'
-          - python-version: '3.9'
-            pypy: 'pypy'
-            container: 'pypy'
+    container: python:3.11-bullseye
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
         with:
-          name: whl-${{ matrix.pypy }}${{ matrix.python-version }}-linux
+          name: whl-linux
           path: dist
-      - uses: actions/download-artifact@v3
-        with:
-          name: whl-${{ matrix.pypy }}${{ matrix.python-version }}-debug-linux
-          path: dist
-      - uses: actions/download-artifact@v3
-        if: ${{ !matrix.pypy }}
-        with:
-          name: whl-${{ matrix.python-version }}-windows
-          path: dist
-      - uses: actions/download-artifact@v3
-        if: ${{ !matrix.pypy }}
-        with:
-          name: whl-${{ matrix.python-version }}-macos
-          path: dist
-      - name: Install Twine
-        run: python -m pip install -U pip twine
       - name: Install package
         run: python -m pip install --no-deps --no-index --find-links=dist ${PACKAGE_NAME}==${PACKAGE_VERSION}
       - name: Check package version
         run: |
-          [ "${{ github.event.release.tag_name }}" == "$(python -c 'import ${{ env.MODULE_NAME }} as m; print(m.__version__)')" ]
+          [ "${{ github.event.release.tag_name }}" == $(python -c 'from importlib.metadata import version as v; print(v("${{ env.PACKAGE_NAME }}"))') ]
         shell: bash
-      - name: Upload Wheels to PyPI
-        run: python -m twine upload -r ${{ env.TWINE_REPOSITORY }} dist/*.whl
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PyPI }}
+
+  release:
+    needs: [check-release]
+    if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: release
+      url: https://pypi.org/p/qpalm
+    permissions:
+      id-token: write  # mandatory for trusted publishing
+    steps:
       - uses: actions/download-artifact@v3
-        if: ${{ matrix.python-version == '3.11' && !matrix.pypy }}
+        with:
+          name: whl-linux
+          path: dist
+      - uses: actions/download-artifact@v3
+        with:
+          name: whl-debug-linux
+          path: dist
+      - uses: actions/download-artifact@v3
+        with:
+          name: whl-windows
+          path: dist
+      - uses: actions/download-artifact@v3
+        with:
+          name: whl-macos
+          path: dist
+      - uses: actions/download-artifact@v3
         with:
           name: src-dist
           path: dist
-      - name: Upload source to PyPI
-        if: ${{ matrix.python-version == '3.11' && !matrix.pypy }}
-        run: python -m twine upload -r ${{ env.TWINE_REPOSITORY }} dist/*.tar.gz
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PyPI }}
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@b7f401de30cb6434a1e19f805ff006643653240e

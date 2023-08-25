@@ -12,7 +12,7 @@ inputs:
     type: string
   tools-version:
     required: false
-    default: '0.0.7'
+    default: '0.1.0-beta3'
     type: string
   tools-url:
     required: false
@@ -21,6 +21,10 @@ inputs:
   cmake-version:
     required: false
     default: '3.25.0'
+    type: string
+  pypy-version:
+    required: false
+    default: '7.3.11'
     type: string
 
 runs:
@@ -32,7 +36,7 @@ runs:
       run: |
         apt -y update
         apt -y install --no-install-recommends \
-          wget bzip2 xz-utils ccache ninja-build ca-certificates
+          wget bzip2 xz-utils ccache ninja-build pkg-config ca-certificates libquadmath0
     # Cache
     - name: Cache tools
       id: cache-tools
@@ -40,7 +44,7 @@ runs:
       with:
         path: /opt
         key: ${{ runner.os }}-${{ inputs.pypy }}${{ inputs.python-version }}-${{ inputs.host }}-tools-${{ inputs.tools-version }}-${{ inputs.cmake-version }}
-      # CMake
+    # CMake
     - name: Install CMake
       if: ${{ steps.cache-tools.outputs.cache-hit != 'true' }}
       shell: bash
@@ -64,11 +68,11 @@ runs:
     - name: Install PyPy
       if: ${{ inputs.pypy }}
       shell: bash
-      run: wget "https://downloads.python.org/pypy/pypy${{ inputs.python-version }}-v7.3.9-linux64.tar.bz2" -O- | tar xj -C /opt
+      run: wget "https://downloads.python.org/pypy/pypy${{ inputs.python-version }}-v${{ inputs.pypy-version }}-linux64.tar.bz2" -O- | tar xj -C /opt
     - name: Add PyPy to PATH
       if: ${{ inputs.pypy }}
       shell: bash
-      run: echo "/opt/pypy${{ inputs.python-version }}-v7.3.9-linux64/bin" >> $GITHUB_PATH
+      run: echo "/opt/pypy${{ inputs.python-version }}-v${{ inputs.pypy-version }}-linux64/bin" >> $GITHUB_PATH
     # Pip
     - name: Install Pip
       shell: bash
@@ -78,3 +82,11 @@ runs:
       if: steps.cache-tools.outputs.cache-hit != 'true'
       shell: bash
       run: wget "${{ inputs.tools-url }}/${{ inputs.tools-version }}/full-${{ inputs.host }}.tar.xz" -O- | tar xJ -C /opt
+    # Install runtime libraries
+    - name: Install runtime libraries
+      if: ${{ inputs.host == 'x86_64-centos7-linux-gnu' }}
+      shell: bash
+      run: |
+        cp /opt/${{ inputs.host }}/x-tools/${{ inputs.host }}/${{ inputs.host }}/lib64/libgfortran.so.*.*.* /usr/local/lib
+        cp /opt/${{ inputs.host }}/x-tools/${{ inputs.host }}/${{ inputs.host }}/lib64/libstdc++.so.*.*.* /usr/local/lib
+        ldconfig
