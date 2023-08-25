@@ -10,8 +10,8 @@ def _is_truthy(s: typing.Optional[str]):
     return not s.lower() in ('', 'false', 'no', 'off', '0')
 
 if not typing.TYPE_CHECKING and _is_truthy(os.getenv('QPALM_PYTHON_DEBUG')):
-    from qpalm._qpalmd import *
-    from qpalm._qpalmd import __version__ as c_version
+    from qpalm._qpalm_d import *
+    from qpalm._qpalm_d import __version__ as c_version
 else:
     from qpalm._qpalm import *
     from qpalm._qpalm import __version__ as c_version
