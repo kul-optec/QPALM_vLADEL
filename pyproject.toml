@@ -93,7 +93,8 @@ args = ["-v", "--no-import"]
 [tool.cibuildwheel]
 build-verbosity = 1
 environment = { PY_BUILD_CMAKE_VERBOSE="1" }
-test-command = "pytest {package}/python/test"
+skip = "pp37-*"
+test-command = "pytest {package}/QPALM/interfaces/python/test"
 test-extras = ["test"]
 
 [tool.cibuildwheel.macos]
