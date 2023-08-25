@@ -45,7 +45,7 @@ dependencies = ["numpy~=1.19", "scipy~=1.6"]
 dynamic = ["version", "description"]
 
 [project.optional-dependencies]
-debug = ["qpalm-debug==1.1.4.post1"]
+debug = ["qpalm-debug==1.1.5.dev0"]
 
 [project.urls]
 Source = "https://github.com/kul-optec/QPALM"

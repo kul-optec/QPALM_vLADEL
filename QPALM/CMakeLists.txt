@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
-project(QPALM VERSION 1.1.4)
-set(PY_VERSION_SUFFIX ".post1")
+project(QPALM VERSION 1.1.5)
+set(PY_VERSION_SUFFIX ".dev0")
 
 # Options
 include(CMakeDependentOption)
