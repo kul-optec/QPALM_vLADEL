@@ -74,7 +74,7 @@ PYBIND11_MODULE(MODULE_NAME, m) {
 #endif
             [](qpalm::Data &d, qpalm::sparse_mat_t Q) {
                 check_dim(Q, "Q", d.n, d.n);
-                d.set_Q(std::move(Q));
+                d.set_Q(Q);
             })
         .def_property(
             "A",
@@ -86,7 +86,7 @@ PYBIND11_MODULE(MODULE_NAME, m) {
 #endif
             [](qpalm::Data &d, qpalm::sparse_mat_t A) {
                 check_dim(A, "A", d.m, d.n);
-                d.set_A(std::move(A));
+                d.set_A(A);
             })
         .def_property(
             "q", [](qpalm::Data &d) -> qpalm::vec_t & { return d.q; },

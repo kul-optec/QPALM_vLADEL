@@ -22,6 +22,8 @@ using sp_index_t = ladel_int;
 using sparse_mat_t = Eigen::SparseMatrix<c_float, Eigen::ColMajor, sp_index_t>;
 /// Read-only view on a sparse matrix.
 using sparse_mat_view_t = Eigen::Map<const sparse_mat_t>;
+/// Read-only reference to a sparse matrix.
+using sparse_mat_ref_t = Eigen::Ref<const sparse_mat_t>;
 /// Type for (row, column, value) triplets for initializing sparse matrices.
 using triplet_t = Eigen::Triplet<c_float, sp_index_t>;
 /// Owning dense vector type.
@@ -56,11 +58,23 @@ using ladel_sparse_matrix_ptr =
 QPALM_CXX_EXPORT ladel_sparse_matrix
 eigen_to_ladel(sparse_mat_t &mat, ladel_int symmetry = UNSYMMETRIC);
 
+/// Create an LADEL sparse matrix of the given dimensions.
+/// @param  rows        Number of rows.
+/// @param  cols        Number of columns.
+/// @param  nnz         Number of nonzeros.
+/// @param  symmetry    Either @ref UNSYMMETRIC, @ref UPPER or @ref LOWER.
+/// @param  values      Whether to allocate the array of nonzero values.
+/// @param  nz          Whether to allocate the array of nonzero row indices.
+/// @see ladel_sparse_alloc
+QPALM_CXX_EXPORT ladel_sparse_matrix_ptr
+ladel_sparse_create(index_t rows, index_t cols, index_t nnz, ladel_int symmetry,
+                    bool values = true, bool nonzeros = true);
+
 /// Similar to @ref eigen_to_ladel, but creates a copy of all data, in such a
 /// way that the returned matrix is completely decoupled from @p mat, and such
 /// that it can be reallocated and deallocated by the @c ladel_sparse_free
 /// and similar functions.
-QPALM_CXX_EXPORT ladel_sparse_matrix_ptr
-eigen_to_ladel_copy(const sparse_mat_t &mat);
+QPALM_CXX_EXPORT ladel_sparse_matrix_ptr eigen_to_ladel_copy(
+    const sparse_mat_ref_t &mat, ladel_int symmetry = UNSYMMETRIC);
 
 } // namespace qpalm

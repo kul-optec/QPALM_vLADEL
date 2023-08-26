@@ -44,8 +44,8 @@ class Data {
     /// Number of constraints
     /// (size of bmin and bmax, number of rows of A).
     index_t m;
-    ladel_sparse_matrix_ptr Q = eigen_to_ladel_copy({n, n});
-    ladel_sparse_matrix_ptr A = eigen_to_ladel_copy({m, n});
+    ladel_sparse_matrix_ptr Q = ladel_sparse_create(n, n, 0, UPPER);
+    ladel_sparse_matrix_ptr A = ladel_sparse_create(m, n, 0, UNSYMMETRIC);
     c_float c                 = 0;
     vec_t q                   = vec_t::Zero(n);
     vec_t bmin                = vec_t::Zero(m);
@@ -56,13 +56,13 @@ class Data {
     Data(index_t n, index_t m) : n{n}, m{m} {}
 
     /// Set the sparse Q matrix. Creates a copy.
-    void set_Q(const sparse_mat_t &Q) {
+    void set_Q(const sparse_mat_ref_t &Q) {
         assert(Q.rows() == n);
         assert(Q.cols() == n);
         this->Q = eigen_to_ladel_copy(Q);
     }
     /// Set the sparse A matrix. Creates a copy.
-    void set_A(const sparse_mat_t &A) {
+    void set_A(const sparse_mat_ref_t &A) {
         assert(A.rows() == m);
         assert(A.cols() == n);
         this->A = eigen_to_ladel_copy(A);

@@ -27,21 +27,33 @@ void ladel_sparse_matrix_deleter::operator()(ladel_sparse_matrix *M) const {
 }
 } // namespace alloc
 
-ladel_sparse_matrix_ptr eigen_to_ladel_copy(const sparse_mat_t &mat) {
-    ladel_int nz = mat.innerNonZeroPtr() == nullptr ? FALSE : TRUE;
-    auto res     = ::ladel_sparse_alloc(mat.rows(), mat.cols(), mat.nonZeros(),
-                                        UNSYMMETRIC, TRUE, nz);
+ladel_sparse_matrix_ptr ladel_sparse_create(index_t rows, index_t cols,
+                                            index_t nnz, ladel_int symmetry,
+                                            bool values, bool nonzeros) {
+    return ladel_sparse_matrix_ptr{
+        ::ladel_sparse_alloc(static_cast<ladel_int>(rows),
+                             static_cast<ladel_int>(cols),
+                             static_cast<ladel_int>(nnz), symmetry,
+                             values ? TRUE : FALSE, nonzeros ? TRUE : FALSE),
+    };
+}
+
+ladel_sparse_matrix_ptr eigen_to_ladel_copy(const sparse_mat_ref_t &mat,
+                                            ladel_int symmetry) {
+    bool nz  = mat.innerNonZeroPtr() != nullptr;
+    auto res = ladel_sparse_create(mat.rows(), mat.cols(), mat.nonZeros(),
+                                   symmetry, true, nz);
     assert(mat.outerSize() + 1 <= res->ncol + 1);
     std::copy_n(mat.outerIndexPtr(), mat.outerSize() + 1, res->p);
     assert(mat.nonZeros() <= res->nzmax);
     std::copy_n(mat.innerIndexPtr(), mat.nonZeros(), res->i);
     assert(mat.nonZeros() <= res->nzmax);
     std::copy_n(mat.valuePtr(), mat.nonZeros(), res->x);
-    if (mat.innerNonZeroPtr() != nullptr) {
+    if (nz) {
         assert(mat.outerSize() <= res->ncol);
         std::copy_n(mat.innerNonZeroPtr(), mat.outerSize(), res->nz);
     }
-    return ladel_sparse_matrix_ptr{res};
+    return res;
 }
 
 } // namespace qpalm
