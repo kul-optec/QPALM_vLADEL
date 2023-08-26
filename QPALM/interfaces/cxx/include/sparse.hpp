@@ -64,11 +64,11 @@ eigen_to_ladel(sparse_mat_t &mat, ladel_int symmetry = UNSYMMETRIC);
 /// @param  nnz         Number of nonzeros.
 /// @param  symmetry    Either @ref UNSYMMETRIC, @ref UPPER or @ref LOWER.
 /// @param  values      Whether to allocate the array of nonzero values.
-/// @param  nz          Whether to allocate the array of nonzero row indices.
+/// @param  nz          Whether to allocate the array of nonzero counts.
 /// @see ladel_sparse_alloc
 QPALM_CXX_EXPORT ladel_sparse_matrix_ptr
 ladel_sparse_create(index_t rows, index_t cols, index_t nnz, ladel_int symmetry,
-                    bool values = true, bool nonzeros = true);
+                    bool values = true, bool nonzeros = false);
 
 /// Similar to @ref eigen_to_ladel, but creates a copy of all data, in such a
 /// way that the returned matrix is completely decoupled from @p mat, and such
