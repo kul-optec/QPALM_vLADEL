@@ -4,7 +4,7 @@
 #include <vector>
 
 // Helper function to easily construct sparse matrices.
-static auto make_sparse_matrix(qpalm::sp_index_t rows, qpalm::sp_index_t cols,
+static auto make_sparse_matrix(qpalm::index_t rows, qpalm::index_t cols,
                                const std::vector<qpalm::triplet_t> &triplets) {
     qpalm::sparse_mat_t M{rows, cols};
     M.setFromTriplets(begin(triplets), end(triplets));
@@ -15,9 +15,9 @@ int main() {
 
     // Define the problem
     // ------------------
-    qpalm::sp_index_t n = 3; // Number of unknowns
-    qpalm::sp_index_t m = 4; // Number of constraints
-    qpalm::Data data    = {n, m};
+    qpalm::index_t n = 3; // Number of unknowns
+    qpalm::index_t m = 4; // Number of constraints
+    qpalm::Data data = {n, m};
     data.set_Q(make_sparse_matrix(n, n,
                                   {
                                       {0, 0, 1.0}, // row, col, value
