@@ -38,13 +38,13 @@
  *
  * As a one-liner in the Matlab console:
  * \code{.m}
- * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.5a1/qpalm-matlab-linux.zip', userpath)
+ * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.5a2/qpalm-matlab-linux.zip', userpath)
  * \endcode
  * \code{.m}
- * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.5a1/qpalm-matlab-windows.zip', userpath)
+ * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.5a2/qpalm-matlab-windows.zip', userpath)
  * \endcode
  * \code{.m}
- * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.5a1/qpalm-matlab-macos.zip', userpath)
+ * unzip('https://github.com/kul-optec/QPALM/releases/download/1.1.5a2/qpalm-matlab-macos.zip', userpath)
  * \endcode
  *
  * \subsection build-source Building QPALM from source
