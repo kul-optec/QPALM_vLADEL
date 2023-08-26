@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HOST: 'x86_64-centos7-linux-gnu'
-      TOOLS_VERSION: '0.0.7'
+      TOOLS_VERSION: '0.1.0-beta3'
       TOOLS_URL: 'https://github.com/tttapa/cross-python/releases/download'
     steps:
     - uses: actions/checkout@v3

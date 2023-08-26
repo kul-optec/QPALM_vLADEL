@@ -49,7 +49,7 @@ jobs:
     # Install Python
     - uses: actions/setup-python@v4
       with:
-        python-version: '3.9.6'
+        python-version: '3.9'
 
     # Create the `gh-pages` branch if it doesn't exist already, check it out, 
     # and copy it to /tmp/staging.
