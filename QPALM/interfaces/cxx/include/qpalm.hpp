@@ -52,8 +52,14 @@ class Data {
     vec_t bmax                = vec_t::Zero(m);
 
   public:
-    /// Construct a problem of dimension n with m constraints.
+    /// Construct a problem of dimension @p n with @p m constraints.
     Data(index_t n, index_t m) : n{n}, m{m} {}
+    /// Construct a problem of dimension @p n with @p m constraints, allocating
+    /// an uninitialized upper-triangular Q matrix (with implicit symmetry) of
+    /// @p nnz_Q entries, and an uninitialized A matrix of @p nnz_A entries.
+    Data(index_t n, index_t m, index_t nnz_Q, index_t nnz_A)
+        : n{n}, m{m}, Q{ladel_sparse_create(n, n, nnz_Q, UPPER)},
+          A{ladel_sparse_create(m, n, nnz_A, UNSYMMETRIC)} {}
 
     /// Set the sparse Q matrix. Creates a copy.
     void set_Q(const sparse_mat_ref_t &Q) {
