@@ -16,9 +16,14 @@ description = "Debug symbols for the qpalm package."
 "Bug Tracker" = "https://github.com/kul-optec/QPALM/issues"
 
 [build-system]
-requires = ["py-build-cmake~=0.1.1", "pybind11", "pybind11-stubgen"]
+requires = [
+    "py-build-cmake~=0.2.0a5",
+    "pybind11>=2.10.1,!=2.10.2,!=2.10.3,!=2.10.4,!=2.11.*",
+    "pybind11-stubgen",
+]
 build-backend = "py_build_cmake.build_component"
 
 [tool.py-build-cmake.component]
 main_project = "../../../.."
 install_components = ["python_modules_debug"]
+install_only = true
