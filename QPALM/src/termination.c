@@ -9,12 +9,12 @@
  * infeasibility criteria hold. In other words, all routines related to 
  * the termination of the optimization algorithm are grouped in this file.
  */
-#include "termination.h"
-#include "lin_alg.h"
-#include "constants.h"
-#include "global_opts.h"
-#include "util.h"
-#include "iteration.h"
+#include <qpalm/termination.h>
+#include <qpalm/lin_alg.h>
+#include <qpalm/constants.h>
+#include <qpalm/global_opts.h>
+#include <qpalm/util.h>
+#include <qpalm/iteration.h>
 
 void calculate_residual_norms_and_tolerances(QPALMWorkspace *work) {
     calculate_primal_residual(work);

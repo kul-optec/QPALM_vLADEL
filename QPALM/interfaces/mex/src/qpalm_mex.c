@@ -1,11 +1,11 @@
-#include "mex.h"
+#include <mex.h>
 #include <string.h>
-#include "global_opts.h"
-#include "qpalm.h"
-#include "util.h"
-#include "constants.h"
-#include "ladel.h"
-#include "ladel_mex_util.h"
+#include <qpalm/global_opts.h>
+#include <qpalm.h>
+#include <qpalm/util.h>
+#include <qpalm/constants.h>
+#include <ladel.h>
+#include <ladel_mex_util.h>
 
 //Modes of operation
 #define MODE_DEFAULT_SETTINGS "default_settings"

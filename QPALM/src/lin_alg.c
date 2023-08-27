@@ -6,7 +6,7 @@
  * add/product/division/max etc. are included in this file.
  */
 
-#include "lin_alg.h"
+#include <qpalm/lin_alg.h>
 
 c_float* vec_copy(const c_float *a, size_t n) {
   c_float *b;

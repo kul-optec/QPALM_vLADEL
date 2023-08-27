@@ -37,7 +37,7 @@
 extern "C" {
 # endif 
 
-#include "ladel.h"
+#include <ladel.h>
 typedef ladel_double  c_float; /**< type for floating point numbers */
 typedef ladel_int     c_int; /**< type for integer numbers */
 

@@ -14,9 +14,9 @@ extern "C" {
 # endif // ifdef __cplusplus
 
 #include <stdio.h>
-#include "scaling.h"
-#include "lin_alg.h"
-#include "ladel.h"
+#include <qpalm/scaling.h>
+#include <qpalm/lin_alg.h>
+#include <ladel.h>
 
 // Set values lower than threshold MIN_SCALING to 1
 void limit_scaling(c_float *D, size_t n) 

@@ -14,7 +14,7 @@
 extern "C" {
 # endif 
 
-#include "types.h"
+#include <qpalm/types.h>
 
 /**
  * Sets work->d to the direction calculated by the semismooth Newton method

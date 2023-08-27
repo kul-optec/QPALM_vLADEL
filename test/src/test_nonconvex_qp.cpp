@@ -1,7 +1,7 @@
 #ifdef QPALM_NONCONVEX
 
 #include "minunit.h"
-#include "qpalm.h"
+#include <qpalm.h>
 
 #define N 4
 #define M 5

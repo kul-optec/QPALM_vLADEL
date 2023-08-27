@@ -8,12 +8,12 @@
  * Gershgorin's circle theorem, which is used in the gamma_boost routine in iteration.c.
  */
 
-#include "nonconvex.h"
-#include "types.h"
-#include "constants.h"
-#include "global_opts.h"
-#include "lin_alg.h"
-#include "util.h"
+#include <qpalm/nonconvex.h>
+#include <qpalm/types.h>
+#include <qpalm/constants.h>
+#include <qpalm/global_opts.h>
+#include <qpalm/lin_alg.h>
+#include <qpalm/util.h>
 
 #ifdef QPALM_NONCONVEX
 #include <math.h>

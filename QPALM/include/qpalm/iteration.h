@@ -16,8 +16,8 @@
 extern "C" {
 #endif 
 
-#include "types.h"
-#include "global_opts.h"
+#include <qpalm/types.h>
+#include <qpalm/global_opts.h>
 
 /**
  * Compute the residuals (in vector form)

@@ -3,7 +3,8 @@ find_package(Eigen3 REQUIRED)
 add_library(qpalm_cxx
     "src/sparse.cpp"
     "src/qpalm.cpp"
-    "include/sparse.hpp"
+    "include/qpalm/sparse.hpp"
+    "include/qpalm/qpalm_cxx-export.hpp"
     "include/qpalm.hpp"
 )
 target_include_directories(qpalm_cxx

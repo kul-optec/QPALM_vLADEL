@@ -1,5 +1,5 @@
 #include "minunit.h"
-#include "qpalm.h"
+#include <qpalm.h>
 
 #define DIM 3
 #define TOL 1e-8

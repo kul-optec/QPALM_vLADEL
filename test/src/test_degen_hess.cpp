@@ -1,5 +1,5 @@
 #include "minunit.h"
-#include "qpalm.h"
+#include <qpalm.h>
 
 #define N 3
 #define M 4

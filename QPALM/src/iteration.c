@@ -9,15 +9,15 @@
  * the computation of the primal and dual objective values, etc.
  */
 
-#include "iteration.h"
-#include "lin_alg.h"
-#include "solver_interface.h"
-#include "newton.h"
-#include "linesearch.h"
-#include "nonconvex.h"
-#include "util.h"
+#include <qpalm/iteration.h>
+#include <qpalm/lin_alg.h>
+#include <qpalm/solver_interface.h>
+#include <qpalm/newton.h>
+#include <qpalm/linesearch.h>
+#include <qpalm/nonconvex.h>
+#include <qpalm/util.h>
 
-#include "ladel.h"
+#include <ladel.h>
 
 void compute_residuals(QPALMWorkspace *work, solver_common *c) {
 

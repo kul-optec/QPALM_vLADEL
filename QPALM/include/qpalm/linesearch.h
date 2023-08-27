@@ -13,8 +13,8 @@
 extern "C" {
 #endif 
 
-#include "types.h"
-#include "constants.h"
+#include <qpalm/types.h>
+#include <qpalm/constants.h>
 
 
 /**

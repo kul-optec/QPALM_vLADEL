@@ -6,9 +6,9 @@
  * details of the QPALMSettings tab in data structures.
  */
 
-#include "validate.h"
-#include "lin_alg.h"
-#include "constants.h"
+#include <qpalm/validate.h>
+#include <qpalm/lin_alg.h>
+#include <qpalm/constants.h>
 
 
 /***********************************************************

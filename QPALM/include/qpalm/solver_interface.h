@@ -16,9 +16,9 @@
 extern "C" {
 # endif 
 
-#include "global_opts.h"
-#include "constants.h"
-#include "types.h"
+#include <qpalm/global_opts.h>
+#include <qpalm/constants.h>
+#include <qpalm/types.h>
 
 /** 
  * Matrix-vector multiplication.
@@ -61,7 +61,7 @@ void mat_tpose_vec(solver_sparse *A,
 void qpalm_set_factorization_method(QPALMWorkspace  *work, 
                                     solver_common   *c);
 
-#include "ladel.h"
+#include <ladel.h>
 
 #define mat_inf_norm_cols ladel_infinity_norm_columns
 #define mat_inf_norm_rows ladel_infinity_norm_rows

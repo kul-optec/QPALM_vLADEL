@@ -16,7 +16,7 @@
 extern "C" {
 # endif 
 
-#include "types.h"
+#include <qpalm/types.h>
 
 /**
  * Calls the routines that compute the norm of the residuals and the tolerances.

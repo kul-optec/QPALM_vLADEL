@@ -9,11 +9,11 @@
  * 
  */
 
-#include "lin_alg.h"
-#include "solver_interface.h"
+#include <qpalm/lin_alg.h>
+#include <qpalm/solver_interface.h>
 #include <stdio.h>
 
-#include "ladel.h"
+#include <ladel.h>
 
 void qpalm_set_factorization_method(QPALMWorkspace *work, solver_common *c)
 {

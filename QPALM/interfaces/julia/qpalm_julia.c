@@ -1,5 +1,5 @@
 #ifdef QPALM_USE_LADEL
-#include "qpalm.h"
+#include <qpalm.h>
 
 QPALM_EXPORT QPALMData *qpalm_julia_set_data(c_int           n, 
                                 c_int           m, 

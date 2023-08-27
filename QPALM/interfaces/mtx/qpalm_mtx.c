@@ -1,9 +1,9 @@
-#include "qpalm.h"
+#include <qpalm.h>
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
 
-#include "ladel.h"
+#include <ladel.h>
 
 solver_sparse* mtx_load_A(FILE *fp, size_t *n, size_t *m){
     // Get the first line out of the way

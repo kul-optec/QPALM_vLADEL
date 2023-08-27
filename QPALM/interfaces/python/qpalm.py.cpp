@@ -10,7 +10,7 @@ namespace py = pybind11;
 using py::operator""_a;
 
 #include <qpalm.hpp>
-#include <sparse.hpp>
+#include <qpalm/sparse.hpp>
 
 #include <algorithm>
 #include <cstdarg>

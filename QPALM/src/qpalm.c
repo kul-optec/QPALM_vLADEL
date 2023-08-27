@@ -10,21 +10,21 @@
 extern "C" {
 # endif // ifdef __cplusplus
 
-#include "qpalm.h"
-#include "global_opts.h"
-#include "constants.h"
-#include "validate.h"
-#include "lin_alg.h"
-#include "util.h"
-#include "scaling.h"
-#include "linesearch.h"
-#include "termination.h"
-#include "solver_interface.h"
-#include "newton.h"
-#include "nonconvex.h"
-#include "iteration.h"
+#include <qpalm.h>
+#include <qpalm/global_opts.h>
+#include <qpalm/constants.h>
+#include <qpalm/validate.h>
+#include <qpalm/lin_alg.h>
+#include <qpalm/util.h>
+#include <qpalm/scaling.h>
+#include <qpalm/linesearch.h>
+#include <qpalm/termination.h>
+#include <qpalm/solver_interface.h>
+#include <qpalm/newton.h>
+#include <qpalm/nonconvex.h>
+#include <qpalm/iteration.h>
 
-#include "ladel.h"
+#include <ladel.h>
 
 /**********************
 * Main API Functions *

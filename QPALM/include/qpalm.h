@@ -15,19 +15,19 @@
 extern "C" {
 #endif 
 
-#include "constants.h"
-#include "global_opts.h"
-#include "iteration.h"
-#include "lin_alg.h"
-#include "linesearch.h"
-#include "newton.h"
-#include "nonconvex.h"
-#include "scaling.h"
-#include "solver_interface.h"
-#include "termination.h"
-#include "types.h"
-#include "util.h"
-#include "validate.h"
+#include <qpalm/constants.h>
+#include <qpalm/global_opts.h>
+#include <qpalm/iteration.h>
+#include <qpalm/lin_alg.h>
+#include <qpalm/linesearch.h>
+#include <qpalm/newton.h>
+#include <qpalm/nonconvex.h>
+#include <qpalm/scaling.h>
+#include <qpalm/solver_interface.h>
+#include <qpalm/termination.h>
+#include <qpalm/types.h>
+#include <qpalm/util.h>
+#include <qpalm/validate.h>
 
 
 /********************

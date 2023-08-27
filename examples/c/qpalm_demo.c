@@ -1,4 +1,4 @@
-#include "qpalm.h"
+#include <qpalm.h>
 #include <stdio.h>
 
 #define N 2

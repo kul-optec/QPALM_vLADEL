@@ -1,7 +1,7 @@
 #ifndef INDEX_HASH_H
 #define INDEX_HASH_H
 
-#include "global_opts.h"
+#include <qpalm/global_opts.h>
 
 struct node{
     char* key; /*name of the row/col*/

@@ -10,8 +10,8 @@
 extern "C" {
 # endif // ifdef __cplusplus
 
-#include "newton.h"
-#include "lin_alg.h"
+#include <qpalm/newton.h>
+#include <qpalm/lin_alg.h>
 #include <stdio.h>
 
 void newton_set_direction(QPALMWorkspace *work, solver_common *c) {

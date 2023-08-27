@@ -15,7 +15,7 @@
 extern "C" {
 # endif 
 
-#include "types.h"
+#include <qpalm/types.h>
 
 /**
  * Calculate the Gershgorin upper bound for the eigenvalues of a symmetric matrix.

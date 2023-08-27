@@ -12,9 +12,9 @@
 extern "C" {
 # endif 
 
-#include "global_opts.h"
+#include <qpalm/global_opts.h>
 
-#include "ladel.h"
+#include <ladel.h>
 typedef ladel_work            solver_common;
 typedef ladel_sparse_matrix   solver_sparse;
 typedef ladel_double          solver_dense;

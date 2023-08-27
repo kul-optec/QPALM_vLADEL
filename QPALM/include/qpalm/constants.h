@@ -109,7 +109,7 @@ extern "C" {
 
 #define FACTORIZATION_METHOD FACTORIZE_KKT_OR_SCHUR /**< default method for solving the linear system */
 
-#include "ladel.h"
+#include <ladel.h>
 #define ORDERING AMD /**< ordering in the factorization */
 
 /**

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <sparse.hpp>
+#include <qpalm/sparse.hpp>
 
-#include <types.h> // ::QPALMData, ::QPALMSettings, ::QPALMSolution, ::QPALMInfo
+#include <qpalm/types.h> // QPALMData, QPALMSettings, QPALMSolution, QPALMInfo
 
 #include <cassert>
 #include <optional>

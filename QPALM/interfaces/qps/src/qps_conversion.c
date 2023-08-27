@@ -1,4 +1,4 @@
-#include "qpalm.h"
+#include <qpalm.h>
 #include "qpalm_qps.h"
 #include "qps_conversion.h"
 #include <stdio.h>

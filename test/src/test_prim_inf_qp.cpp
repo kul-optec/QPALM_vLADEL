@@ -1,5 +1,5 @@
 #include "minunit.h"
-#include "qpalm.h"
+#include <qpalm.h>
 #include <gtest/gtest.h>
 
 #define N 2

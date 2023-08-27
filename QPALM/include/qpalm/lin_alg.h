@@ -15,7 +15,7 @@ extern "C" {
 # endif 
 
 # include "types.h"
-#include "solver_interface.h"
+#include <qpalm/solver_interface.h>
 
 /**
  * @name Vector functions

@@ -1,4 +1,4 @@
-#include "qpalm.h"
+#include <qpalm.h>
 #include "qpalm_qps.h"
 #include "qps_conversion.h"
 #include "index_hash.h"
@@ -7,7 +7,7 @@
 #include <math.h>
 #include <string.h>
 
-#include "ladel.h"
+#include <ladel.h>
 
 typedef struct {
     int no_name_bounds;

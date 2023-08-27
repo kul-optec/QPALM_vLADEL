@@ -1,4 +1,4 @@
-#include <global_opts.h>
+#include <qpalm/global_opts.h>
 
 void *qpalm_calloc(size_t num, size_t size) {
     return ladel_calloc(num, size);

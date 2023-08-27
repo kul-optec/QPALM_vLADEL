@@ -4,13 +4,13 @@
 #include <Eigen/src/Core/Map.h>    // Eigen::Map
 #include <Eigen/src/Core/Matrix.h> // Eigen::Matrix
 
-#include <global_opts.h>     // c_float
-#include <ladel_constants.h> // UNSYMMETRIC
-#include <ladel_types.h>     // ladel_sparse_matrix
+#include <ladel_constants.h>   // UNSYMMETRIC
+#include <ladel_types.h>       // ladel_sparse_matrix
+#include <qpalm/global_opts.h> // c_float
 
 #include <memory> // unique_ptr
 
-#include <qpalm_cxx-export.hpp>
+#include <qpalm/qpalm_cxx-export.hpp>
 
 namespace qpalm {
 

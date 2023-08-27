@@ -7,8 +7,8 @@
  * satisfy the armijo condition.
  */
 
-#include "linesearch.h"
-#include "lin_alg.h"
+#include <qpalm/linesearch.h>
+#include <qpalm/lin_alg.h>
 #include <stdlib.h> //for sorting
 
 c_float exact_linesearch(QPALMWorkspace *work, solver_common *c) {

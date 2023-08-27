@@ -6,11 +6,11 @@
  * to update the solver status, to print information and to time the algorithm.
  */
 
-#include "util.h"
-#include "lin_alg.h"
-#include "global_opts.h"
-#include "string.h"
-#include "types.h"
+#include <qpalm/util.h>
+#include <qpalm/lin_alg.h>
+#include <qpalm/global_opts.h>
+#include <qpalm/types.h>
+#include <string.h>
 #include <stdio.h>
 /**********************
 * Utility Functions  *
