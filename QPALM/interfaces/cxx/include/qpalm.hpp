@@ -141,7 +141,11 @@ class Solver {
   public:
     /// Create a new solver for the problem defined by @p data and with the
     /// parameters defined by @p settings.
-    QPALM_CXX_EXPORT Solver(const Data &data, const Settings &settings);
+    QPALM_CXX_EXPORT Solver(const ::QPALMData *data, const Settings &settings);
+    /// Create a new solver for the problem defined by @p data and with the
+    /// parameters defined by @p settings.
+    Solver(const Data &data, const Settings &settings)
+        : Solver{data.get_c_data_ptr(), settings} {}
 
     /// @see    @ref ::qpalm_update_settings
     QPALM_CXX_EXPORT void update_settings(const Settings &settings);

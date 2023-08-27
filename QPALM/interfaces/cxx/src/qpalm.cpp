@@ -22,8 +22,8 @@ Settings::Settings() { ::qpalm_set_default_settings(this); }
 
 using QPALMInfo = ::QPALMInfo;
 
-Solver::Solver(const Data &data, const Settings &settings)
-    : work{::qpalm_setup(data.get_c_data_ptr(), &settings)} {}
+Solver::Solver(const ::QPALMData *data, const Settings &settings)
+    : work{::qpalm_setup(data, &settings)} {}
 
 void Solver::update_settings(const Settings &settings) {
     ::qpalm_update_settings(work.get(), &settings);
