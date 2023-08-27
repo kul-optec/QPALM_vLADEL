@@ -9,7 +9,6 @@ env:
   PACKAGE_VERSION: "1.1.5a2"
   PACKAGE_NAME: qpalm
   C_EXTENSIONS: _qpalm
-  TWINE_REPOSITORY: pypi
 
 jobs:
   generate-stubs:
@@ -324,6 +323,7 @@ jobs:
       CMAKE_C_COMPILER_LAUNCHER: ccache
       CMAKE_CXX_COMPILER_LAUNCHER: ccache
       CCACHE_DIR: /tmp/.ccache
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -361,7 +361,6 @@ jobs:
           source ./py-venv/bin/activate
           CMAKE_PREFIX_PATH="$VIRTUAL_ENV:$CMAKE_PREFIX_PATH" \
           _PYTHON_HOST_PLATFORM='macosx-10.9-universal2' \
-          MACOSX_DEPLOYMENT_TARGET="10.9" \
           ARCHFLAGS='-arch arm64 -arch x86_64' \
               python -m build -w .
       - name: Upload
