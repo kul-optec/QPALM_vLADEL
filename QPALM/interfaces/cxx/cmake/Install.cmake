@@ -13,7 +13,9 @@ install(TARGETS qpalm_cxx qpalm_warnings
         COMPONENT lib)
 
 # Install the header files
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/"
+install(DIRECTORY
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/"
+    "${CMAKE_CURRENT_BINARY_DIR}/export/"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
         COMPONENT dev
     FILES_MATCHING REGEX "/.*\.[hti](pp)?$")
