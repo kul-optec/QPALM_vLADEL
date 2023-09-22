@@ -141,9 +141,13 @@ class Solver {
   public:
     /// Create a new solver for the problem defined by @p data and with the
     /// parameters defined by @p settings.
+    /// @throws std::invalid_argument if calling @ref ::qpalm_setup failed.
+    ///         This may be caused by invalid bounds or invalid settings.
     QPALM_CXX_EXPORT Solver(const ::QPALMData *data, const Settings &settings);
     /// Create a new solver for the problem defined by @p data and with the
     /// parameters defined by @p settings.
+    /// @throws std::invalid_argument if calling @ref ::qpalm_setup failed.
+    ///         This may be caused by invalid bounds or invalid settings.
     Solver(const Data &data, const Settings &settings)
         : Solver{data.get_c_data_ptr(), settings} {}
 

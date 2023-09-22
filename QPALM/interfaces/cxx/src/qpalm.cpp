@@ -2,6 +2,8 @@
 
 #include <qpalm.h> // qpalm_setup, qpalm_solve, etc.
 
+#include <stdexcept>
+
 namespace qpalm {
 
 const ::QPALMData *Data::get_c_data_ptr() const {
@@ -23,7 +25,16 @@ Settings::Settings() { ::qpalm_set_default_settings(this); }
 using QPALMInfo = ::QPALMInfo;
 
 Solver::Solver(const ::QPALMData *data, const Settings &settings)
-    : work{::qpalm_setup(data, &settings)} {}
+    : work{::qpalm_setup(data, &settings)} {
+    if (!work)
+        throw std::invalid_argument(
+            "Solver initialization using qpalm_setup failed, please check "
+            "problem bounds and solver settings"
+#ifndef QPALM_PRINTING
+            ", recompile QPALM with QPALM_PRINTING=1 for more information"
+#endif
+        );
+}
 
 void Solver::update_settings(const Settings &settings) {
     ::qpalm_update_settings(work.get(), &settings);
