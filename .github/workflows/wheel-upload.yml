@@ -230,7 +230,7 @@ jobs:
     container: python:${{ matrix.python-version }}-bullseye
     strategy:
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
     steps:
       - uses: actions/checkout@v3
         with:
@@ -252,7 +252,7 @@ jobs:
     strategy:
       matrix:
         arch: ['AMD64', 'ARM64', 'x86']
-        python-id: ['cp37-*', 'cp38-*', 'cp39-*', 'cp310-*', 'cp311-*']
+        python-id: ['cp37-*', 'cp38-*', 'cp39-*', 'cp310-*', 'cp311-*', 'cp312-*']
         include:
           - arch: 'AMD64'
             python-id: 'pp38-*'
@@ -318,7 +318,7 @@ jobs:
     runs-on: macos-12
     strategy:
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
     env:
       CMAKE_C_COMPILER_LAUNCHER: ccache
       CMAKE_CXX_COMPILER_LAUNCHER: ccache
@@ -375,7 +375,7 @@ jobs:
     runs-on: macos-12
     strategy:
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
     steps:
       - uses: actions/checkout@v3
         with:
