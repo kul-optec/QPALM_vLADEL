@@ -8,7 +8,7 @@ on:
       - '**'
 
 env:
-  PACKAGE_VERSION: "1.2.1"
+  PACKAGE_VERSION: "1.2.2"
   PACKAGE_NAME: qpalm
   PYTHON_VERSION: '3.11'
 
