@@ -10,6 +10,7 @@ namespace py = pybind11;
 using py::operator""_a;
 
 #include <qpalm.hpp>
+#include <qpalm/constants.h>
 #include <qpalm/sparse.hpp>
 
 #include <algorithm>
@@ -118,7 +119,8 @@ PYBIND11_MODULE(MODULE_NAME, m) {
         .def_readonly("x", &qpalm::SolutionView::x)
         .def_readonly("y", &qpalm::SolutionView::y);
 
-    py::class_<qpalm::Info>(m, "Info")
+    py::class_<qpalm::Info> info(m, "Info");
+    info //
         .def_readwrite("iter", &qpalm::Info::iter)
         .def_readwrite("iter_out", &qpalm::Info::iter_out)
         // .def_readwrite("status", &qpalm::Info::status)
@@ -143,6 +145,15 @@ PYBIND11_MODULE(MODULE_NAME, m) {
                 std::copy_n(s.data(), s.size(), i.status);
                 i.status[s.size()] = '\0';
             });
+
+    info.attr("SOLVED")             = QPALM_SOLVED;
+    info.attr("DUAL_TERMINATED")    = QPALM_DUAL_TERMINATED;
+    info.attr("MAX_ITER_REACHED")   = QPALM_MAX_ITER_REACHED;
+    info.attr("PRIMAL_INFEASIBLE")  = QPALM_PRIMAL_INFEASIBLE;
+    info.attr("DUAL_INFEASIBLE")    = QPALM_DUAL_INFEASIBLE;
+    info.attr("TIME_LIMIT_REACHED") = QPALM_TIME_LIMIT_REACHED;
+    info.attr("UNSOLVED")           = QPALM_UNSOLVED;
+    info.attr("ERROR")              = QPALM_ERROR;
 
     py::class_<qpalm::Settings>(m, "Settings")
         .def(py::init())

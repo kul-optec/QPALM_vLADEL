@@ -40,6 +40,7 @@ solver.solve()
 print("Status:     ", solver.info.status)
 print("Solution:   ", solver.solution.x)
 print("Multipliers:", solver.solution.y)
+assert solver.info.status_val == qpalm.Info.SOLVED
 
 # %% Warm start with solution 
 solver.warm_start(solver.solution.x, solver.solution.y)
