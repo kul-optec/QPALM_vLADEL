@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.17)
 project(QPALM-dev)
-enable_testing()
+include(CTest)
 
 # Add coverage target
 option(QPALM_WITH_COVERAGE
@@ -41,8 +41,6 @@ if (QPALM_WITH_EXAMPLES)
 endif()
 
 # Unit tests
-option(QPALM_WITH_TESTS
-    "Build the unit tests" On)
-if (QPALM_WITH_TESTS)
+if (BUILD_TESTING)
     add_subdirectory(test)
 endif()

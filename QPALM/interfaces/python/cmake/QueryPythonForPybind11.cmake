@@ -1,17 +1,17 @@
 option(USE_GLOBAL_PYBIND11 "Don't query Python to find pybind11" Off)
 mark_as_advanced(USE_GLOBAL_PYBIND11)
 
+# Find Python
+if (CMAKE_CROSSCOMPILING AND FALSE)
+    find_package(Python3 REQUIRED COMPONENTS Development.Module)
+else()
+    find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
+endif()
+
 # First tries to find Python 3, then tries to import the pybind11 module to
 # query the CMake config location, and finally imports pybind11 using
 # find_package(pybind11 REQUIRED CONFIG CMAKE_FIND_ROOT_PATH_BOTH).
 function(find_pybind11_python_first)
-
-    # Find Python
-    if (CMAKE_CROSSCOMPILING AND FALSE)
-        find_package(Python3 REQUIRED COMPONENTS Development.Module)
-    else()
-        find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
-    endif()
 
     # Tweak extension suffix and debug ABI when cross-compiling
     if (CMAKE_CROSSCOMPILING)

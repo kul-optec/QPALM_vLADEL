@@ -34,7 +34,11 @@ function(add_ladel)
     set(LADEL_WITH_MEX ${QPALM_WITH_MEX})
     add_subdirectory(../LADEL/LADEL LADEL EXCLUDE_FROM_ALL)
 endfunction()
-add_ladel()
+find_package(LADEL QUIET)
+if (NOT LADEL_FOUND)
+    message(STATUS "Using included LADEL")
+    add_ladel()
+endif()
 
 # QPALM C library
 add_library(qpalm-headers INTERFACE)

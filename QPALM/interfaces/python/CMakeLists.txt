@@ -50,6 +50,10 @@ install(TARGETS _qpalm
         EXCLUDE_FROM_ALL
         COMPONENT python_modules
         DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME})
+# Standard installation
+install(TARGETS _qpalm
+        COMPONENT python
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/${PY_BUILD_CMAKE_MODULE_NAME})
 
 # Strip and install debug information
 set(DEBUG_FILE "$<TARGET_FILE_NAME:_qpalm>.debug")
