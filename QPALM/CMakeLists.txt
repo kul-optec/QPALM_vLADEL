@@ -54,7 +54,7 @@ target_compile_definitions(qpalm-headers INTERFACE
     QPALM_VERSION_MAJOR=${QPALM_VERSION_MAJOR}
     QPALM_VERSION_MINOR=${QPALM_VERSION_MINOR}
     QPALM_VERSION_PATCH=${QPALM_VERSION_PATCH})
-target_compile_features(qpalm-headers INTERFACE c_std_99)
+target_compile_features(qpalm-headers INTERFACE c_std_11)
 target_link_libraries(qpalm-headers INTERFACE LADEL::ladel)
 
 add_library(qpalm-obj OBJECT
