@@ -81,6 +81,9 @@ void update_status(QPALMInfo *info, c_int status_val) {
     case QPALM_TIME_LIMIT_REACHED:
       c_strcpy(info->status, "time limit exceeded");
       break;
+    case QPALM_USER_CANCELLATION:
+      c_strcpy(info->status, "cancelled by user");
+      break;
     case QPALM_MAX_ITER_REACHED:
       c_strcpy(info->status, "maximum iterations reached");
       break;
@@ -174,6 +177,15 @@ void print_final_message(QPALMWorkspace *work) {
       characters_box = strlen(buf);
       qpalm_print("%s", buf);
         // characters_box =  qpalm_print("| QPALM has exceeded the specified time limit.              |\n");
+                          qpalm_print("| primal residual: %5.4e, primal tolerance: %5.4e |\n", work->info->pri_res_norm, work->eps_pri);
+                          qpalm_print("| dual residual  : %5.4e, dual tolerance  : %5.4e |\n", work->info->dua_res_norm, work->eps_dua);
+                          qpalm_print("| objective value: %+-5.4e                              |\n", work->info->objective);
+        break;
+      case QPALM_USER_CANCELLATION:
+      snprintf(buf, 80,"| QPALM was cancelled.                                      |\n");
+      characters_box = strlen(buf);
+      qpalm_print("%s", buf);
+        // characters_box =  qpalm_print("| QPALM was cancelled.                                      |\n");
                           qpalm_print("| primal residual: %5.4e, primal tolerance: %5.4e |\n", work->info->pri_res_norm, work->eps_pri);
                           qpalm_print("| dual residual  : %5.4e, dual tolerance  : %5.4e |\n", work->info->dua_res_norm, work->eps_dua);
                           qpalm_print("| objective value: %+-5.4e                              |\n", work->info->objective);

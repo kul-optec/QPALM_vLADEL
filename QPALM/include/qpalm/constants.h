@@ -33,6 +33,7 @@ extern "C" {
 #define QPALM_PRIMAL_INFEASIBLE (-3)   /**< status to indicate the problem is primal infeasible  */
 #define QPALM_DUAL_INFEASIBLE (-4)     /**< status to indicate the problem is dual infeasible  */
 #define QPALM_TIME_LIMIT_REACHED (-5)  /**< status to indicate the problem's runtime has exceeded the specified time limit */
+#define QPALM_USER_CANCELLATION (-6)  /**< status to indicate the user has cancelled the solve */
 #define QPALM_UNSOLVED (-10)         /**< status to indicate the problem is unsolved. Only setup function has been called */
 #define QPALM_ERROR (0)              /**< status to indicate an error has occured (this error should automatically be printed) */
 

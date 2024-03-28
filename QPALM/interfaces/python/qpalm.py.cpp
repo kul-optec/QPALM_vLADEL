@@ -4,6 +4,7 @@
 
 #include <Python.h>
 #include <pybind11/eigen.h>
+#include <pybind11/gil.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 namespace py = pybind11;
@@ -18,6 +19,8 @@ using py::operator""_a;
 #include <stdexcept>
 #include <string>
 #include <string_view>
+
+#include "async.hpp"
 
 /// Throw an exception if the dimensions of the matrix don't match the expected
 /// dimensions @p r and @p c.
@@ -57,10 +60,12 @@ PYBIND11_MODULE(MODULE_NAME, m) {
     m.attr("debug") = true;
 #endif
 
+#if 0 // not thread-safe
     ladel_set_alloc_config_calloc(&PyMem_Calloc);
     ladel_set_alloc_config_malloc(&PyMem_Malloc);
     ladel_set_alloc_config_realloc(&PyMem_Realloc);
     ladel_set_alloc_config_free(&PyMem_Free);
+#endif
     ladel_set_print_config_printf(&print_wrap);
 
     py::class_<qpalm::Data>(m, "Data")
@@ -152,6 +157,7 @@ PYBIND11_MODULE(MODULE_NAME, m) {
     info.attr("PRIMAL_INFEASIBLE")  = QPALM_PRIMAL_INFEASIBLE;
     info.attr("DUAL_INFEASIBLE")    = QPALM_DUAL_INFEASIBLE;
     info.attr("TIME_LIMIT_REACHED") = QPALM_TIME_LIMIT_REACHED;
+    info.attr("USER_CANCELLATION")  = QPALM_USER_CANCELLATION;
     info.attr("UNSOLVED")           = QPALM_UNSOLVED;
     info.attr("ERROR")              = QPALM_ERROR;
 
@@ -233,7 +239,15 @@ PYBIND11_MODULE(MODULE_NAME, m) {
                 self.warm_start(x, y);
             },
             "x"_a = py::none(), "y"_a = py::none())
-        .def("solve", &qpalm::Solver::solve)
+        .def(
+            "solve",
+            [](qpalm::Solver &self, bool async, bool suppress_interrupt) {
+                auto invoke_solver = [&] { self.solve(); };
+                qpalm::async_solve(async, suppress_interrupt, self, invoke_solver,
+                                   *self.get_c_work_ptr());
+            },
+            "asynchronous"_a = true, "suppress_interrupt"_a = false)
+        .def("cancel", &qpalm::Solver::cancel)
         .def_property_readonly("solution",
                                py::cpp_function( // https://github.com/pybind/pybind11/issues/2618
                                    &qpalm::Solver::get_solution, py::return_value_policy::reference,
@@ -258,6 +272,7 @@ PYBIND11_MODULE(MODULE_NAME, m) {
 }
 
 static int print_wrap(const char *fmt, ...) {
+    py::gil_scoped_acquire gil{};
     static std::vector<char> buffer(1024);
     py::object write = py::module_::import("sys").attr("stdout").attr("write");
     std::va_list args, args2;

@@ -62,6 +62,8 @@ void Solver::warm_start(std::optional<const_ref_vec_t> x,
 
 void Solver::solve() { ::qpalm_solve(work.get()); }
 
+void Solver::cancel() { ::qpalm_cancel(work.get()); }
+
 SolutionView Solver::get_solution() const {
     assert(work->solution);
     assert(work->solution->x);

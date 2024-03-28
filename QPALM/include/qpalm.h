@@ -97,6 +97,12 @@ QPALM_EXPORT void qpalm_warm_start(QPALMWorkspace *work,
  */
 QPALM_EXPORT void qpalm_solve(QPALMWorkspace *work);
 
+/**
+ * Cancel the ongoing call to @ref qpalm_solve.
+ *
+ * Thread- and signal handler-safe.
+ */
+QPALM_EXPORT void qpalm_cancel(QPALMWorkspace *work);
 
 /**
  * Update the settings to the new settings.

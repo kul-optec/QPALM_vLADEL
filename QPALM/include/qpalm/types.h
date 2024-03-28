@@ -8,6 +8,13 @@
 #ifndef QPALM_TYPES_H
 # define QPALM_TYPES_H
 
+#ifdef __cplusplus
+#include <atomic>
+using std::atomic_bool;
+#else
+#include <stdatomic.h>
+#endif
+
 # ifdef __cplusplus
 extern "C" {
 # endif 
@@ -310,6 +317,8 @@ typedef struct {
   # ifdef QPALM_TIMING
   QPALMTimer *timer;       ///< timer object
   # endif // ifdef QPALM_TIMING
+
+  atomic_bool cancel; ///< Cancel the solver (from other thread or signal)
 
 } QPALMWorkspace;
 

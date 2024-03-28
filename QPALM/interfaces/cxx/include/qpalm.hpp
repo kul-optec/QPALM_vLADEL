@@ -173,6 +173,9 @@ class Solver {
     /// @ref get_info().
     /// @see    @ref ::qpalm_solve
     QPALM_CXX_EXPORT void solve();
+    /// Cancel the ongoing call to @ref solve.
+    /// Thread- and signal handler-safe.
+    QPALM_CXX_EXPORT void cancel();
 
     /// Get the solution computed by @ref solve().
     /// @note   Returns a view that is only valid as long as the solver is not

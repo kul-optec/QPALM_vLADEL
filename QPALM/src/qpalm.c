@@ -251,6 +251,7 @@ QPALMWorkspace* qpalm_setup(const QPALMData *data, const QPALMSettings *settings
     work->info->run_time    = 0.0;                    // Total run time to zero
     work->info->setup_time  = qpalm_toc(work->timer); // Update timer information
     # endif /* ifdef QPALM_TIMING */
+    atomic_init(&work->cancel, 0);
 
     return work;
 }
@@ -258,6 +259,8 @@ QPALMWorkspace* qpalm_setup(const QPALMData *data, const QPALMSettings *settings
 
 void qpalm_warm_start(QPALMWorkspace *work, const c_float *x_warm_start, const c_float *y_warm_start) 
 {
+    atomic_store(&work->cancel, 0);
+
     // If we have previously solved the problem, then reset the setup time
     if (work->info->status_val != QPALM_UNSOLVED) 
     {
@@ -473,6 +476,10 @@ static void qpalm_terminate_on_status(QPALMWorkspace *work, solver_common *c, so
     qpalm_termination(work, c, c2, iter, iter_out);
 }
 
+void qpalm_cancel(QPALMWorkspace *work) {
+    atomic_store(&work->cancel, 1);
+}
+
 void qpalm_solve(QPALMWorkspace *work) 
 {
 	#if defined(QPALM_PRINTING) && defined(_WIN32) && defined(_MSC_VER) && _MSC_VER < 1900
@@ -508,6 +515,11 @@ void qpalm_solve(QPALMWorkspace *work)
             return;
         }
         #endif /* ifdef QPALM_TIMING */
+        if (atomic_load(&work->cancel))
+        {
+            qpalm_terminate_on_status(work, c, c2, iter, iter_out, QPALM_USER_CANCELLATION);
+            return;
+        }
 
         /*Perform the iteration */
         compute_residuals(work, c);
