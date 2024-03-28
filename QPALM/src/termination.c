@@ -72,7 +72,7 @@ void calculate_primal_tolerance(QPALMWorkspace *work) {
          * of the infinity norms of Einv*Ax and Einv*z.*/
         vec_ew_prod(work->scaling->Einv, work->Ax, work->temp_2m, m);
         vec_ew_prod(work->scaling->Einv, work->z, work->temp_2m + m, m);
-        work->eps_pri =  work->settings->eps_abs + work->settings->eps_rel*vec_norm_inf(work->temp_2m, m);                  
+        work->eps_pri =  work->settings->eps_abs + work->settings->eps_rel*vec_norm_inf(work->temp_2m, 2 * m);
     } else {
         work->eps_pri =  work->settings->eps_abs + work->settings->eps_rel*c_max(
                                 vec_norm_inf(work->Ax, m),

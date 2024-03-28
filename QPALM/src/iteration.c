@@ -218,7 +218,7 @@ void update_proximal_point_and_penalty(QPALMWorkspace *work, solver_common *c, c
              * The infinity norm of that vector is then equal to the maximum of both norms. */
             vec_ew_prod(work->scaling->Einv, work->Ax, work->temp_2m, m);
             vec_ew_prod(work->scaling->Einv, work->z, work->temp_2m + m, m);
-            eps_k =  (*eps_k_abs) + (*eps_k_rel)*vec_norm_inf(work->temp_2m, m);                  
+            eps_k =  (*eps_k_abs) + (*eps_k_rel)*vec_norm_inf(work->temp_2m, 2 * m);
         } 
         else 
         {
