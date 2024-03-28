@@ -24,8 +24,8 @@ def test_qpalm_threaded():
         Q = rng.random((n, n))
         A = rng.random((m, n))
         Q = Q.T @ Q
-        data.Q = spa.csc_array(Q)
-        data.A = spa.csc_array(A)
+        data.Q = spa.csc_matrix(Q)
+        data.A = spa.csc_matrix(A)
         data.q = rng.random(n)
         data.bmax = rng.random(m)
         data.bmin = -np.inf * np.ones(m)
