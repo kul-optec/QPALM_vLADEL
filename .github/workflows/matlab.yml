@@ -18,7 +18,7 @@ jobs:
       TOOLS_VERSION: '0.1.0-beta3'
       TOOLS_URL: 'https://github.com/tttapa/cross-python/releases/download'
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
     - name: Set up MATLAB
@@ -26,7 +26,6 @@ jobs:
       with:
         release: R2020a
     - name: Download toolchain
-      if: steps.cache-tools.outputs.cache-hit != 'true'
       run: wget "${{ env.TOOLS_URL }}/${{ env.TOOLS_VERSION }}/full-${{ env.HOST }}.tar.xz" -O- | sudo tar xJ -C /opt
     - name: Configure
       run: |
@@ -59,7 +58,7 @@ jobs:
         zip -r ../qpalm-matlab-linux.zip ./*
       working-directory: staging
     - name: Upload
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: qpalm-matlab-linux
         path: qpalm-matlab-linux.zip
@@ -72,7 +71,7 @@ jobs:
   build-macos:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
     - name: Set up MATLAB
@@ -104,7 +103,7 @@ jobs:
         zip -r ../qpalm-matlab-macos.zip ./*
       working-directory: staging
     - name: Upload
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: qpalm-matlab-macos
         path: qpalm-matlab-macos.zip
@@ -117,7 +116,7 @@ jobs:
   build-windows:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
     - name: Set up MATLAB
@@ -149,7 +148,7 @@ jobs:
       run: |
         Compress-Archive -Path staging\* qpalm-matlab-windows.zip
     - name: Upload
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: qpalm-matlab-windows
         path: qpalm-matlab-windows.zip

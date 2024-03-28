@@ -25,7 +25,7 @@ jobs:
       # Git clone
       - name: Install git
         run: apt -y update && apt -y install --no-install-recommends git ca-certificates
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       # Tools
@@ -39,7 +39,7 @@ jobs:
       - name: Prepare ccache directory
         run: mkdir -p "${{ env.CCACHE_DIR }}"
       - name: Cache ccache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ env.HOST }}-ccache-${{ github.run_id }}
@@ -64,7 +64,7 @@ jobs:
           tar cf stubs.tar -C "$PWD/staging" QPALM/interfaces/python
       # Upload
       - name: Upload stubs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: stubs
           retention-days: 1
@@ -106,7 +106,7 @@ jobs:
       # Git clone
       - name: Install git
         run: apt -y update && apt -y install --no-install-recommends git ca-certificates
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       # Tools
@@ -121,7 +121,7 @@ jobs:
       - name: Prepare ccache directory
         run: mkdir -p "${{ env.CCACHE_DIR }}"
       - name: Cache ccache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ${{ runner.os }}-${{ matrix.pypy }}${{ matrix.python-version }}-${{ matrix.host }}-ccache-${{ github.run_id }}
@@ -131,7 +131,7 @@ jobs:
         run: python${{ matrix.python-version }} -m pip install -U pip build pybind11-stubgen~=0.16.2 py-build-cmake~=0.2.0a7
       # Download stubs
       - name: Download stubs
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: stubs
       - name: Extract stubs
@@ -161,15 +161,15 @@ jobs:
           CXXFLAGS: '-static-libgcc -static-libstdc++'
       # Upload
       - name: Upload Wheels
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: whl-linux
+          name: 'whl-linux-${{ matrix.host }}-${{ matrix.pypy }}${{ matrix.python-version }}'
           retention-days: 1
           path: dist/*.whl
       - name: Upload debug Wheels
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: whl-debug-linux
+          name: 'whl-debug-linux-${{ matrix.host }}-${{ matrix.pypy }}${{ matrix.python-version }}'
           retention-days: 1
           path: dist-debug/*.whl
 
@@ -184,7 +184,7 @@ jobs:
       # Git clone
       - name: Install git
         run: apt -y update && apt -y install --no-install-recommends git ca-certificates
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       # Tools
@@ -218,7 +218,7 @@ jobs:
           CXXFLAGS: '-static-libgcc -static-libstdc++'
       # Upload
       - name: Upload source
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: src-dist
           retention-days: 1
@@ -232,13 +232,14 @@ jobs:
       matrix:
         python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: whl-linux
+          pattern: whl-linux-*
           path: dist
+          merge-multiple: true
       - name: Test
         run: |
           python3 -m pip install -U pip cmake ninja
@@ -252,30 +253,30 @@ jobs:
     strategy:
       matrix:
         arch: ['AMD64', 'ARM64', 'x86']
-        python-id: ['cp37-*', 'cp38-*', 'cp39-*', 'cp310-*', 'cp311-*', 'cp312-*']
+        python-id: ['cp37', 'cp38', 'cp39', 'cp310', 'cp311', 'cp312']
         include:
           - arch: 'AMD64'
-            python-id: 'pp38-*'
+            python-id: 'pp38'
           - arch: 'AMD64'
-            python-id: 'pp39-*'
+            python-id: 'pp39'
           - arch: 'AMD64'
-            python-id: 'pp310-*'
+            python-id: 'pp310'
         exclude:
           - arch: 'ARM64'
-            python-id: 'cp37-*'
+            python-id: 'cp37'
           - arch: 'ARM64'
-            python-id: 'cp38-*'
+            python-id: 'cp38'
     env:
       CXXFLAGS: "/bigobj"
       CFLAGS: "/bigobj"
       PYTHONUTF8: 1
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Cache dependencies
         id: cache-dep
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: deps
           key: deps-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('scripts/install-eigen.ps1') }}
@@ -291,7 +292,7 @@ jobs:
       # Download stubs
       - name: Download stubs
         if: ${{ matrix.arch == 'ARM64' }}
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: stubs
       - name: Extract stubs
@@ -302,14 +303,14 @@ jobs:
         with:
           output-dir: dist
         env:
-          CIBW_BUILD: ${{ matrix.python-id }}
+          CIBW_BUILD: "${{ matrix.python-id }}-*"
           CIBW_ARCHS: ${{ matrix.arch }}
           CIBW_TEST_SKIP: "*-{win32,win_arm64} pp*" # no SciPy binaries
           CMAKE_PREFIX_PATH: ${{ github.workspace }}/deps
       - name: Upload
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: whl-windows
+          name: 'whl-windows-${{ matrix.arch }}-${{ matrix.python-id }}'
           retention-days: 1
           path: dist/*.whl
 
@@ -325,10 +326,10 @@ jobs:
       CCACHE_DIR: /tmp/.ccache
       MACOSX_DEPLOYMENT_TARGET: '10.9'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         id: python
         name: Install Python
         with:
@@ -338,14 +339,14 @@ jobs:
       - name: Prepare ccache directory
         run: mkdir -p "${{ env.CCACHE_DIR }}"
       - name: Cache ccache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ${{ runner.os }}-${{ matrix.python-version }}-ccache-${{ github.run_id }}
           restore-keys: ${{ runner.os }}-${{ matrix.python-version }}-ccache
       - name: Cache Virtual Environment
         id: cache-venv
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: py-venv
           key: ${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/install-eigen.sh') }}
@@ -364,9 +365,9 @@ jobs:
           ARCHFLAGS='-arch arm64 -arch x86_64' \
               python -m build -w .
       - name: Upload
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: whl-macos
+          name: 'whl-macos-${{ matrix.python-version }}'
           retention-days: 1
           path: dist/*.whl
 
@@ -377,17 +378,18 @@ jobs:
       matrix:
         python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         name: Install Python
         with: 
           python-version: ${{ matrix.python-version }}
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: whl-macos
+          pattern: whl-macos-*
           path: dist
+          merge-multiple: true
       - name: Test
         run: |
           python3 -m pip install -U pip
@@ -401,11 +403,12 @@ jobs:
     runs-on: ubuntu-latest
     container: python:3.11-bullseye
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
-          name: whl-linux
+          pattern: whl-linux-*
           path: dist
+          merge-multiple: true
       - name: Install package
         run: python -m pip install --no-deps --no-index --find-links=dist ${PACKAGE_NAME}==${PACKAGE_VERSION}
       - name: Check package version
@@ -423,25 +426,29 @@ jobs:
     permissions:
       id-token: write  # mandatory for trusted publishing
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: whl-linux
+          pattern: whl-linux-*
           path: dist
-      - uses: actions/download-artifact@v3
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
         with:
-          name: whl-debug-linux
+          pattern: whl-debug-linux-*
           path: dist
-      - uses: actions/download-artifact@v3
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
         with:
-          name: whl-windows
+          pattern: whl-windows-*
           path: dist
-      - uses: actions/download-artifact@v3
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
         with:
-          name: whl-macos
+          pattern: whl-macos-*
           path: dist
-      - uses: actions/download-artifact@v3
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
         with:
           name: src-dist
           path: dist
       - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@b7f401de30cb6434a1e19f805ff006643653240e
+        uses: pypa/gh-action-pypi-publish@81e9d935c883d0b210363ab89cf05f3894778450

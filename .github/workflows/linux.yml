@@ -18,7 +18,7 @@ jobs:
       TOOLS_VERSION: '0.1.0-beta3'
       TOOLS_URL: 'https://github.com/tttapa/cross-python/releases/download'
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
     - name: Install Ninja
@@ -28,7 +28,6 @@ jobs:
         sudo mv ninja /usr/bin
       working-directory: /tmp
     - name: Download toolchain
-      if: steps.cache-tools.outputs.cache-hit != 'true'
       run: wget "${{ env.TOOLS_URL }}/${{ env.TOOLS_VERSION }}/full-${{ env.HOST }}.tar.xz" -O- | sudo tar xJ -C /opt
     - name: Configure
       run: |
@@ -60,7 +59,7 @@ jobs:
           -D CPACK_INSTALL_CMAKE_PROJECTS=".;QPALM;ALL;/;LADEL;LADEL;ALL;/"
       working-directory: package
     - name: Upload
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: qpalm-linux
         path: package/QPALM-*-Linux.tar.gz
@@ -70,13 +69,13 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
     - name: Install Eigen
       run: sudo VIRTUAL_ENV=/usr/local ./scripts/install-eigen.sh RelWithDebInfo
     - name: Download
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: qpalm-linux
         path: package
@@ -111,7 +110,7 @@ jobs:
 
     steps:
     - name: Download
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: qpalm-linux
         path: package

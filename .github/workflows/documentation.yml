@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     # Cache the doxygen executable, lcov
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: cache-tools
       with:
         path: |
@@ -47,7 +47,7 @@ jobs:
         VIRTUAL_ENV: /tmp/gtest
 
     # Install Python
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v5
       with:
         python-version: '3.9'
 
