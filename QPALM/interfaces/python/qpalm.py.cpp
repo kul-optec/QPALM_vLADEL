@@ -68,6 +68,8 @@ PYBIND11_MODULE(MODULE_NAME, m) {
 #endif
     ladel_set_print_config_printf(&print_wrap);
 
+    py::class_<::QPALMData>(m, "_QPALMData");
+    py::class_<::QPALMWorkspace>(m, "_QPALMWorkspace");
     py::class_<qpalm::Data>(m, "Data")
         .def(py::init<qpalm::index_t, qpalm::index_t>(), "n"_a, "m"_a)
         .def_property(
@@ -264,11 +266,9 @@ PYBIND11_MODULE(MODULE_NAME, m) {
                                py::cpp_function( // https://github.com/pybind/pybind11/issues/2618
                                    &qpalm::Solver::get_dual_inf_certificate,
                                    py::return_value_policy::copy, py::keep_alive<0, 1>()))
-        .def(
-            "_get_c_work_ptr",
-            [](qpalm::Solver &self) -> const void * { return self.get_c_work_ptr(); },
-            "Return a pointer to the C workspace struct (of type ::QPALMWorkspace).",
-            py::return_value_policy::reference_internal);
+        .def("_get_c_work_ptr", &qpalm::Solver::get_c_work_ptr,
+             "Return a pointer to the C workspace struct (of type ::QPALMWorkspace).",
+             py::return_value_policy::reference_internal);
 }
 
 static int print_wrap(const char *fmt, ...) {

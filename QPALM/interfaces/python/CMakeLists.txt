@@ -76,5 +76,5 @@ option(QPALM_WITH_PY_STUBS
 if (QPALM_WITH_PY_STUBS AND NOT CMAKE_CROSSCOMPILING)
     include(cmake/Pybind11Stubgen.cmake)
     pybind11_stubgen(_qpalm)
-    pybind11_stubgen_install(_qpalm ${PY_BUILD_CMAKE_MODULE_NAME})
+    pybind11_stubgen_install(_qpalm)
 endif()

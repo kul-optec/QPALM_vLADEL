@@ -17,9 +17,11 @@ description = "Debug symbols for the qpalm package."
 
 [build-system]
 requires = [
-    "py-build-cmake~=0.2.0a7",
-    "pybind11>=2.10.1,!=2.10.2,!=2.10.3,!=2.10.4,!=2.11.*",
-    "pybind11-stubgen~=0.16.2",
+    "py-build-cmake~=0.2.0a14",
+    "pybind11==2.13.6",
+    "pybind11-stubgen==2.5.1",
+    "numpy>=1.19,<2",
+    "scipy>=1.6,<2",
 ]
 build-backend = "py_build_cmake.build_component"
 
