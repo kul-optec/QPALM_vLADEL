@@ -22,7 +22,7 @@ jobs:
       with:
         submodules: recursive
     - name: Set up MATLAB
-      uses: matlab-actions/setup-matlab@5b825d0ad4205ef03dc40ba3b24cad22674e9ca3
+      uses: matlab-actions/setup-matlab@64144ac4bb7c754f9ef7642f693671c873701c60
       with:
         release: R2020a
     - name: Download toolchain
@@ -75,7 +75,7 @@ jobs:
       with:
         submodules: recursive
     - name: Set up MATLAB
-      uses: matlab-actions/setup-matlab@5b825d0ad4205ef03dc40ba3b24cad22674e9ca3
+      uses: matlab-actions/setup-matlab@64144ac4bb7c754f9ef7642f693671c873701c60
       with:
         release: latest
     - name: Configure
@@ -120,7 +120,7 @@ jobs:
       with:
         submodules: recursive
     - name: Set up MATLAB
-      uses: matlab-actions/setup-matlab@5b825d0ad4205ef03dc40ba3b24cad22674e9ca3
+      uses: matlab-actions/setup-matlab@64144ac4bb7c754f9ef7642f693671c873701c60
       with:
         release: R2021a
     - name: Configure
