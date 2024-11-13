@@ -299,7 +299,7 @@ jobs:
         if: ${{ matrix.arch == 'ARM64' }}
         run: tar xf stubs.tar
       - name: Build wheels
-        uses: pypa/cibuildwheel@ce3fb7832089eb3e723a0a99cab7f3eaccf074fd
+        uses: pypa/cibuildwheel@7940a4c0e76eb2030e473a5f864f291f63ee879b
         with:
           output-dir: dist
         env:
