@@ -53,7 +53,7 @@ class QPALMRecipe(ConanFile):
         if self.options.with_cxx:
             self.requires("eigen/3.4.0", transitive_headers=True)
         if self.options.with_python:
-            self.requires("pybind11/2.11.1")
+            self.requires("pybind11/2.13.6")
 
     def config_options(self):
         if self.settings.get_safe("os") == "Windows":

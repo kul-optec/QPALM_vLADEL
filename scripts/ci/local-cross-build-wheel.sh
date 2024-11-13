@@ -9,7 +9,7 @@ cat > $cross_config <<- EOF
 config = ["Debug", "Release"]
 generator = "Ninja Multi-Config"
 [cmake.options]
-CMAKE_FIND_ROOT_PATH = "$staging/pybind11;$staging/eigen"
+CMAKE_FIND_ROOT_PATH = "$staging/pybind11-2.13.6;$staging/eigen"
 USE_GLOBAL_PYBIND11 = "On"
 EOF
 export CFLAGS="-static-libgcc"
