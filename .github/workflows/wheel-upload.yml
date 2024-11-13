@@ -130,7 +130,7 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ matrix.pypy }}${{ matrix.python-version }}-${{ matrix.host }}-ccache
       # Pip install dependencies
       - name: Install Python dependencies
-        run: python${{ matrix.python-version }} -m pip install -U pip build pybind11-stubgen~=2.5.1 py-build-cmake~=0.2.0a14 'numpy>=1.19,<3' 'scipy>=1.6,<2'
+        run: python${{ matrix.python-version }} -m pip install -U pip build
       # Download stubs
       - name: Download stubs
         uses: actions/download-artifact@v4
