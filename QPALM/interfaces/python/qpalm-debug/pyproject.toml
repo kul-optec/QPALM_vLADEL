@@ -20,7 +20,7 @@ requires = [
     "py-build-cmake~=0.2.0a14",
     "pybind11==2.13.6",
     "pybind11-stubgen==2.5.1",
-    "numpy>=1.19,<2",
+    "numpy>=1.19,<3",
     "scipy>=1.6,<2",
 ]
 build-backend = "py_build_cmake.build_component"

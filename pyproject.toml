@@ -3,7 +3,7 @@ requires = [
     "py-build-cmake~=0.2.0a14",
     "pybind11==2.13.6",
     "pybind11-stubgen==2.5.1",
-    "numpy>=1.19,<2",
+    "numpy>=1.19,<3",
     "scipy>=1.6,<2",
 ]
 build-backend = "py_build_cmake.build"
@@ -44,7 +44,7 @@ classifiers = [
     "Operating System :: MacOS",
     "Typing :: Typed",
 ]
-dependencies = ["numpy>=1.19,<2", "scipy>=1.6,<2"]
+dependencies = ["numpy>=1.19,<3", "scipy>=1.6,<2"]
 dynamic = ["version", "description"]
 
 [project.optional-dependencies]
@@ -89,10 +89,12 @@ CMAKE_CXX_FLAGS_RELWITHDEBINFO = "/Zi /Ob0 /Od /RTC1"
 CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO = "/INCREMENTAL:NO /DEBUG:FULL /OPT:REF"
 ALPAQA_PYTHON_DEBUG_CONFIG = "RelWithDebInfo"
 
-[tool.py-build-cmake.stubgen]
-packages = []
-files = ["qpalm/__init__.py"]
-args = ["-v", "--no-import"]
+# Temporarily disabled until mypy support for NumPy 2.0 is fixed:
+# https://github.com/python/mypy/issues/17396
+# [tool.py-build-cmake.stubgen]
+# packages = []
+# files = ["qpalm/__init__.py"]
+# args = ["-v", "--no-import"]
 
 [tool.cibuildwheel]
 build-verbosity = 1
