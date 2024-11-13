@@ -24,7 +24,7 @@ jobs:
     - name: Set up MATLAB
       uses: matlab-actions/setup-matlab@64144ac4bb7c754f9ef7642f693671c873701c60
       with:
-        release: R2020a
+        release: R2020b
     - name: Download toolchain
       run: wget "${{ env.TOOLS_URL }}/${{ env.TOOLS_VERSION }}/full-${{ env.HOST }}.tar.xz" -O- | sudo tar xJ -C /opt
     - name: Configure
@@ -84,9 +84,6 @@ jobs:
           -D CMAKE_BUILD_TYPE=RelWithDebInfo \
           -D QPALM_WITH_MEX=On \
           -D CMAKE_POSITION_INDEPENDENT_CODE=On
-      env:
-        CXXFLAGS: "-march=skylake"
-        CFLAGS: "-march=skylake"
     - name: Build
       run: |
         cmake --build build \
