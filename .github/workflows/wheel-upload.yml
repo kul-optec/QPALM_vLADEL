@@ -17,7 +17,7 @@ jobs:
       image: ubuntu:jammy
     env:
       HOST: 'x86_64-centos7-linux-gnu'
-      PYTHON_VERSION: '3.11'
+      PYTHON_VERSION: '3.12'
       CMAKE_C_COMPILER_LAUNCHER: ccache
       CMAKE_CXX_COMPILER_LAUNCHER: ccache
       CCACHE_DIR: /root/.ccache
@@ -46,7 +46,7 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ env.HOST }}-ccache
       # Pip install dependencies
       - name: Install Python dependencies
-        run: python${{ env.PYTHON_VERSION }} -m pip install -U pip build pybind11-stubgen~=0.16.2 py-build-cmake~=0.2.0a7
+        run: python${{ env.PYTHON_VERSION }} -m pip install -U pip build pybind11-stubgen~=2.5.1 py-build-cmake~=0.2.0a14
       # Build
       - name: Native build
         run: |
@@ -78,25 +78,27 @@ jobs:
     strategy:
       matrix:
         pypy: ['', pypy]
-        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
         host: [x86_64-centos7-linux-gnu, armv7-neon-linux-gnueabihf, armv6-rpi-linux-gnueabihf, aarch64-rpi3-linux-gnu]
         include:
           - python-version: '3.8'
             pypy-version: '7.3.11'
           - python-version: '3.9'
-            pypy-version: '7.3.12'
+            pypy-version: '7.3.16'
           - python-version: '3.10'
-            pypy-version: '7.3.12'
+            pypy-version: '7.3.17'
         exclude:
-          - pypy: pypy
-            python-version: '3.7'
           - pypy: pypy
             python-version: '3.11'
           - pypy: pypy
             python-version: '3.12'
           - pypy: pypy
+            python-version: '3.13'
+          - pypy: pypy
             host: armv7-neon-linux-gnueabihf
           - pypy: pypy
+            host: armv6-rpi-linux-gnueabihf
+          - python-version: '3.13'
             host: armv6-rpi-linux-gnueabihf
     env:
       CMAKE_C_COMPILER_LAUNCHER: ccache
@@ -128,7 +130,7 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ matrix.pypy }}${{ matrix.python-version }}-${{ matrix.host }}-ccache
       # Pip install dependencies
       - name: Install Python dependencies
-        run: python${{ matrix.python-version }} -m pip install -U pip build pybind11-stubgen~=0.16.2 py-build-cmake~=0.2.0a7
+        run: python${{ matrix.python-version }} -m pip install -U pip build pybind11-stubgen~=2.5.1 py-build-cmake~=0.2.0a14
       # Download stubs
       - name: Download stubs
         uses: actions/download-artifact@v4
@@ -179,7 +181,7 @@ jobs:
       image: ubuntu:jammy
     env:
       HOST: 'x86_64-centos7-linux-gnu'
-      PYTHON_VERSION: '3.11'
+      PYTHON_VERSION: '3.12'
     steps:
       # Git clone
       - name: Install git
@@ -230,7 +232,7 @@ jobs:
     container: python:${{ matrix.python-version }}-bullseye
     strategy:
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
     steps:
       - uses: actions/checkout@v4
         with:
@@ -253,7 +255,7 @@ jobs:
     strategy:
       matrix:
         arch: ['AMD64', 'ARM64', 'x86']
-        python-id: ['cp37', 'cp38', 'cp39', 'cp310', 'cp311', 'cp312']
+        python-id: ['cp38', 'cp39', 'cp310', 'cp311', 'cp312', 'cp313']
         include:
           - arch: 'AMD64'
             python-id: 'pp38'
@@ -262,8 +264,6 @@ jobs:
           - arch: 'AMD64'
             python-id: 'pp310'
         exclude:
-          - arch: 'ARM64'
-            python-id: 'cp37'
           - arch: 'ARM64'
             python-id: 'cp38'
     env:
@@ -319,7 +319,7 @@ jobs:
     runs-on: macos-12
     strategy:
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
     env:
       CMAKE_C_COMPILER_LAUNCHER: ccache
       CMAKE_CXX_COMPILER_LAUNCHER: ccache
@@ -376,7 +376,7 @@ jobs:
     runs-on: macos-12
     strategy:
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
     steps:
       - uses: actions/checkout@v4
         with:
@@ -401,7 +401,7 @@ jobs:
     if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
     needs: [test-linux, build-linux-src, build-windows, test-macos]
     runs-on: ubuntu-latest
-    container: python:3.11-bullseye
+    container: python:3.12-bullseye
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4

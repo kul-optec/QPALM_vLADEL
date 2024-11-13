@@ -12,7 +12,7 @@ inputs:
     type: string
   tools-version:
     required: false
-    default: '0.1.0-beta3'
+    default: '1.0.0'
     type: string
   tools-url:
     required: false
@@ -20,7 +20,7 @@ inputs:
     type: string
   cmake-version:
     required: false
-    default: '3.27.4'
+    default: '3.31.0'
     type: string
   pypy-version:
     required: false

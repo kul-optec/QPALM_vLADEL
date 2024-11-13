@@ -11,7 +11,7 @@ build-backend = "py_build_cmake.build"
 [project]
 name = "qpalm"
 readme = "QPALM/interfaces/python/README.rst"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license = { "file" = "LICENSE" }
 authors = [{ "name" = "Ben Hermans" }]
 maintainers = [{ "name" = "Pieter Pas", "email" = "pieter.p.dev@outlook.com" }]
@@ -36,6 +36,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Programming Language :: C",
     "Programming Language :: C++",
     "Operating System :: POSIX :: Linux",
