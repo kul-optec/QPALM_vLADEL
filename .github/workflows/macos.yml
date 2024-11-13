@@ -19,7 +19,7 @@ jobs:
       with:
         submodules: recursive
     - name: Install Ninja
-      run: python3 -m pip install ninja
+      run: brew install ninja
     - name: Install Eigen
       run: sudo VIRTUAL_ENV=/opt/local ./scripts/install-eigen.sh RelWithDebInfo
     - name: Configure
@@ -59,7 +59,7 @@ jobs:
       with:
         submodules: recursive
     - name: Install Ninja
-      run: python3 -m pip install ninja
+      run: brew install ninja
     - name: Install Eigen
       run: sudo VIRTUAL_ENV=/opt/local ./scripts/install-eigen.sh RelWithDebInfo
     - name: Download
