@@ -9,11 +9,10 @@ function(pybind11_stubgen target)
                 ${PY_BUILD_CMAKE_MODULE_NAME}.$<TARGET_FILE_BASE_NAME:${target}>
                 --numpy-array-remove-parameters
                 --ignore-invalid-expressions \\\\?
-                --ignore-unresolved-names m\\|n
+                --ignore-unresolved-names \"m|n\"
                 --exit-code
                 -o ${CMAKE_CURRENT_BINARY_DIR}/stubs/$<TARGET_FILE_BASE_NAME:${target}>
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:${target}>/..
-        USES_TERMINAL)
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:${target}>/..)
 
 endfunction()
 
