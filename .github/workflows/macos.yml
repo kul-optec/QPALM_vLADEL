@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14-arm64
+    runs-on: macos-14
 
     steps:
     - uses: actions/checkout@v4
@@ -52,7 +52,7 @@ jobs:
 
   test:
     needs: [build]
-    runs-on: macos-14-arm64
+    runs-on: macos-14
 
     steps:
     - uses: actions/checkout@v4
@@ -101,7 +101,7 @@ jobs:
   release:
     if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
     needs: [test]
-    runs-on: macos-14-arm64
+    runs-on: macos-14
 
     steps:
     - name: Download
