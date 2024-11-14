@@ -29,7 +29,7 @@ target_link_libraries(_qpalm PRIVATE pybind11::pybind11 qpalm qpalm_cxx)
 target_compile_definitions(_qpalm PRIVATE
     MODULE_NAME=$<TARGET_FILE_BASE_NAME:_qpalm>
     VERSION_INFO="${PY_FULL_VERSION}")
-set_target_properties(_qpalm PROPERTIES 
+set_target_properties(_qpalm PROPERTIES
     CXX_VISIBILITY_PRESET hidden
     C_VISIBILITY_PRESET hidden)
 if (CMAKE_SYSTEM_NAME MATCHES "Linux")
@@ -71,9 +71,14 @@ if (CMAKE_STRIP AND CMAKE_OBJCOPY)
 endif()
 
 # Generate stubs for the Python module
+set(QPALM_WITH_PY_STUBS_DEFAULT On)
+if (CMAKE_CROSSCOMPILING OR NOT Python3_INTERPRETER_ID STREQUAL "Python")
+    set(QPALM_WITH_PY_STUBS_DEFAULT Off)
+endif()
 option(QPALM_WITH_PY_STUBS
-    "Generate Python stub files (.pyi) for the Python module." On)
-if (QPALM_WITH_PY_STUBS AND NOT CMAKE_CROSSCOMPILING)
+    "Generate Python stub files (.pyi) for the Python module."
+    ${QPALM_WITH_PY_STUBS_DEFAULT})
+if (QPALM_WITH_PY_STUBS)
     include(cmake/Pybind11Stubgen.cmake)
     pybind11_stubgen(_qpalm)
     pybind11_stubgen_install(_qpalm)

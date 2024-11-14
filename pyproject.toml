@@ -73,7 +73,6 @@ install_components = ["python_modules", "python_stubs"]
 [tool.py-build-cmake.cmake.options]
 "QPALM_WITH_CXX:BOOL" = "On"
 "QPALM_WITH_PYTHON:BOOL" = "On"
-"QPALM_WITH_PY_STUBS:BOOL" = "On"
 "CMAKE_POSITION_INDEPENDENT_CODE:BOOL" = "On"
 
 [tool.py-build-cmake.linux.cmake]
