@@ -64,7 +64,7 @@ jobs:
         path: qpalm-matlab-glnxa64.zip
     - name: Release
       if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
-      uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+      uses: softprops/action-gh-release@73e673b2dead314c6b971e962dd8e84e230ae99d
       with:
         files: qpalm-matlab-glnxa64.zip
         
@@ -116,7 +116,7 @@ jobs:
         path: qpalm-matlab-${{ matrix.arch }}.zip
     - name: Release
       if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
-      uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+      uses: softprops/action-gh-release@73e673b2dead314c6b971e962dd8e84e230ae99d
       with:
         files: qpalm-matlab-${{ matrix.arch }}.zip
 
@@ -161,6 +161,6 @@ jobs:
         path: qpalm-matlab-win64.zip
     - name: Release
       if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
-      uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+      uses: softprops/action-gh-release@73e673b2dead314c6b971e962dd8e84e230ae99d
       with:
         files: qpalm-matlab-win64.zip

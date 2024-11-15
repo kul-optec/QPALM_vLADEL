@@ -110,6 +110,6 @@ jobs:
         name: qpalm-macos
         path: package
     - name: Release
-      uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+      uses: softprops/action-gh-release@73e673b2dead314c6b971e962dd8e84e230ae99d
       with:
         files: package/QPALM-*.tar.gz
