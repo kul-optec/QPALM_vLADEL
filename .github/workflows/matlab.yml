@@ -76,8 +76,10 @@ jobs:
         include:
           - macos-version: '14'
             arch: 'maca64'
+            matlab-release: 'R2023b'
           - macos-version: '13'
             arch: 'maci64'
+            matlab-release: 'R2021a'
     steps:
     - uses: actions/checkout@v4
       with:
@@ -85,7 +87,7 @@ jobs:
     - name: Set up MATLAB
       uses: matlab-actions/setup-matlab@64144ac4bb7c754f9ef7642f693671c873701c60
       with:
-        release: latest
+        release: ${{ matrix.matlab-release }}
     - name: Configure
       run: |
         cmake -B build -S QPALM \
