@@ -48,7 +48,7 @@ To install the Matlab interface, download
 extract it into the `~/Documents/MATLAB` folder.  
 As a one-liner in the Matlab console:
 ```matlab
-unzip(['https://github.com/kul-optec/QPALM/releases/download/1.2.3/qpalm-matlab-' computer('arch') '.zip'], userpath)
+unzip(['https://github.com/kul-optec/QPALM/releases/latest/download/qpalm-matlab-' computer('arch') '.zip'], userpath)
 ```
 Matlab versions R2021a and later are supported (R2023b and later on ARM64).
 

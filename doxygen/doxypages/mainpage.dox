@@ -38,7 +38,7 @@
  *
  * As a one-liner in the Matlab console:
  * \code{.m}
- * unzip(['https://github.com/kul-optec/QPALM/releases/download/1.2.3/qpalm-matlab-' computer('arch') '.zip'], userpath)
+ * unzip(['https://github.com/kul-optec/QPALM/releases/latest/download/qpalm-matlab-' computer('arch') '.zip'], userpath)
  * \endcode
  * Matlab versions R2021a and later are supported (R2023b and later on ARM64).
  *

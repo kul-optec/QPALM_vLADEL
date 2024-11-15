@@ -51,7 +51,7 @@ dependencies = ["numpy>=1.19,<3", "scipy>=1.6,<2"]
 dynamic = ["version", "description"]
 
 [project.optional-dependencies]
-debug = ["qpalm-debug==1.2.4.dev0"]
+debug = ["qpalm-debug==1.2.4"]
 test = ["pytest>=7.2.0,<9"]
 
 [project.urls]

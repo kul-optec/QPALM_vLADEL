@@ -6,7 +6,7 @@ on:
     types: ['released', 'prereleased']
 
 env:
-  PACKAGE_VERSION: "1.2.4.dev0"
+  PACKAGE_VERSION: "1.2.4"
   PACKAGE_NAME: qpalm
   C_EXTENSIONS: _qpalm
 
