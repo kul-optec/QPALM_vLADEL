@@ -291,12 +291,12 @@ jobs:
           CMAKE_TOOLCHAIN_FILE: ${{ github.workspace }}/scripts/toolchains/Win-${{ matrix.arch }}.cmake
       # Download stubs
       - name: Download stubs
-        if: ${{ matrix.arch == 'ARM64' }}
+        if: ${{ matrix.arch != 'AMD64' || startsWith(matrix.python-id, 'pp') }}
         uses: actions/download-artifact@v4
         with:
           name: stubs
       - name: Extract stubs
-        if: ${{ matrix.arch == 'ARM64' }}
+        if: ${{ matrix.arch != 'AMD64' || startsWith(matrix.python-id, 'pp') }}
         run: tar xf stubs.tar
       - name: Build wheels
         uses: pypa/cibuildwheel@7940a4c0e76eb2030e473a5f864f291f63ee879b

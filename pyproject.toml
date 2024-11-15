@@ -3,8 +3,8 @@ requires = [
     "py-build-cmake~=0.2.0a14",
     "pybind11==2.13.6",
     "pybind11-stubgen==2.5.1",
-    "numpy>=1.19,<3; implementation_name=='cpython'",
-    "scipy>=1.6,<2; implementation_name=='cpython'",
+    "numpy>=1.19,<3; implementation_name=='cpython' and platform_machine!='x86'",
+    "scipy>=1.6,<2; implementation_name=='cpython' and platform_machine!='x86'",
     # Temporarily pinned until mypy support for NumPy 2.0 is fixed:
     # https://github.com/python/mypy/issues/17396
     "mypy~=1.4.1",
