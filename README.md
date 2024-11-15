@@ -43,18 +43,12 @@ add QPALM
 ### Matlab
 
 To install the Matlab interface, download
-`qpalm-matlab-{linux,windows,macos}.zip` from the 
+`qpalm-matlab-{glnxa64,win64,maci64,maca64}.zip` from the 
 [releases page](https://github.com/kul-optec/QPALM/releases/latest), and 
 extract it into the `~/Documents/MATLAB` folder.  
 As a one-liner in the Matlab console:
 ```matlab
-unzip('https://github.com/kul-optec/QPALM/releases/download/1.2.3/qpalm-matlab-linux.zip', userpath)
-```
-```matlab
-unzip('https://github.com/kul-optec/QPALM/releases/download/1.2.3/qpalm-matlab-windows.zip', userpath)
-```
-```matlab
-unzip('https://github.com/kul-optec/QPALM/releases/download/1.2.3/qpalm-matlab-macos.zip', userpath)
+unzip(['https://github.com/kul-optec/QPALM/releases/download/1.2.3/qpalm-matlab-' computer('arch') '.zip'], userpath)
 ```
 
 ### C/C++/Fortran
