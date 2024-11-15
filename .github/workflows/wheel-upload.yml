@@ -254,7 +254,7 @@ jobs:
     runs-on: windows-2022
     strategy:
       matrix:
-        arch: ['AMD64', 'ARM64', 'x86']
+        arch: ['AMD64', 'ARM64']
         python-id: ['cp38', 'cp39', 'cp310', 'cp311', 'cp312', 'cp313']
         include:
           - arch: 'AMD64'
