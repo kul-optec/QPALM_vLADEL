@@ -40,6 +40,7 @@
  * \code{.m}
  * unzip(['https://github.com/kul-optec/QPALM/releases/download/1.2.3/qpalm-matlab-' computer('arch') '.zip'], userpath)
  * \endcode
+ * Matlab versions R2021a and later are supported (R2023b and later on ARM64).
  *
  * \subsection build-source Building QPALM from source
  *

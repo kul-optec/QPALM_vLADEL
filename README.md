@@ -50,6 +50,7 @@ As a one-liner in the Matlab console:
 ```matlab
 unzip(['https://github.com/kul-optec/QPALM/releases/download/1.2.3/qpalm-matlab-' computer('arch') '.zip'], userpath)
 ```
+Matlab versions R2021a and later are supported (R2023b and later on ARM64).
 
 ### C/C++/Fortran
 
@@ -64,9 +65,7 @@ For detailed instructions on how to build QPALM from source, please see
 
 QPALM is written in C, with interfaces for C++, Python, Julia, Matlab and Fortran.  
 The code itself is portable across all major platforms. Binaries are available
-for Linux on x86-64 and AArch64<sup>*</sup> and for Windows and macOS on x86-64.
-
-<sup>(*) Except Matlab.</sup>
+for Linux, Windows and macOS on x86-64 and ARM64<sup>*</sup>.
 
 ## Benchmarks
 
