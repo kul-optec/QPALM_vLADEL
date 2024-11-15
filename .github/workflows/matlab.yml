@@ -55,21 +55,29 @@ jobs:
           --prefix staging
     - name: Package
       run: |
-        zip -r ../qpalm-matlab-linux.zip ./*
+        zip -r ../qpalm-matlab-glnxa64.zip ./*
       working-directory: staging
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: qpalm-matlab-linux
-        path: qpalm-matlab-linux.zip
+        name: qpalm-matlab-glnxa64
+        path: qpalm-matlab-glnxa64.zip
     - name: Release
       if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
       uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
       with:
-        files: qpalm-matlab-linux.zip
+        files: qpalm-matlab-glnxa64.zip
         
   build-macos:
-    runs-on: macos-latest
+    runs-on: macos-${{ matrix.macos-version }}
+    strategy:
+      matrix:
+        macos-version: ['13', '14']
+        include:
+          - macos-version: '14'
+            arch: 'maca64'
+          - macos-version: '13'
+            arch: 'maci64'
     steps:
     - uses: actions/checkout@v4
       with:
@@ -97,18 +105,18 @@ jobs:
           --prefix staging
     - name: Package
       run: |
-        zip -r ../qpalm-matlab-macos.zip ./*
+        zip -r ../qpalm-matlab-${{ matrix.arch }}.zip ./*
       working-directory: staging
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: qpalm-matlab-macos
-        path: qpalm-matlab-macos.zip
+        name: qpalm-matlab-${{ matrix.arch }}
+        path: qpalm-matlab-${{ matrix.arch }}.zip
     - name: Release
       if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
       uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
       with:
-        files: qpalm-matlab-macos.zip
+        files: qpalm-matlab-${{ matrix.arch }}.zip
 
   build-windows:
     runs-on: windows-latest
@@ -143,14 +151,14 @@ jobs:
     - name: Package
       shell: pwsh
       run: |
-        Compress-Archive -Path staging\* qpalm-matlab-windows.zip
+        Compress-Archive -Path staging\* qpalm-matlab-win64.zip
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: qpalm-matlab-windows
-        path: qpalm-matlab-windows.zip
+        name: qpalm-matlab-win64
+        path: qpalm-matlab-win64.zip
     - name: Release
       if: ${{ github.event.action == 'released' || github.event.action == 'prereleased' }}
       uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
       with:
-        files: qpalm-matlab-windows.zip
+        files: qpalm-matlab-win64.zip
