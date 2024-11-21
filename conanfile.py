@@ -9,6 +9,7 @@ from conan.tools.build import can_run
 class QPALMRecipe(ConanFile):
     name = "qpalm"
     version = "1.2.4"
+    package_type = "library"
 
     # Optional metadata
     license = "LGPLv3"
@@ -92,8 +93,5 @@ class QPALMRecipe(ConanFile):
 
     def package_info(self):
         self.cpp_info.set_property("cmake_find_mode", "none")
+        self.cpp_info.set_property("cmake_file_name", "QPALM")
         self.cpp_info.builddirs.append(os.path.join("lib", "cmake", "QPALM"))
-        if self.options.with_cxx:
-            self.cpp_info.builddirs.append(os.path.join("lib", "cmake", "QPALM_cxx"))
-        if self.options.with_fortran:
-            self.cpp_info.builddirs.append(os.path.join("lib", "cmake", "QPALM_fortran"))

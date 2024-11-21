@@ -1,6 +1,6 @@
 @PACKAGE_INIT@
 
 include(CMakeFindDependencyMacro)
-find_dependency(QPALM)
+find_dependency(QPALM_core)
 
 include ("${CMAKE_CURRENT_LIST_DIR}/QPALM_fortranTargets.cmake")

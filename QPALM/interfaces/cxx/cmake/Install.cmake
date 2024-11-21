@@ -1,6 +1,6 @@
 include(GNUInstallDirs)
 
-set(INSTALL_CMAKE_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/QPALM_cxx")
+set(INSTALL_CMAKE_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/QPALM")
 
 # Add the qpalm library to the "export-set", install the library files
 install(TARGETS qpalm_cxx qpalm_warnings

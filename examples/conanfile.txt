@@ -1,0 +1,9 @@
+[requires]
+qpalm/1.2.4
+[generators]
+CMakeDeps
+CMakeToolchain
+[layout]
+cmake_layout
+[options]
+qpalm/*:with_fortran=True
