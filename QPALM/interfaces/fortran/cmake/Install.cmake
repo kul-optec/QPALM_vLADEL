@@ -20,7 +20,7 @@ install(DIRECTORY "${QPALM_FORTRAN_MODULE_DIR}/"
 
 # Install the export set for use with the install tree
 install(EXPORT QPALM_fortranTargets 
-    FILE QPALM_fortranTargets.cmake
+    FILE QPALM_component_fortranTargets.cmake
     DESTINATION "${INSTALL_CMAKE_DIR}"
         COMPONENT dev
     NAMESPACE ${PROJECT_NAME}::)
@@ -29,23 +29,23 @@ install(EXPORT QPALM_fortranTargets
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in"
-    "${PROJECT_BINARY_DIR}/QPALM_fortranConfig.cmake"
+    "${PROJECT_BINARY_DIR}/QPALM_component_fortranConfig.cmake"
     INSTALL_DESTINATION "${INSTALL_CMAKE_DIR}"
     NO_SET_AND_CHECK_MACRO
     NO_CHECK_REQUIRED_COMPONENTS_MACRO)
-write_basic_package_version_file(
-    "${PROJECT_BINARY_DIR}/QPALM_fortranConfigVersion.cmake"
-    VERSION "${PROJECT_VERSION}"
-    COMPATIBILITY SameMajorVersion)
 
-# Install the QPALM_fortranConfig.cmake and QPALM_fortranConfigVersion.cmake
+# Install the QPALM_component_fortranConfig.cmake
 install(FILES
-    "${PROJECT_BINARY_DIR}/QPALM_fortranConfig.cmake"
-    "${PROJECT_BINARY_DIR}/QPALM_fortranConfigVersion.cmake"
+    "${PROJECT_BINARY_DIR}/QPALM_component_fortranConfig.cmake"
     DESTINATION "${INSTALL_CMAKE_DIR}" 
+        COMPONENT dev)
+install(FILES
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/legacy-QPALM_fortranConfig.cmake"
+    RENAME "QPALM_fortranConfig.cmake"
+    DESTINATION "${INSTALL_CMAKE_DIR}_fortran" 
         COMPONENT dev)
 
 # Add all targets to the build tree export set
 export(EXPORT QPALM_fortranTargets
-    FILE "${PROJECT_BINARY_DIR}/QPALM_fortranTargets.cmake"
+    FILE "${PROJECT_BINARY_DIR}/QPALM_component_fortranTargets.cmake"
     NAMESPACE ${PROJECT_NAME}::)

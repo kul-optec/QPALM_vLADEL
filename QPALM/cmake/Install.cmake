@@ -20,7 +20,7 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/"
 
 # Install the export set for use with the install tree
 install(EXPORT QPALM_coreTargets 
-    FILE QPALM_coreTargets.cmake
+    FILE QPALM_component_coreTargets.cmake
     DESTINATION "${INSTALL_CMAKE_DIR}" 
         COMPONENT dev
     NAMESPACE ${PROJECT_NAME}::)
@@ -34,7 +34,7 @@ configure_package_config_file(
     NO_SET_AND_CHECK_MACRO)
 configure_package_config_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/coreConfig.cmake.in"
-    "${PROJECT_BINARY_DIR}/QPALM_coreConfig.cmake"
+    "${PROJECT_BINARY_DIR}/QPALM_component_coreConfig.cmake"
     INSTALL_DESTINATION "${INSTALL_CMAKE_DIR}"
     NO_SET_AND_CHECK_MACRO
     NO_CHECK_REQUIRED_COMPONENTS_MACRO)
@@ -47,11 +47,11 @@ write_basic_package_version_file(
 install(FILES
     "${PROJECT_BINARY_DIR}/QPALMConfig.cmake"
     "${PROJECT_BINARY_DIR}/QPALMConfigVersion.cmake"
-    "${PROJECT_BINARY_DIR}/QPALM_coreConfig.cmake"
+    "${PROJECT_BINARY_DIR}/QPALM_component_coreConfig.cmake"
     DESTINATION "${INSTALL_CMAKE_DIR}" 
         COMPONENT dev)
 
 # Add all targets to the build tree export set
 export(EXPORT QPALM_coreTargets
-    FILE "${PROJECT_BINARY_DIR}/QPALM_coreTargets.cmake"
+    FILE "${PROJECT_BINARY_DIR}/QPALM_component_coreTargets.cmake"
     NAMESPACE ${PROJECT_NAME}::)

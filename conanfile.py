@@ -95,3 +95,7 @@ class QPALMRecipe(ConanFile):
         self.cpp_info.set_property("cmake_find_mode", "none")
         self.cpp_info.set_property("cmake_file_name", "QPALM")
         self.cpp_info.builddirs.append(os.path.join("lib", "cmake", "QPALM"))
+        if self.options.with_cxx:
+            self.cpp_info.builddirs.append(os.path.join("lib", "cmake", "QPALM_cxx"))
+        if self.options.with_fortran:
+            self.cpp_info.builddirs.append(os.path.join("lib", "cmake", "QPALM_fortran"))

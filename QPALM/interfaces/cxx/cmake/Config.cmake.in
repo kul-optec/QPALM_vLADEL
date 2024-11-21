@@ -1,7 +1,7 @@
 @PACKAGE_INIT@
 
 include(CMakeFindDependencyMacro)
-find_dependency(QPALM_core)
+find_dependency(QPALM_component_core)
 find_dependency(Eigen3)
 
-include ("${CMAKE_CURRENT_LIST_DIR}/QPALM_cxxTargets.cmake")
+include ("${CMAKE_CURRENT_LIST_DIR}/QPALM_component_cxxTargets.cmake")
