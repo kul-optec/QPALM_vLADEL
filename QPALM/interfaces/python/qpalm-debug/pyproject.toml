@@ -17,7 +17,7 @@ description = "Debug symbols for the qpalm package."
 
 [build-system]
 requires = [
-    "py-build-cmake~=0.2.0a14",
+    "py-build-cmake~=0.3.0a2",
     "pybind11==2.13.6",
     "pybind11-stubgen==2.5.1",
     "numpy>=1.19,<3; implementation_name=='cpython'",
@@ -25,7 +25,8 @@ requires = [
 ]
 build-backend = "py_build_cmake.build_component"
 
-[tool.py-build-cmake.component]
+[tool.py-build-cmake]
 main_project = "../../../.."
+[tool.py-build-cmake.component]
 install_components = ["python_modules_debug"]
 install_only = true
