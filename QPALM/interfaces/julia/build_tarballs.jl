@@ -6,7 +6,7 @@
 using BinaryBuilder, Pkg
 
 name = "QPALM"
-version = v"1.2.4"
+version = v"1.2.5"
 
 # Collection of sources required to complete build
 sources = [
